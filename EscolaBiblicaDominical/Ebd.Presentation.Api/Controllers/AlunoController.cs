@@ -17,12 +17,11 @@ namespace Ebd.Presentation.Api.Controllers
             try
             {
                 await Task.Delay(1000);
-                throw new Exception("09876854jb jhg jh");
                 return Ok("OK deu bão");
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(ex.Message);
             }
         }
     }
