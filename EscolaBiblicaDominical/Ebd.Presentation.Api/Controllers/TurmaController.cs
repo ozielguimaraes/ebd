@@ -1,15 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Ebd.Presentation.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AlunoController : ControllerBase
+    public class TurmaController : ControllerBase
     {
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] WeatherForecast weatherForecast)
@@ -17,7 +14,7 @@ namespace Ebd.Presentation.Api.Controllers
             try
             {
                 await Task.Delay(1000);
-                return Ok("Aluno: OK deu bão");
+                return Ok("Turma: OK deu bão");
             }
             catch (Exception ex)
             {
