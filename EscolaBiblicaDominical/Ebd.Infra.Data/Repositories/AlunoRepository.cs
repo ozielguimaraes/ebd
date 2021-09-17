@@ -11,18 +11,18 @@ namespace Ebd.Infra.Data.Repositories
     {
         public AlunoRepository(MainContext context) : base(context) { }
 
-        public async Task<Aluno> Adicionar(Aluno aluno)
+        public async Task<Aluno> Adicionar(Aluno entity)
         {
-            DbSet.Add(aluno);
+            DbSet.Add(entity);
             await Db.SaveChangesAsync();
 
-            return aluno;
+            return entity;
         }
 
-        public async Task Atualizar(Aluno aluno)
+        public async Task Atualizar(Aluno entity)
         {
-            var entry = Db.Entry(aluno);
-            DbSet.Attach(aluno);
+            var entry = Db.Entry(entity);
+            DbSet.Attach(entity);
             entry.State = EntityState.Modified;
 
             await Db.SaveChangesAsync();

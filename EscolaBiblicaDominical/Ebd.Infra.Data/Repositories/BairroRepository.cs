@@ -1,29 +1,42 @@
 ﻿using Ebd.Domain.Core.Entities;
 using Ebd.Domain.Core.Interfaces.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Ebd.Infra.Data.Repositories
 {
     public class BairroRepository : BaseRepository<Bairro>, IBairroRepository
     {
-        public Bairro Adicionar(Bairro bairro)
+        public BairroRepository(MainContext context) : base(context)
         {
-            Db.Set<Bairro>().Add(bairro);
         }
 
-        public void Atualizar(Bairro bairro)
+        public async Task<Bairro> Adicionar(Bairro bairro)
         {
-            throw new System.NotImplementedException();
+            DbSet.Add(bairro);
+            await Db.SaveChangesAsync();
+
+            return bairro;
         }
 
-        public Bairro ObterPorId(int id)
+        public async Task Atualizar(Bairro entity)
         {
-            throw new System.NotImplementedException();
+            var entry = Db.Entry(entity);
+            DbSet.Attach(entity);
+            entry.State = EntityState.Modified;
+
+            await Db.SaveChangesAsync();
         }
 
-        public ICollection<Bairro> ObterTodos()
+        public async Task<Bairro> ObterPorId(int id)
         {
-            throw new System.NotImplementedException();
+            return await DbSet.FirstOrDefaultAsync(x => x.BairroId == id);
+        }
+
+        public async Task<ICollection<Bairro>> ObterTodos()
+        {
+            return await DbSet.ToListAsync();
         }
     }
 }

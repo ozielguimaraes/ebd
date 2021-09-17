@@ -1,11 +1,12 @@
 ﻿using Ebd.Domain.Core.Entities;
+using System.Threading.Tasks;
 
 namespace Ebd.Domain.Core.Interfaces.Repositories
 {
     public interface IEnderecoRepository
     {
-        Endereco Adicionar(Endereco endereco);
-        void Atualizar(Endereco endereco);
-        Endereco ObterPorId(int id);
+        Task<Endereco> Adicionar(Endereco endereco);
+        Task Atualizar(Endereco endereco);
+        Task<Endereco> ObterPorId(int id);
     }
 }

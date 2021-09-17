@@ -1,9 +1,10 @@
 ﻿using Ebd.Domain.Core.Entities;
+using System.Threading.Tasks;
 
 namespace Ebd.Domain.Core.Interfaces.Repositories
 {
     public interface IChamadaRepository
     {
-        Chamada Adicionar(Chamada chamada);
+        Task<Chamada> Adicionar(Chamada chamada);
     }
 }

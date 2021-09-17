@@ -1,11 +1,12 @@
 ﻿using Ebd.Domain.Core.Entities;
+using System.Threading.Tasks;
 
 namespace Ebd.Domain.Core.Interfaces.Repositories
 {
     public interface ITurmaRepository
     {
-        Turma Adicionar(Turma turma);
-        void Atualizar(Turma turma);
-        Turma ObterPorId(int id);
+        Task<Turma> Adicionar(Turma turma);
+        Task Atualizar(Turma turma);
+        Task<Turma> ObterPorId(int id);
     }
 }
