@@ -1,13 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 
 namespace Ebd.Presentation.Api.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
-    public class BairroController : ControllerBase
+    public class BairroController : BaseController
     {
+        public BairroController(ILogger<BaseController> logger) : base(logger)
+        {
+        }
+
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] WeatherForecast weatherForecast)
         {
