@@ -13,6 +13,9 @@ namespace Ebd.Infra.Data.Configurations
 
             builder.HasKey(x => x.ChamadaId);
 
+            builder.Property(x => x.AlunoId)
+                .IsRequired();
+
             builder.Property(x => x.LicaoId)
                 .IsRequired();
 

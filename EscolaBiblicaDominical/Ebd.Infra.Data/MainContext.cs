@@ -1,5 +1,4 @@
 ﻿using Ebd.Domain.Core.Entities;
-using Ebd.Infra.Data.Configurations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
