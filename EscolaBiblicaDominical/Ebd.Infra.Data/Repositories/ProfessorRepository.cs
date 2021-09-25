@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Ebd.Infra.Data.Repositories
 {
-    public class ProfessorRepository : BaseRepository<Professor>, IProfessorRepository
+    public class ProfessorRepository : Repository<Professor>, IProfessorRepository
     {
         public ProfessorRepository(MainContext context) : base(context)
         {

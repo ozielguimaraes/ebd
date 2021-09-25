@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Ebd.Infra.Data.Repositories
 {
-    public class AlunoRepository : BaseRepository<Aluno>, IAlunoRepository
+    public class AlunoRepository : Repository<Aluno>, IAlunoRepository
     {
         public AlunoRepository(MainContext context) : base(context) { }
 

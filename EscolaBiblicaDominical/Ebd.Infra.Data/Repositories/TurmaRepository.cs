@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Ebd.Infra.Data.Repositories
 {
-    public class TurmaRepository : BaseRepository<Turma>, ITurmaRepository
+    public class TurmaRepository : Repository<Turma>, ITurmaRepository
     {
         public TurmaRepository(MainContext context) : base(context)
         {

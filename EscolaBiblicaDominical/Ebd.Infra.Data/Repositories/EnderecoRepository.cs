@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Ebd.Infra.Data.Repositories
 {
-    public class EnderecoRepository : BaseRepository<Endereco>, IEnderecoRepository
+    public class EnderecoRepository : Repository<Endereco>, IEnderecoRepository
     {
         public EnderecoRepository(MainContext context) : base(context)
         {

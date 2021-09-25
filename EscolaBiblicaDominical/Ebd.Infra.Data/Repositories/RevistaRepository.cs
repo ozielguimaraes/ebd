@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Ebd.Infra.Data.Repositories
 {
-    public class RevistaRepository : BaseRepository<Revista>, IRevistaRepository
+    public class RevistaRepository : Repository<Revista>, IRevistaRepository
     {
         public RevistaRepository(MainContext context) : base(context)
         {

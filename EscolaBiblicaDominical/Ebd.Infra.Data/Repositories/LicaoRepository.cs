@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Ebd.Infra.Data.Repositories
 {
-    public class LicaoRepository : BaseRepository<Licao>, ILicaoRepository
+    public class LicaoRepository : Repository<Licao>, ILicaoRepository
     {
         public LicaoRepository(MainContext context) : base(context)
         {

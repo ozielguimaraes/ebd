@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Ebd.Infra.Data.Repositories
 {
-    public class ChamadaRepository : BaseRepository<Chamada>, IChamadaRepository
+    public class ChamadaRepository : Repository<Chamada>, IChamadaRepository
     {
         public ChamadaRepository(MainContext context) : base(context)
         {

@@ -3,11 +3,23 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31612.314
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ebd.Domain.Core", "Ebd.Domain.Core\Ebd.Domain.Core.csproj", "{39F2B5F9-A94B-4343-B661-007B36CCBC15}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ebd.Domain.Core", "Ebd.Domain.Core\Ebd.Domain.Core.csproj", "{39F2B5F9-A94B-4343-B661-007B36CCBC15}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ebd.Infra.Data", "Ebd.Infra.Data\Ebd.Infra.Data.csproj", "{CC3143B6-5302-4783-9F30-8077E1AB08A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ebd.Infra.Data", "Ebd.Infra.Data\Ebd.Infra.Data.csproj", "{CC3143B6-5302-4783-9F30-8077E1AB08A8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ebd.Presentation.Api", "Ebd.Presentation.Api\Ebd.Presentation.Api.csproj", "{7F3B62E5-A759-4AC6-9773-2F76460EB622}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ebd.Presentation.Api", "Ebd.Presentation.Api\Ebd.Presentation.Api.csproj", "{7F3B62E5-A759-4AC6-9773-2F76460EB622}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - Presentation", "1 - Presentation", "{9DEA8F27-81FD-458A-B2FF-6834121DA950}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 - Domain", "2 - Domain", "{20B6B4A6-CEC0-4EEE-8EA0-DD05A2E67C4A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3 - Infra", "3 - Infra", "{70C6376F-AAD4-4D3D-8147-7CFA74139262}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{15A5C25E-A4FC-4973-9D82-55B667D47741}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4 - CrossCutting", "4 - CrossCutting", "{166E1246-7341-4651-9CF0-7F965C77D839}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ebd.CrossCutting.IoC", "Ebd.CrossCutting.IoC\Ebd.CrossCutting.IoC.csproj", "{73488D39-F1D0-4EDF-95A8-EA03D8AD126B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,9 +39,20 @@ Global
 		{7F3B62E5-A759-4AC6-9773-2F76460EB622}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7F3B62E5-A759-4AC6-9773-2F76460EB622}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7F3B62E5-A759-4AC6-9773-2F76460EB622}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73488D39-F1D0-4EDF-95A8-EA03D8AD126B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73488D39-F1D0-4EDF-95A8-EA03D8AD126B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73488D39-F1D0-4EDF-95A8-EA03D8AD126B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73488D39-F1D0-4EDF-95A8-EA03D8AD126B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{39F2B5F9-A94B-4343-B661-007B36CCBC15} = {20B6B4A6-CEC0-4EEE-8EA0-DD05A2E67C4A}
+		{CC3143B6-5302-4783-9F30-8077E1AB08A8} = {15A5C25E-A4FC-4973-9D82-55B667D47741}
+		{7F3B62E5-A759-4AC6-9773-2F76460EB622} = {9DEA8F27-81FD-458A-B2FF-6834121DA950}
+		{15A5C25E-A4FC-4973-9D82-55B667D47741} = {70C6376F-AAD4-4D3D-8147-7CFA74139262}
+		{73488D39-F1D0-4EDF-95A8-EA03D8AD126B} = {166E1246-7341-4651-9CF0-7F965C77D839}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AD054E37-A341-498B-92E7-D28723E3AFC4}

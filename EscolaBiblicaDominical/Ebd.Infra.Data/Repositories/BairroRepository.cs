@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ebd.Infra.Data.Repositories
 {
-    public class BairroRepository : BaseRepository<Bairro>, IBairroRepository
+    public class BairroRepository : Repository<Bairro>, IBairroRepository
     {
         public BairroRepository(MainContext context) : base(context)
         {
