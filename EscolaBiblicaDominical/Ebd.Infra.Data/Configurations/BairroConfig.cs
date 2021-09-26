@@ -16,6 +16,8 @@ namespace Ebd.Infra.Data.Configurations
             builder.Property(x => x.Nome)
                 .HasMaxLength(35)
                 .IsRequired();
+
+            builder.ToTable("Bairro");
         }
     }
 }

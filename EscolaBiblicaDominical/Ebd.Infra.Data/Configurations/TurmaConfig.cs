@@ -25,6 +25,8 @@ namespace Ebd.Infra.Data.Configurations
 
             builder.Property(x => x.TurmaId)
                 .IsRequired();
+
+            builder.ToTable("Turma");
         }
     }
 }

@@ -17,22 +17,21 @@ namespace Ebd.Infra.Data.Configurations
                 .HasMaxLength(50)
                 .IsRequired();
 
-            builder.Property(x => x.Email)
-                .HasMaxLength(50)
-                .IsRequired();
-
-            builder.Property(x => x.Celular)
-                .HasMaxLength(14)
-                .IsRequired();
-
-            builder.Property(x => x.Whatsapp)
-                .HasMaxLength(14);
-
             builder.Property(x => x.WhatsappIgualCelular)
                 .IsRequired();
 
             builder.Property(x => x.NascidoEm)
                 .IsRequired();
+
+            builder.HasMany(x => x.Contatos)
+                .WithOne(o => o.Pessoa)
+                .IsRequired();
+
+            builder.HasMany(x => x.Enderecos)
+                .WithOne(o => o.Pessoa)
+                .IsRequired();
+
+            builder.ToTable("Pessoa");
         }
     }
 }

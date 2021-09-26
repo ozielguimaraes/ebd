@@ -24,6 +24,8 @@ namespace Ebd.Infra.Data.Configurations
 
             builder.Property(x => x.EstavaPresente)
                 .IsRequired();
+
+            builder.ToTable("Chamada");
         }
     }
 }

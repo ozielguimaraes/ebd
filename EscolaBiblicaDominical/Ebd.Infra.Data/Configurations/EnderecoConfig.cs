@@ -27,6 +27,8 @@ namespace Ebd.Infra.Data.Configurations
 
             builder.Property(x => x.BairroId)
                 .IsRequired();
+
+            builder.ToTable("Endereco");
         }
     }
 }

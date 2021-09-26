@@ -23,8 +23,11 @@ namespace Ebd.Infra.Data.Configurations
                 .HasMaxLength(60)
                 .IsRequired();
 
-            builder.Property(x => x.Licoes)
+            builder.HasMany(c => c.Licoes)
+                .WithOne(e => e.Revista)
                 .IsRequired();
+
+            builder.ToTable("Revista");
         }
     }
 }

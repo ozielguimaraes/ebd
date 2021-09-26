@@ -18,6 +18,8 @@ namespace Ebd.Infra.Data.Configurations
 
             builder.Property(x => x.PessoaId)
                 .IsRequired();
+
+        builder.ToTable("Professor");
         }
     }
 }
