@@ -27,6 +27,8 @@ namespace Ebd.Infra.Data.Configurations
                 .WithOne(e => e.Revista)
                 .IsRequired();
 
+            builder.HasIndex(i => new { i.Ano, i.Trimestre });
+
             builder.ToTable("Revista");
         }
     }
