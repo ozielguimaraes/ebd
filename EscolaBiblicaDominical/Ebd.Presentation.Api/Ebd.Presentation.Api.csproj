@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Ebd.Application\Ebd.Application.csproj" />
     <ProjectReference Include="..\Ebd.CrossCutting.IoC\Ebd.CrossCutting.IoC.csproj" />
   </ItemGroup>
 

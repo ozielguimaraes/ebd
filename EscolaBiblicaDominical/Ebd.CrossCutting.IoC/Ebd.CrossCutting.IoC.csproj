@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Ebd.Application\Ebd.Application.csproj" />
     <ProjectReference Include="..\Ebd.Infra.Data\Ebd.Infra.Data.csproj" />
   </ItemGroup>
 

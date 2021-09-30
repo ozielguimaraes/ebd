@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Ebd.CrossCutting.IoC
@@ -9,6 +8,7 @@ namespace Ebd.CrossCutting.IoC
         public static void ConfigureDependencyInjection(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDataBaseConfiguration(configuration);
+            services.AddApplicationConfiguration();
             services.AddRepositoryConfiguration();
         }
     }

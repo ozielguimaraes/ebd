@@ -1,15 +1,14 @@
-﻿using Ebd.Infra.Data;
-using Microsoft.Extensions.Configuration;
+﻿using Ebd.Application.Business.Implementation;
+using Ebd.Application.Business.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 
 namespace Ebd.CrossCutting.IoC
 {
     public static class ApplicationConfigurationExtension
     {
-        public static IServiceCollection AddDataBaseConfiguration(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddApplicationConfiguration(this IServiceCollection services)
         {
-            services.AddSingleton(configuration.GetConfiguration<DataBaseConfiguration>());
+            services.AddTransient(typeof(IAlunoBusiness), typeof(AlunoBusiness));
             return services;
         }
     }

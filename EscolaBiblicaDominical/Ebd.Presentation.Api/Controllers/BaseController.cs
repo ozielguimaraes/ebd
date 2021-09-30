@@ -1,5 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Ebd.Application.Responses.Base;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Net;
 
 namespace Ebd.Presentation.Api.Controllers
 {
@@ -11,6 +15,19 @@ namespace Ebd.Presentation.Api.Controllers
         protected BaseController(ILogger<BaseController> logger)
         {
             Logger = logger;
+        }
+
+        protected ObjectResult ResultWhenAdding(BaseResponse response)
+        {
+            if (response.ValidationResult.IsValid)
+                return StatusCode(StatusCodes.Status201Created, response);
+
+            return BadRequest(response.ValidationResult.Errors);
+        }
+
+        protected ObjectResult InternalServerError(Exception exception)
+        {
+            return StatusCode((int)HttpStatusCode.InternalServerError, exception);
         }
     }
 }

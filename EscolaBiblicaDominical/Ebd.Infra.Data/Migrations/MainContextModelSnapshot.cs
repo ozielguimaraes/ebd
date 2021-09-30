@@ -60,6 +60,8 @@ namespace Ebd.Infra.Data.Migrations
 
                     b.HasKey("BairroId");
 
+                    b.HasIndex("Nome");
+
                     b.ToTable("Bairro");
                 });
 
@@ -201,6 +203,8 @@ namespace Ebd.Infra.Data.Migrations
 
                     b.HasKey("PessoaId");
 
+                    b.HasIndex("Nome");
+
                     b.ToTable("Pessoa");
                 });
 
@@ -245,6 +249,8 @@ namespace Ebd.Infra.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("RevistaId");
+
+                    b.HasIndex("Ano", "Trimestre");
 
                     b.ToTable("Revista");
                 });
