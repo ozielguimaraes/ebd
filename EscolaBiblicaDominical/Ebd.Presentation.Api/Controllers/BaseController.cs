@@ -20,7 +20,10 @@ namespace Ebd.Presentation.Api.Controllers
         protected ObjectResult ResultWhenAdding(BaseResponse response)
         {
             if (response.ValidationResult.IsValid)
+            {
+                Logger.LogInformation($"item added: {response}");
                 return StatusCode(StatusCodes.Status201Created, response);
+            }
 
             return BadRequest(response.ValidationResult.Errors);
         }

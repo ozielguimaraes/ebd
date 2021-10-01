@@ -1,5 +1,6 @@
 ﻿using Ebd.Application.Business.Interfaces;
 using Ebd.Application.Requests;
+using Ebd.Application.Requests.Aluno;
 using Ebd.Application.Responses;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Http;
@@ -27,7 +28,7 @@ namespace Ebd.Presentation.Api.Controllers
         [ProducesResponseType(typeof(AlunoResponse), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(List<ValidationFailure>), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(Exception), StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Post([FromBody] AlunoRequest request)
+        public async Task<IActionResult> Post([FromBody] AdicionarAlunoRequest request)
         {
             try
             {
