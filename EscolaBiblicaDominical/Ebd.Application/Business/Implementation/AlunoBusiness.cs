@@ -7,6 +7,7 @@ using Ebd.Application.Validations.Aluno;
 using Ebd.Domain.Core.Entities;
 using Ebd.Domain.Core.Interfaces.Repositories;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Ebd.Application.Business.Implementation
@@ -19,7 +20,6 @@ namespace Ebd.Application.Business.Implementation
         {
             _alunoRepository = alunoRepository;
         }
-
         public async Task<AlunoResponse> Adicionar(AdicionarAlunoRequest request)
         {
             var validator = new AdicionarAlunoValidation();
@@ -28,7 +28,14 @@ namespace Ebd.Application.Business.Implementation
 
             var response = await _alunoRepository.Adicionar(AlunoMapper.FromRequestToEntity(request));
 
-            return new AlunoResponse(alunoId: response.AlunoId);
+            return AlunoMapper.FromEntityToResponse(response);
+        }
+
+        public async Task<IEnumerable<AlunoResponse>> ObterPorTurma(int turmaId)
+        {
+            var result = await _alunoRepository.ObterPorTurma(turmaId);
+
+            return AlunoMapper.FromEntityToResponse(result);
         }
     }
 }

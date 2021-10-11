@@ -12,6 +12,7 @@ namespace Ebd.Infra.Data.Configurations
             if (builder is null) throw new ArgumentNullException(nameof(builder));
 
             builder.HasKey(x => x.AlunoId);
+            builder.Property(x => x.AlunoId).ValueGeneratedOnAdd();
 
             builder.Property(x => x.TurmaId)
                 .IsRequired();

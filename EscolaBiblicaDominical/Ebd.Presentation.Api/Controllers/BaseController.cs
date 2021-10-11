@@ -1,8 +1,10 @@
 ﻿using Ebd.Application.Responses.Base;
+using Ebd.Presentation.Extension;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Net;
 
 namespace Ebd.Presentation.Api.Controllers
@@ -19,18 +21,24 @@ namespace Ebd.Presentation.Api.Controllers
 
         protected ObjectResult ResultWhenAdding(BaseResponse response)
         {
-            if (response.ValidationResult.IsValid)
+            if (response.IsValid())
             {
                 Logger.LogInformation($"item added: {response}");
+                response.ValidationResult = null;
                 return StatusCode(StatusCodes.Status201Created, response);
             }
 
             return BadRequest(response.ValidationResult.Errors);
         }
 
+        protected ObjectResult ResultWhenSearching(IEnumerable<BaseResponse> response)
+        {
+            return Ok(response);
+        }
+
         protected ObjectResult InternalServerError(Exception exception)
         {
-            return StatusCode((int)HttpStatusCode.InternalServerError, exception);
+            return StatusCode((int)HttpStatusCode.InternalServerError, exception.FullException());
         }
     }
 }

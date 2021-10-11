@@ -1,5 +1,4 @@
 ﻿using Ebd.Application.Business.Interfaces;
-using Ebd.Application.Requests;
 using Ebd.Application.Requests.Aluno;
 using Ebd.Application.Responses;
 using FluentValidation.Results;
@@ -24,6 +23,7 @@ namespace Ebd.Presentation.Api.Controllers
             _alunoBusiness = alunoBusiness;
         }
 
+        [Route("")]
         [HttpPost]
         [ProducesResponseType(typeof(AlunoResponse), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(List<ValidationFailure>), StatusCodes.Status400BadRequest)]
@@ -37,6 +37,24 @@ namespace Ebd.Presentation.Api.Controllers
             catch (Exception ex)
             {
                 Logger.LogError(ex, "Erro ao adicionar aluno");
+                return InternalServerError(ex);
+            }
+        }
+
+        [Route("turma/{turmaId:int}")]
+        [HttpGet]
+        [ProducesResponseType(typeof(AlunoResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<ValidationFailure>), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(Exception), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> Get([FromRoute] int turmaId)
+        {
+            try
+            {
+                return ResultWhenSearching(await _alunoBusiness.ObterPorTurma(turmaId));
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "Erro ao obter aluno por turma");
                 return InternalServerError(ex);
             }
         }

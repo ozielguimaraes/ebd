@@ -10,5 +10,6 @@ namespace Ebd.Domain.Core.Interfaces.Repositories
         Task Atualizar(Aluno aluno);
         Task<Aluno> ObterPorId(int id);
         Task<ICollection<Aluno>> Pesquisar(string pesquisa);
+        Task<ICollection<Aluno>> ObterPorTurma(int turmaId);
     }
 }

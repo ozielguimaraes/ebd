@@ -2,9 +2,9 @@
 {
     public class ContatoRequest
     {
-        public int ContatoId { get; private set; }
-        public string Valor { get; private set; }
-        public TipoContatoRequest Tipo { get; private set; }
-        public ClassificacaoContatoRequest Classificacao { get; private set; }
+        public int ContatoId { get; set; }
+        public string Valor { get; set; }
+        public TipoContatoRequest Tipo { get; set; }
+        public ClassificacaoContatoRequest Classificacao { get; set; }
     }
 }

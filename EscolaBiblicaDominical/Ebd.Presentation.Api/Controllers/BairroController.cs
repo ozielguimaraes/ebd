@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Ebd.Application.Business.Interfaces;
+using Ebd.Application.Responses;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
@@ -8,21 +11,27 @@ namespace Ebd.Presentation.Api.Controllers
     [Route("api/[controller]")]
     public class BairroController : BaseController
     {
-        public BairroController(ILogger<BaseController> logger) : base(logger)
+        private readonly IBairroBusiness _bairroBusiness;
+
+        public BairroController(ILogger<BaseController> logger, IBairroBusiness bairroBusiness) : base(logger)
         {
+            _bairroBusiness = bairroBusiness;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Post([FromBody] WeatherForecast weatherForecast)
+        [Route("")]
+        [HttpGet]
+        [ProducesResponseType(typeof(BairroResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Exception), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> Get()
         {
             try
             {
-                await Task.Delay(1000);
-                return Ok("Bairro: OK deu bão");
+                return ResultWhenSearching(await _bairroBusiness.ObterTodos());
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                Logger.LogError(ex, "Erro ao obter os bairros");
+                return InternalServerError(ex);
             }
         }
     }

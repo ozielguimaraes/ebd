@@ -33,6 +33,13 @@ namespace Ebd.Infra.Data.Repositories
             return await DbSet.FindAsync(id);
         }
 
+        public async Task<ICollection<Aluno>> ObterPorTurma(int turmaId)
+        {
+            return await DbSet
+                .Where(x => x.TurmaId == turmaId)
+                .ToListAsync();
+        }
+
         public async Task<ICollection<Aluno>> Pesquisar(string pesquisa)
         {
             return await DbSet

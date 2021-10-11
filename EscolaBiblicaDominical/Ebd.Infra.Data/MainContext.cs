@@ -45,6 +45,7 @@ namespace Ebd.Infra.Data
         {
             builder.ApplyConfigurationsFromAssembly(System.Reflection.Assembly.GetExecutingAssembly());
 
+            //builder.InserirRegistrosPadrao();
             base.OnModelCreating(builder);
         }
     }

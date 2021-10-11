@@ -11,6 +11,7 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Ebd.Presentation.Api
@@ -28,7 +29,12 @@ namespace Ebd.Presentation.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.ConfigureDependencyInjection(Configuration);
-            services.AddControllers();
+            services.AddControllers()
+                .AddJsonOptions(options=>
+                {
+                    options.JsonSerializerOptions.WriteIndented = false;
+                    options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+                });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Ebd.Presentation.Api", Version = "v1" });

@@ -9,6 +9,9 @@ namespace Ebd.CrossCutting.IoC
         public static IServiceCollection AddApplicationConfiguration(this IServiceCollection services)
         {
             services.AddTransient(typeof(IAlunoBusiness), typeof(AlunoBusiness));
+            services.AddTransient(typeof(IBairroBusiness), typeof(BairroBusiness));
+            services.AddTransient(typeof(ITurmaBusiness), typeof(TurmaBusiness));
+            
             return services;
         }
     }

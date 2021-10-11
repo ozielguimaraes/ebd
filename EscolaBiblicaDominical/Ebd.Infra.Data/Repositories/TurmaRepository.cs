@@ -1,6 +1,7 @@
 ﻿using Ebd.Domain.Core.Entities;
 using Ebd.Domain.Core.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Ebd.Infra.Data.Repositories
@@ -31,6 +32,11 @@ namespace Ebd.Infra.Data.Repositories
         public async Task<Turma> ObterPorId(int id)
         {
             return await DbSet.FindAsync(id);
+        }
+
+        public async Task<ICollection<Turma>> ObterTodas()
+        {
+            return await DbSet.ToListAsync();
         }
     }
 }

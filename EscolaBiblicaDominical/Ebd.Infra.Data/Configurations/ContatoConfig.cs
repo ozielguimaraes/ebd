@@ -12,6 +12,7 @@ namespace Ebd.Infra.Data.Configurations
             if (builder is null) throw new ArgumentNullException(nameof(builder));
 
             builder.HasKey(x => x.ContatoId);
+            builder.Property(x => x.ContatoId).ValueGeneratedOnAdd();
 
             builder.Property(x => x.Valor)
                 .HasMaxLength(50)

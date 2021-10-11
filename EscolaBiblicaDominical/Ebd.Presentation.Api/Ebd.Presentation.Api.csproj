@@ -17,4 +17,8 @@
     <ProjectReference Include="..\Ebd.CrossCutting.IoC\Ebd.CrossCutting.IoC.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Extensions\" />
+  </ItemGroup>
+
 </Project>

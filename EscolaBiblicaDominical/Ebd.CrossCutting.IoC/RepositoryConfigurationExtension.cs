@@ -10,9 +10,6 @@ namespace Ebd.CrossCutting.IoC
     {
         public static IServiceCollection AddRepositoryConfiguration(this IServiceCollection services)
         {
-            //services.AddScoped(typeof(IRepository<,>), typeof(Repository<,>));
-
-            //services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddTransient(typeof(IAlunoRepository), typeof(AlunoRepository));
             services.AddTransient(typeof(IBairroRepository), typeof(BairroRepository));
             services.AddTransient(typeof(IChamadaRepository), typeof(ChamadaRepository));
@@ -26,15 +23,6 @@ namespace Ebd.CrossCutting.IoC
             services.AddTransient<IEntityFrameworkContext, MainContext>();
 
             return services;
-        }
-
-        private static void AddRepository<TInterface, TRepository, TEntity>(this IServiceCollection services)
-            where TInterface : IRepository<TEntity>
-            where TRepository : TInterface
-            where TEntity : class
-        {
-            //services.AddScoped<TInterface, TRepository>();
-           // services.AddScoped<IRepository<TEntity>, TRepository>();
         }
     }
 }
