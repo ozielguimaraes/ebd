@@ -7,7 +7,7 @@ namespace Ebd.Application.Responses
     {
         public TurmaResponse(ValidationResult validationResult) : base(validationResult) { }
 
-        public TurmaResponse(int turmaId, string nome, int idadeMinima, int idadeMaxima) : base(new ValidationResult())
+        public TurmaResponse(int turmaId, string nome, int idadeMinima, int idadeMaxima)
         {
             TurmaId = turmaId;
             Nome = nome;

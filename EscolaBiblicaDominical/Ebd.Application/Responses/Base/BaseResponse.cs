@@ -1,4 +1,5 @@
 ﻿using FluentValidation.Results;
+using System.Collections.Generic;
 
 namespace Ebd.Application.Responses.Base
 {
@@ -7,10 +8,26 @@ namespace Ebd.Application.Responses.Base
         protected BaseResponse() { }
         protected BaseResponse(ValidationResult validationResult)
         {
-            ValidationResult = validationResult;
+            SetValidationResult(validationResult);
         }
 
-        public ValidationResult? ValidationResult { get; set; }
-        public bool IsValid() => ValidationResult is null || ValidationResult.IsValid;
+        private ValidationResult validationResult;
+
+        public ValidationResult GetValidationResult()
+        {
+            return validationResult;
+        }
+
+        public IEnumerable<ValidationFailure> GetValidationFailures()
+        {
+            return validationResult.Errors;
+        }
+
+        public void SetValidationResult(ValidationResult value)
+        {
+            validationResult = value;
+        }
+
+        public bool IsValid() => GetValidationResult()?.IsValid ?? true;
     }
 }

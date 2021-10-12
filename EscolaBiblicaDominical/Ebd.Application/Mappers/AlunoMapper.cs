@@ -18,8 +18,9 @@ namespace Ebd.Application.Mappers
                     NascidoEm = request.NascidoEm,
                     WhatsappIgualCelular = request.WhatsappIgualCelular,
                     Contatos = ContatoMapper.FromRequestToEntity(request.Contatos).ToList(),
-                    Enderecos = EnderecoMapper.FromRequestToEntity(request.Enderecos).ToList()
-                }
+                    Enderecos = EnderecoMapper.FromRequestToEntity(request.Enderecos).ToList(),
+                },
+                TurmaId = request.TurmaId
             };
         }
 

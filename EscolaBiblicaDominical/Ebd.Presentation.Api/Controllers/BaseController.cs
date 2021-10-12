@@ -24,11 +24,11 @@ namespace Ebd.Presentation.Api.Controllers
             if (response.IsValid())
             {
                 Logger.LogInformation($"item added: {response}");
-                response.ValidationResult = null;
+                response.SetValidationResult(null);
                 return StatusCode(StatusCodes.Status201Created, response);
             }
 
-            return BadRequest(response.ValidationResult.Errors);
+            return BadRequest(response.GetValidationFailures());
         }
 
         protected ObjectResult ResultWhenSearching(IEnumerable<BaseResponse> response)
