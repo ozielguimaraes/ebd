@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:components="clr-namespace:Ebd.Mobile.Views.Components"
+             x:Class="Ebd.Mobile.Views.HomePage"
+             Title="Início"
+             BackgroundColor="{StaticResource Primary}">
+    <ContentPage.Content>
+        <StackLayout>
+            <FlexLayout Direction="Column"
+                        BackgroundColor="#E0E0E0"
+                        JustifyContent="Center"
+                        HeightRequest="70">
+                <Label>
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span FontSize="Medium" Text="Welcome, " />
+                            <Span FontSize="Medium" Text="Oziel" FontAttributes="Bold" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+            </FlexLayout>
+            <ScrollView VerticalOptions="Fill">
+                <FlexLayout Direction="Row"
+                            Padding="4"
+                            AlignItems="Start"
+                            Wrap="Wrap"
+                            AlignContent="Start"
+                            JustifyContent="Start">
+                    <Grid Margin="4" 
+                          FlexLayout.AlignSelf="Start"
+                          FlexLayout.Basis="{OnIdiom Phone='50%'}">
+                        <components:MenuCardView IconSource="icon_feed.png" Title="Alunos" />
+                    </Grid>
+                    <Grid Margin="4" 
+                           FlexLayout.AlignSelf="Start"
+                           FlexLayout.Basis="{OnIdiom Phone='50%'}">
+                        <components:MenuCardView IconSource="icon_feed.png" Title="Professores" />
+                    </Grid>
+                    <Grid Margin="4" 
+                          FlexLayout.AlignSelf="Start"
+                          FlexLayout.Basis="{OnIdiom Phone='50%'}">
+                        <components:MenuCardView IconSource="icon_feed.png" Title="Chamada" />
+                    </Grid>
+                </FlexLayout>
+            </ScrollView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
