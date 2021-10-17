@@ -17,3 +17,11 @@ steps:
   inputs:
     packageType: 'sdk'
     useGlobalJson: true
+
+- script: dotnet --list-sdks
+  displayName: 'List .NET versions available'
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'build'
+    projects: 'Ebd.Presentation.Api/*.csproj'
