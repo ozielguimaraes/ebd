@@ -17,4 +17,3 @@ steps:
   inputs:
     packageType: 'sdk'
     useGlobalJson: true
-    workingDirectory: './Ebd.Infra.Data'
