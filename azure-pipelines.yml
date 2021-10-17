@@ -26,4 +26,3 @@ steps:
     command: 'build'
     projects: 'Ebd.Presentation.Api/*.csproj'
     publishWebProjects: true
-    workingDirectory: './Ebd.Presentation.Api'
