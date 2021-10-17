@@ -24,4 +24,6 @@ steps:
 - task: DotNetCoreCLI@2
   inputs:
     command: 'build'
-    projects: 'Ebd.Presentation.Api/*.csproj'
+    projects: '$(System.DefaultWorkingDirectory)/*.csproj'
+    publishWebProjects: true
+    workingDirectory: './Ebd.Presentation.Api'
