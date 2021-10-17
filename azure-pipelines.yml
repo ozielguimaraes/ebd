@@ -17,4 +17,4 @@ steps:
   inputs:
     packageType: 'sdk'
     useGlobalJson: true
-    workingDirectory: '**/Ebd.Infra.Data'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/Ebd.Infra.Data'
