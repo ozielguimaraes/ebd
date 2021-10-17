@@ -7,15 +7,14 @@ trigger:
 - main
 
 pool:
-  vmImage: windows-latest
+  vmImage: ubuntu-latest
 
 variables:
   buildConfiguration: 'Release'
 
 steps:
-- task: DotNetCoreCLI@2
+- task: UseDotNet@2
   inputs:
-    command: 'build'
-    projects: '**/Ebd.Presentation.Api.csproj'
-- script: dotnet build --configuration $(buildConfiguration)
-  displayName: 'dotnet build $(buildConfiguration)'
+    packageType: 'sdk'
+    useGlobalJson: true
+    workingDirectory: 'Ebd.Infra.Data'
