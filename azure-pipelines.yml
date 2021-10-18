@@ -18,14 +18,13 @@ steps:
     packageType: 'sdk'
     useGlobalJson: true
 
-- script: dotnet --list-sdks
-  displayName: 'List .NET versions available'
-
 - task: DotNetCoreCLI@2
+  displayName: 'Generating publish files'
   inputs:
     command: 'publish'
     projects: 'Ebd.Presentation.Api/*.csproj'    
     publishWebProjects: true
+    arguments: '-o $(Build.ArtifactStagingDirectory)'
 
 - task: PublishBuildArtifacts@1
   inputs:
@@ -34,6 +33,7 @@ steps:
     publishLocation: 'Container'
 
 - task: AzureRmWebAppDeployment@4
+  displayName: 'Updating Web Api'
   inputs:
     ConnectionType: 'AzureRM'
     azureSubscription: 'GTech(b42a60f5-3c02-4a26-851c-36d2273fb56a)'
