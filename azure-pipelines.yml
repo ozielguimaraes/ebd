@@ -24,6 +24,7 @@ steps:
     command: 'publish'
     projects: 'Ebd.Presentation.Api/*.csproj'    
     publishWebProjects: true
+    arguments: '-o $(Build.ArtifactStagingDirectory)/Ebd.Presentation.Api'
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Build Artifacts $(Build.ArtifactStagingDirectory)'
