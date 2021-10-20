@@ -26,7 +26,7 @@ namespace Ebd.Presentation.Api.Controllers
         {
             try
             {
-                return ResultWhenSearching(await _bairroBusiness.ObterTodos());
+                return ResultWhenSearching(await _bairroBusiness.ObterTodosAsync());
             }
             catch (Exception ex)
             {

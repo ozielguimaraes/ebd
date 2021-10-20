@@ -16,7 +16,7 @@ namespace Ebd.Application.Business.Implementation
             _bairroRepository = bairroRepository;
         }
 
-        public async Task<IEnumerable<BairroResponse>> ObterTodos()
+        public async Task<IEnumerable<BairroResponse>> ObterTodosAsync()
         {
             var result = await _bairroRepository.ObterTodos();
 

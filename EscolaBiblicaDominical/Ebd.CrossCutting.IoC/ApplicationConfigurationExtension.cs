@@ -10,6 +10,7 @@ namespace Ebd.CrossCutting.IoC
         {
             services.AddTransient(typeof(IAlunoBusiness), typeof(AlunoBusiness));
             services.AddTransient(typeof(IBairroBusiness), typeof(BairroBusiness));
+            services.AddTransient(typeof(IChamadaBusiness), typeof(ChamadaBusiness));
             services.AddTransient(typeof(ITurmaBusiness), typeof(TurmaBusiness));
             
             return services;

@@ -6,6 +6,6 @@ namespace Ebd.Application.Business.Interfaces
 {
     public interface IBairroBusiness
     {
-        Task<IEnumerable<BairroResponse>> ObterTodos();
+        Task<IEnumerable<BairroResponse>> ObterTodosAsync();
     }
 }

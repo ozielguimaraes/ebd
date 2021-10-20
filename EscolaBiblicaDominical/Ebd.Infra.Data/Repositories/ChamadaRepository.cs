@@ -10,7 +10,7 @@ namespace Ebd.Infra.Data.Repositories
         {
         }
 
-        public async Task<Chamada> Adicionar(Chamada chamada)
+        public async Task<Chamada> AdicionarAsync(Chamada chamada)
         {
             DbSet.Add(chamada);
             await Db.SaveChangesAsync();
