@@ -1,4 +1,5 @@
 using Ebd.CrossCutting.IoC;
+using Ebd.Presentation.Api.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -29,6 +30,7 @@ namespace Ebd.Presentation.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.ConfigureDependencyInjection(Configuration);
+            services.ConfigureRouting();
             services.AddControllers()
                 .AddJsonOptions(options=>
                 {
