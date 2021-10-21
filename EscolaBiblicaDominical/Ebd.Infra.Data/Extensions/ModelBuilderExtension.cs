@@ -10,7 +10,20 @@ namespace Ebd.Infra.Data.Extensions
         {
             builder.InserirBairros();
             builder.InserirTurmas();
-            //builder.InserirAvaliacoes();
+            builder.InserirAvaliacoes();
+        }
+
+        private static void InserirAvaliacoes(this ModelBuilder builder)
+        {
+            var avaliacoes = new List<Avaliacao>
+            {
+                new Avaliacao(avaliacaoId: 1, nome: "Presença", nota: 2),
+                new Avaliacao(avaliacaoId: 2, nome: "Visita", nota: 3),
+                new Avaliacao(avaliacaoId: 3, nome: "Lição", nota: 2),
+                new Avaliacao(avaliacaoId: 4, nome: "Bíblia", nota: 3),
+                new Avaliacao(avaliacaoId: 5, nome: "Visita", nota: 1)
+            };
+            builder.Entity<Avaliacao>().HasData(avaliacoes);
         }
 
         private static void InserirTurmas(this ModelBuilder builder)
@@ -42,7 +55,6 @@ namespace Ebd.Infra.Data.Extensions
 
         private static void InserirBairros(this ModelBuilder builder)
         {
-
             var bairros = new List<Bairro>
             {
                 new Bairro { BairroId = 1, Nome = "Aclimação" },
