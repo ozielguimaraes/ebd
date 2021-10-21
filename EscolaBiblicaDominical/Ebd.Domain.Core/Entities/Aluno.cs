@@ -1,4 +1,6 @@
-﻿namespace Ebd.Domain.Core.Entities
+﻿using System.Collections.Generic;
+
+namespace Ebd.Domain.Core.Entities
 {
     public class Aluno
     {
@@ -12,5 +14,6 @@
 
         public int TurmaId { get; set; }
         public Turma Turma { get; set; }
+        public IEnumerable<AvaliacaoAluno> AvaliacoesAluno { get; set; }
     }
 }

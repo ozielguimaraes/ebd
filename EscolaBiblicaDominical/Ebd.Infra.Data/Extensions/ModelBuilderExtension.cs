@@ -10,6 +10,7 @@ namespace Ebd.Infra.Data.Extensions
         {
             builder.InserirBairros();
             builder.InserirTurmas();
+            //builder.InserirAvaliacoes();
         }
 
         private static void InserirTurmas(this ModelBuilder builder)

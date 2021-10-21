@@ -18,6 +18,8 @@ namespace Ebd.Infra.Data
         public DataBaseConfiguration Configuration { get; }
 
         public virtual DbSet<Aluno> Alunos { get; set; }
+        public virtual DbSet<AvaliacaoAluno> AvaliacaoAlunos { get; set; }
+        public virtual DbSet<Avaliacao> Avaliacoes { get; set; }
         public virtual DbSet<Bairro> Bairros { get; set; }
         public virtual DbSet<Chamada> Chamadas { get; set; }
         public virtual DbSet<Endereco> Enderecos { get; set; }

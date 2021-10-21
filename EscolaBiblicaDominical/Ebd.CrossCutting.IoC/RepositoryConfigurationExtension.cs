@@ -10,17 +10,19 @@ namespace Ebd.CrossCutting.IoC
     {
         public static IServiceCollection AddRepositoryConfiguration(this IServiceCollection services)
         {
-            services.AddTransient(typeof(IAlunoRepository), typeof(AlunoRepository));
-            services.AddTransient(typeof(IBairroRepository), typeof(BairroRepository));
-            services.AddTransient(typeof(IChamadaRepository), typeof(ChamadaRepository));
-            services.AddTransient(typeof(IEnderecoRepository), typeof(EnderecoRepository));
-            services.AddTransient(typeof(ILicaoRepository), typeof(LicaoRepository));
-            services.AddTransient(typeof(IProfessorRepository), typeof(ProfessorRepository));
-            services.AddTransient(typeof(IRevistaRepository), typeof(RevistaRepository));
-            services.AddTransient(typeof(ITurmaRepository), typeof(TurmaRepository));
+            services.AddScoped(typeof(IAlunoRepository), typeof(AlunoRepository));
+            services.AddScoped(typeof(IAvaliacaoRepository), typeof(AvaliacaoRepository));
+            services.AddScoped(typeof(IAvaliacaoAlunoRepository), typeof(AvaliacaoAlunoRepository));
+            services.AddScoped(typeof(IBairroRepository), typeof(BairroRepository));
+            services.AddScoped(typeof(IChamadaRepository), typeof(ChamadaRepository));
+            services.AddScoped(typeof(IEnderecoRepository), typeof(EnderecoRepository));
+            services.AddScoped(typeof(ILicaoRepository), typeof(LicaoRepository));
+            services.AddScoped(typeof(IProfessorRepository), typeof(ProfessorRepository));
+            services.AddScoped(typeof(IRevistaRepository), typeof(RevistaRepository));
+            services.AddScoped(typeof(ITurmaRepository), typeof(TurmaRepository));
 
             services.AddDbContext<MainContext>();
-            services.AddTransient<IEntityFrameworkContext, MainContext>();
+            services.AddScoped<IEntityFrameworkContext, MainContext>();
 
             return services;
         }

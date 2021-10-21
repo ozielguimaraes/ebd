@@ -8,10 +8,12 @@ namespace Ebd.CrossCutting.IoC
     {
         public static IServiceCollection AddApplicationConfiguration(this IServiceCollection services)
         {
-            services.AddTransient(typeof(IAlunoBusiness), typeof(AlunoBusiness));
-            services.AddTransient(typeof(IBairroBusiness), typeof(BairroBusiness));
-            services.AddTransient(typeof(IChamadaBusiness), typeof(ChamadaBusiness));
-            services.AddTransient(typeof(ITurmaBusiness), typeof(TurmaBusiness));
+            services.AddScoped(typeof(IAlunoBusiness), typeof(AlunoBusiness));
+            services.AddScoped(typeof(IAvaliacaoBusiness), typeof(AvaliacaoBusiness));
+            services.AddScoped(typeof(IAvaliacaoAlunoBusiness), typeof(AvaliacaoAlunoBusiness));
+            services.AddScoped(typeof(IBairroBusiness), typeof(BairroBusiness));
+            services.AddScoped(typeof(IChamadaBusiness), typeof(ChamadaBusiness));
+            services.AddScoped(typeof(ITurmaBusiness), typeof(TurmaBusiness));
             
             return services;
         }

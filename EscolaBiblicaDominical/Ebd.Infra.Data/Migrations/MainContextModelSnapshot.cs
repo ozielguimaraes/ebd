@@ -16,7 +16,7 @@ namespace Ebd.Infra.Data.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.10")
+                .HasAnnotation("ProductVersion", "5.0.11")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Ebd.Domain.Core.Entities.Aluno", b =>
@@ -46,6 +46,48 @@ namespace Ebd.Infra.Data.Migrations
                     b.ToTable("Aluno");
                 });
 
+            modelBuilder.Entity("Ebd.Domain.Core.Entities.Avaliacao", b =>
+                {
+                    b.Property<int>("AvaliacaoId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasMaxLength(35)
+                        .HasColumnType("nvarchar(35)");
+
+                    b.Property<int>("Nota")
+                        .HasColumnType("int");
+
+                    b.HasKey("AvaliacaoId");
+
+                    b.ToTable("Avaliacao");
+                });
+
+            modelBuilder.Entity("Ebd.Domain.Core.Entities.AvaliacaoAluno", b =>
+                {
+                    b.Property<int>("AvaliacaoAlunoId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AlunoId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("AvaliacaoId")
+                        .HasColumnType("int");
+
+                    b.HasKey("AvaliacaoAlunoId");
+
+                    b.HasIndex("AlunoId");
+
+                    b.HasIndex("AvaliacaoId");
+
+                    b.ToTable("AvaliacaoAluno");
+                });
+
             modelBuilder.Entity("Ebd.Domain.Core.Entities.Bairro", b =>
                 {
                     b.Property<int>("BairroId")
@@ -63,588 +105,6 @@ namespace Ebd.Infra.Data.Migrations
                     b.HasIndex("Nome");
 
                     b.ToTable("Bairro");
-
-                    b.HasData(
-                        new
-                        {
-                            BairroId = 1,
-                            Nome = "Aclimação"
-                        },
-                        new
-                        {
-                            BairroId = 2,
-                            Nome = "Aeroporto"
-                        },
-                        new
-                        {
-                            BairroId = 3,
-                            Nome = "Alto Umuarama"
-                        },
-                        new
-                        {
-                            BairroId = 4,
-                            Nome = "Aruanan"
-                        },
-                        new
-                        {
-                            BairroId = 5,
-                            Nome = "Bela Vista"
-                        },
-                        new
-                        {
-                            BairroId = 6,
-                            Nome = "Bom Jesus"
-                        },
-                        new
-                        {
-                            BairroId = 7,
-                            Nome = "Brasil"
-                        },
-                        new
-                        {
-                            BairroId = 8,
-                            Nome = "Buritis"
-                        },
-                        new
-                        {
-                            BairroId = 9,
-                            Nome = "Carajás"
-                        },
-                        new
-                        {
-                            BairroId = 10,
-                            Nome = "Cazeca"
-                        },
-                        new
-                        {
-                            BairroId = 11,
-                            Nome = "Centro"
-                        },
-                        new
-                        {
-                            BairroId = 12,
-                            Nome = "Chácara Tubalina"
-                        },
-                        new
-                        {
-                            BairroId = 13,
-                            Nome = "Chácaras Bonanza"
-                        },
-                        new
-                        {
-                            BairroId = 14,
-                            Nome = "Chácaras Tubalina E Quartel"
-                        },
-                        new
-                        {
-                            BairroId = 15,
-                            Nome = "Chaves"
-                        },
-                        new
-                        {
-                            BairroId = 16,
-                            Nome = "Chs Tubalina E Quartel"
-                        },
-                        new
-                        {
-                            BairroId = 17,
-                            Nome = "Chs Uirapuru"
-                        },
-                        new
-                        {
-                            BairroId = 18,
-                            Nome = "Cidade Jardim"
-                        },
-                        new
-                        {
-                            BairroId = 19,
-                            Nome = "Conjunto Alvorada"
-                        },
-                        new
-                        {
-                            BairroId = 20,
-                            Nome = "Custódio Pereira"
-                        },
-                        new
-                        {
-                            BairroId = 21,
-                            Nome = "Daniel Fonseca"
-                        },
-                        new
-                        {
-                            BairroId = 22,
-                            Nome = "Distrito Industrial"
-                        },
-                        new
-                        {
-                            BairroId = 23,
-                            Nome = "Dom Almir"
-                        },
-                        new
-                        {
-                            BairroId = 24,
-                            Nome = "Dona Zulmira"
-                        },
-                        new
-                        {
-                            BairroId = 25,
-                            Nome = "Fundinho"
-                        },
-                        new
-                        {
-                            BairroId = 26,
-                            Nome = "General Osório"
-                        },
-                        new
-                        {
-                            BairroId = 27,
-                            Nome = "Granada"
-                        },
-                        new
-                        {
-                            BairroId = 28,
-                            Nome = "Guarani"
-                        },
-                        new
-                        {
-                            BairroId = 29,
-                            Nome = "Higino Guerra"
-                        },
-                        new
-                        {
-                            BairroId = 30,
-                            Nome = "Industrial"
-                        },
-                        new
-                        {
-                            BairroId = 31,
-                            Nome = "Jaraguá"
-                        },
-                        new
-                        {
-                            BairroId = 32,
-                            Nome = "Jardim Botânico"
-                        },
-                        new
-                        {
-                            BairroId = 33,
-                            Nome = "Jardim Brasília"
-                        },
-                        new
-                        {
-                            BairroId = 34,
-                            Nome = "Jardim Califórnia"
-                        },
-                        new
-                        {
-                            BairroId = 35,
-                            Nome = "Jardim Canaã"
-                        },
-                        new
-                        {
-                            BairroId = 36,
-                            Nome = "Jardim Colina"
-                        },
-                        new
-                        {
-                            BairroId = 37,
-                            Nome = "Jardim das Palmeiras"
-                        },
-                        new
-                        {
-                            BairroId = 38,
-                            Nome = "Jardim Europa"
-                        },
-                        new
-                        {
-                            BairroId = 39,
-                            Nome = "Jardim Finotti"
-                        },
-                        new
-                        {
-                            BairroId = 40,
-                            Nome = "Jardim Holanda"
-                        },
-                        new
-                        {
-                            BairroId = 41,
-                            Nome = "Jardim Inconfidência"
-                        },
-                        new
-                        {
-                            BairroId = 42,
-                            Nome = "Jardim Ipanema"
-                        },
-                        new
-                        {
-                            BairroId = 43,
-                            Nome = "Jardim Karaiba"
-                        },
-                        new
-                        {
-                            BairroId = 44,
-                            Nome = "Jardim Panorama"
-                        },
-                        new
-                        {
-                            BairroId = 45,
-                            Nome = "Jardim Patrícia"
-                        },
-                        new
-                        {
-                            BairroId = 46,
-                            Nome = "Jardim Umuarama"
-                        },
-                        new
-                        {
-                            BairroId = 47,
-                            Nome = "Jockey Camping"
-                        },
-                        new
-                        {
-                            BairroId = 48,
-                            Nome = "Lagoinha"
-                        },
-                        new
-                        {
-                            BairroId = 49,
-                            Nome = "Laranjeiras"
-                        },
-                        new
-                        {
-                            BairroId = 50,
-                            Nome = "Lidice"
-                        },
-                        new
-                        {
-                            BairroId = 51,
-                            Nome = "Loteamento Integração"
-                        },
-                        new
-                        {
-                            BairroId = 52,
-                            Nome = "Lourdes"
-                        },
-                        new
-                        {
-                            BairroId = 53,
-                            Nome = "Luizote de Freitas"
-                        },
-                        new
-                        {
-                            BairroId = 54,
-                            Nome = "Luizote Freitas"
-                        },
-                        new
-                        {
-                            BairroId = 55,
-                            Nome = "Mansões Aeroporto"
-                        },
-                        new
-                        {
-                            BairroId = 56,
-                            Nome = "Mansour"
-                        },
-                        new
-                        {
-                            BairroId = 57,
-                            Nome = "Maravilha"
-                        },
-                        new
-                        {
-                            BairroId = 58,
-                            Nome = "Maria Rezende"
-                        },
-                        new
-                        {
-                            BairroId = 59,
-                            Nome = "Marta Helena"
-                        },
-                        new
-                        {
-                            BairroId = 60,
-                            Nome = "Martins"
-                        },
-                        new
-                        {
-                            BairroId = 61,
-                            Nome = "Matins"
-                        },
-                        new
-                        {
-                            BairroId = 62,
-                            Nome = "Mercês"
-                        },
-                        new
-                        {
-                            BairroId = 63,
-                            Nome = "Minas Brasil"
-                        },
-                        new
-                        {
-                            BairroId = 64,
-                            Nome = "Minas Gerais"
-                        },
-                        new
-                        {
-                            BairroId = 65,
-                            Nome = "Morada Colina"
-                        },
-                        new
-                        {
-                            BairroId = 66,
-                            Nome = "Morada da Colina"
-                        },
-                        new
-                        {
-                            BairroId = 67,
-                            Nome = "Morada dos Pássaros"
-                        },
-                        new
-                        {
-                            BairroId = 68,
-                            Nome = "Morada Nova"
-                        },
-                        new
-                        {
-                            BairroId = 69,
-                            Nome = "Morada Nova Ii"
-                        },
-                        new
-                        {
-                            BairroId = 70,
-                            Nome = "Morumbi"
-                        },
-                        new
-                        {
-                            BairroId = 71,
-                            Nome = "Nossa Senhora Aparecida"
-                        },
-                        new
-                        {
-                            BairroId = 72,
-                            Nome = "Nossa Senhora das Graças"
-                        },
-                        new
-                        {
-                            BairroId = 73,
-                            Nome = "Nossa Sra Graças"
-                        },
-                        new
-                        {
-                            BairroId = 74,
-                            Nome = "Nosso Recanto"
-                        },
-                        new
-                        {
-                            BairroId = 76,
-                            Nome = "Nova Uberlândia"
-                        },
-                        new
-                        {
-                            BairroId = 77,
-                            Nome = "Novo Mundo"
-                        },
-                        new
-                        {
-                            BairroId = 78,
-                            Nome = "Osvaldo Resende"
-                        },
-                        new
-                        {
-                            BairroId = 79,
-                            Nome = "Osvaldo Rezende"
-                        },
-                        new
-                        {
-                            BairroId = 80,
-                            Nome = "Pacaembu"
-                        },
-                        new
-                        {
-                            BairroId = 81,
-                            Nome = "Pampulha"
-                        },
-                        new
-                        {
-                            BairroId = 82,
-                            Nome = "Panorama"
-                        },
-                        new
-                        {
-                            BairroId = 83,
-                            Nome = "Parque Américas"
-                        },
-                        new
-                        {
-                            BairroId = 84,
-                            Nome = "Parque das Américas"
-                        },
-                        new
-                        {
-                            BairroId = 85,
-                            Nome = "Patrimônio"
-                        },
-                        new
-                        {
-                            BairroId = 86,
-                            Nome = "Planalto"
-                        },
-                        new
-                        {
-                            BairroId = 87,
-                            Nome = "Presidente Roosevelt"
-                        },
-                        new
-                        {
-                            BairroId = 88,
-                            Nome = "Progresso"
-                        },
-                        new
-                        {
-                            BairroId = 89,
-                            Nome = "Prosperidade"
-                        },
-                        new
-                        {
-                            BairroId = 90,
-                            Nome = "Residencial Gramado"
-                        },
-                        new
-                        {
-                            BairroId = 91,
-                            Nome = "Residencial Nosso Lar"
-                        },
-                        new
-                        {
-                            BairroId = 92,
-                            Nome = "Residencial Viviane"
-                        },
-                        new
-                        {
-                            BairroId = 93,
-                            Nome = "Rezende"
-                        },
-                        new
-                        {
-                            BairroId = 94,
-                            Nome = "Rezende Junqueira"
-                        },
-                        new
-                        {
-                            BairroId = 95,
-                            Nome = "Santa Luzia"
-                        },
-                        new
-                        {
-                            BairroId = 96,
-                            Nome = "Santa Maria"
-                        },
-                        new
-                        {
-                            BairroId = 97,
-                            Nome = "Santa Mônica"
-                        },
-                        new
-                        {
-                            BairroId = 98,
-                            Nome = "Santa Rosa"
-                        },
-                        new
-                        {
-                            BairroId = 99,
-                            Nome = "São Jorge"
-                        },
-                        new
-                        {
-                            BairroId = 100,
-                            Nome = "São José"
-                        },
-                        new
-                        {
-                            BairroId = 101,
-                            Nome = "Saraiva"
-                        },
-                        new
-                        {
-                            BairroId = 102,
-                            Nome = "Segismundo Pereira"
-                        },
-                        new
-                        {
-                            BairroId = 103,
-                            Nome = "Setor Bom Jesus"
-                        },
-                        new
-                        {
-                            BairroId = 104,
-                            Nome = "Shopping Park"
-                        },
-                        new
-                        {
-                            BairroId = 105,
-                            Nome = "Tabajaras"
-                        },
-                        new
-                        {
-                            BairroId = 106,
-                            Nome = "Taiaman"
-                        },
-                        new
-                        {
-                            BairroId = 107,
-                            Nome = "Tancredo Neves"
-                        },
-                        new
-                        {
-                            BairroId = 108,
-                            Nome = "Thomas Carmelo"
-                        },
-                        new
-                        {
-                            BairroId = 109,
-                            Nome = "Tibery"
-                        },
-                        new
-                        {
-                            BairroId = 110,
-                            Nome = "Tocantins"
-                        },
-                        new
-                        {
-                            BairroId = 111,
-                            Nome = "Tubalina"
-                        },
-                        new
-                        {
-                            BairroId = 112,
-                            Nome = "Umuarama"
-                        },
-                        new
-                        {
-                            BairroId = 113,
-                            Nome = "Valparaíso"
-                        },
-                        new
-                        {
-                            BairroId = 114,
-                            Nome = "Vigilato Pereira"
-                        },
-                        new
-                        {
-                            BairroId = 115,
-                            Nome = "Vila Oswaldo"
-                        },
-                        new
-                        {
-                            BairroId = 116,
-                            Nome = "Vila Povoa"
-                        },
-                        new
-                        {
-                            BairroId = 117,
-                            Nome = "Vila Satélite"
-                        });
                 });
 
             modelBuilder.Entity("Ebd.Domain.Core.Entities.Chamada", b =>
@@ -858,29 +318,6 @@ namespace Ebd.Infra.Data.Migrations
                     b.HasKey("TurmaId");
 
                     b.ToTable("Turma");
-
-                    b.HasData(
-                        new
-                        {
-                            TurmaId = 1,
-                            IdadeMaxima = 12,
-                            IdadeMinima = 11,
-                            Nome = "Mensageiros da Fé"
-                        },
-                        new
-                        {
-                            TurmaId = 2,
-                            IdadeMaxima = 14,
-                            IdadeMinima = 13,
-                            Nome = "Adolescentes Vencedores"
-                        },
-                        new
-                        {
-                            TurmaId = 3,
-                            IdadeMaxima = 17,
-                            IdadeMinima = 15,
-                            Nome = "Campeões da Fé"
-                        });
                 });
 
             modelBuilder.Entity("Ebd.Domain.Core.Entities.Aluno", b =>
@@ -906,6 +343,25 @@ namespace Ebd.Infra.Data.Migrations
                     b.Navigation("Responsavel");
 
                     b.Navigation("Turma");
+                });
+
+            modelBuilder.Entity("Ebd.Domain.Core.Entities.AvaliacaoAluno", b =>
+                {
+                    b.HasOne("Ebd.Domain.Core.Entities.Aluno", "Aluno")
+                        .WithMany("AvaliacoesAluno")
+                        .HasForeignKey("AlunoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Ebd.Domain.Core.Entities.Avaliacao", "Avaliacao")
+                        .WithMany("AvaliacoesAluno")
+                        .HasForeignKey("AvaliacaoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Aluno");
+
+                    b.Navigation("Avaliacao");
                 });
 
             modelBuilder.Entity("Ebd.Domain.Core.Entities.Chamada", b =>
@@ -985,6 +441,16 @@ namespace Ebd.Infra.Data.Migrations
                     b.Navigation("Pessoa");
 
                     b.Navigation("Turma");
+                });
+
+            modelBuilder.Entity("Ebd.Domain.Core.Entities.Aluno", b =>
+                {
+                    b.Navigation("AvaliacoesAluno");
+                });
+
+            modelBuilder.Entity("Ebd.Domain.Core.Entities.Avaliacao", b =>
+                {
+                    b.Navigation("AvaliacoesAluno");
                 });
 
             modelBuilder.Entity("Ebd.Domain.Core.Entities.Pessoa", b =>
