@@ -19,7 +19,7 @@ namespace Ebd.Application.Business.Implementation
         public async Task AdicionarAsync(int alunoId, IEnumerable<int> idsAvaliacao)
         {
             var avaliacoes = idsAvaliacao.Select(id => new AvaliacaoAluno(avaliacaoId: id, alunoId: alunoId));
-
+            
             await _avaliacaoAlunoRepository.AdicionarAsync(avaliacoes);
         }
     }
