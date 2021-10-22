@@ -18,6 +18,30 @@ steps:
     packageType: 'sdk'
     useGlobalJson: true
 
+- task: DotNetCoreCLI@2
+  displayName: 'Restore'
+  inputs:
+    command: 'restore'
+    projects: 'Ebd.Presentation.Api/*.csproj'    
+    publishWebProjects: true
+    arguments: '-o $(Build.ArtifactStagingDirectory)'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Build'
+  inputs:
+    command: 'build'
+    projects: 'Ebd.Presentation.Api/*.csproj'    
+    publishWebProjects: true
+    arguments: '-o $(Build.ArtifactStagingDirectory)'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Generating publish files'
+  inputs:
+    command: 'publish'
+    projects: 'Ebd.Presentation.Api/*.csproj'    
+    publishWebProjects: true
+    arguments: '-o $(Build.ArtifactStagingDirectory)'
+
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Build Artifacts $(Build.ArtifactStagingDirectory)'
   inputs:
