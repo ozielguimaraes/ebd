@@ -22,7 +22,7 @@ steps:
   displayName: 'Restore'
   inputs:
     command: 'restore'
-    projects: 'Ebd.Presentation.Api/*.csproj'    
+    projects: '**/*.csproj'
     publishWebProjects: true
     arguments: '-o $(Build.ArtifactStagingDirectory)'
 
@@ -30,7 +30,7 @@ steps:
   displayName: 'Build'
   inputs:
     command: 'build'
-    projects: 'Ebd.Presentation.Api/*.csproj'    
+    projects: '**/*.csproj'    
     publishWebProjects: true
     arguments: '-o $(Build.ArtifactStagingDirectory)'
 
