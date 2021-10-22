@@ -17,21 +17,20 @@ steps:
   inputs:
     packageType: 'sdk'
     useGlobalJson: true
+    version: ''
 
 - task: DotNetCoreCLI@2
   displayName: 'Restore'
   inputs:
     command: 'restore'
     projects: '**/*.csproj'
-    publishWebProjects: true
     arguments: '-o $(Build.ArtifactStagingDirectory)'
 
 - task: DotNetCoreCLI@2
   displayName: 'Build'
   inputs:
     command: 'build'
-    projects: '**/*.csproj'    
-    publishWebProjects: true
+    projects: '**/*.csproj'
     arguments: '-o $(Build.ArtifactStagingDirectory)'
 
 - task: DotNetCoreCLI@2
@@ -39,7 +38,7 @@ steps:
   inputs:
     command: 'publish'
     projects: 'Ebd.Presentation.Api/*.csproj'    
-    publishWebProjects: true
+    publishWebProjects: false
     arguments: '-o $(Build.ArtifactStagingDirectory)'
 
 - task: PublishBuildArtifacts@1
