@@ -18,14 +18,6 @@ steps:
     packageType: 'sdk'
     useGlobalJson: true
 
-- task: DotNetCoreCLI@2
-  displayName: 'Generating publish files'
-  inputs:
-    command: 'publish'
-    projects: 'Ebd.Presentation.Api/*.csproj'    
-    publishWebProjects: true
-    arguments: '-o $(Build.ArtifactStagingDirectory)'
-
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Build Artifacts $(Build.ArtifactStagingDirectory)'
   inputs:
