@@ -23,14 +23,24 @@ steps:
   displayName: 'Restore'
   inputs:
     command: 'restore'
-    projects: '**/*.csproj'
-    arguments: '-o $(Build.ArtifactStagingDirectory)'
+    projects: |
+      **/Ebd.CrossCutting.csproj
+      **/Ebd.Domain.Core.csproj
+      **/Ebd.Infra.Data.csproj
+      **/Ebd.CrossCutting.IoC.csproj
+      **/Ebd.Application.csproj
+    feedsToUse: 'select'
 
 - task: DotNetCoreCLI@2
   displayName: 'Build'
   inputs:
     command: 'build'
-    projects: '**/*.csproj'
+    projects: |
+      **/Ebd.CrossCutting.csproj
+      **/Ebd.Domain.Core.csproj
+      **/Ebd.Infra.Data.csproj
+      **/Ebd.CrossCutting.IoC.csproj
+      **/Ebd.Application.csproj
     arguments: '-o $(Build.ArtifactStagingDirectory)'
 
 - task: DotNetCoreCLI@2
