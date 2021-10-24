@@ -28,7 +28,6 @@ steps:
       **/Ebd.Infra.Data.csproj
       **/Ebd.CrossCutting.IoC.csproj
       **/Ebd.Application.csproj
-      **/Ebd.Presentation.Api.csproj
     feedsToUse: 'select'
 
 - task: DotNetCoreCLI@2
@@ -40,14 +39,13 @@ steps:
       **/Ebd.Infra.Data.csproj
       **/Ebd.CrossCutting.IoC.csproj
       **/Ebd.Application.csproj
-      **/Ebd.Presentation.Api.csproj
     arguments: '-o $(Build.ArtifactStagingDirectory)'
 
 - task: DotNetCoreCLI@2
   displayName: 'Publish files'
   inputs:
     command: 'publish'
-    projects: 'Ebd.Presentation.Api/Ebd.Presentation.Api.csproj'    
+    projects: 'Ebd.Presentation.Api/*.csproj'
     publishWebProjects: false
     arguments: '-o $(Build.ArtifactStagingDirectory)'
 
