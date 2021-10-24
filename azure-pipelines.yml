@@ -44,10 +44,10 @@ steps:
     arguments: '-o $(Build.ArtifactStagingDirectory)'
 
 - task: DotNetCoreCLI@2
-  displayName: 'Generating publish files'
+  displayName: 'Publish files'
   inputs:
     command: 'publish'
-    projects: 'Ebd.Presentation.Api/*.csproj'    
+    projects: '**/Ebd.Presentation.Api.csproj'    
     publishWebProjects: false
     arguments: '-o $(Build.ArtifactStagingDirectory)'
 
