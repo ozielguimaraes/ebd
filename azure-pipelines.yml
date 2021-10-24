@@ -24,7 +24,6 @@ steps:
   inputs:
     command: 'restore'
     projects: |
-      **/Ebd.CrossCutting.csproj
       **/Ebd.Domain.Core.csproj
       **/Ebd.Infra.Data.csproj
       **/Ebd.CrossCutting.IoC.csproj
@@ -37,7 +36,6 @@ steps:
   inputs:
     command: 'build'
     projects: |
-      **/Ebd.CrossCutting.csproj
       **/Ebd.Domain.Core.csproj
       **/Ebd.Infra.Data.csproj
       **/Ebd.CrossCutting.IoC.csproj
