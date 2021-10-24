@@ -46,7 +46,7 @@ steps:
   inputs:
     command: 'publish'
     projects: '**/Ebd.Presentation.Api.csproj'
-    publishWebProjects: false
+    publishWebProjects: true
     arguments: '-o $(Build.ArtifactStagingDirectory)'
 
 - task: PublishBuildArtifacts@1
