@@ -65,4 +65,4 @@ steps:
     WebAppName: 'EscolaBiblicaDominical'
     packageForLinux: '$(Build.ArtifactStagingDirectory)/**/*.zip'
     RuntimeStack: 'DOTNETCORE|5.0'
-    StartupCommand: 'dotnet Ebd.Presentation.Api.dll'
+    StartupCommand: 'dotnet Ebd.Presentation.Api.dll --timeout 600'
