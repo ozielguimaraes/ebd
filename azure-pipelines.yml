@@ -7,7 +7,7 @@ trigger:
 - main
 
 pool:
-  vmImage: windows-latest
+  vmImage: ubuntu-latest
 
 variables:
   buildConfiguration: 'Release'
@@ -60,6 +60,7 @@ steps:
   inputs:
     ConnectionType: 'AzureRM'
     azureSubscription: 'GTech(b42a60f5-3c02-4a26-851c-36d2273fb56a)'
-    appType: 'webApp'
-    WebAppName: 'EscolaBiblicaDominicalWin'
+    appType: 'webAppLinux'
+    WebAppName: 'EscolaBiblicaDominical'
     packageForLinux: '$(Build.ArtifactStagingDirectory)/**/*.zip'
+    StartupCommand: 'dotnet Ebd.Presentation.Api.dll'
