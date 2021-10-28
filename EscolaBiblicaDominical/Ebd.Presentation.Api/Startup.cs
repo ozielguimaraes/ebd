@@ -32,7 +32,7 @@ namespace Ebd.Presentation.Api
             services.ConfigureDependencyInjection(Configuration);
             services.ConfigureRouting();
             services.AddControllers()
-                .AddJsonOptions(options=>
+                .AddJsonOptions(options =>
                 {
                     options.JsonSerializerOptions.WriteIndented = false;
                     options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
@@ -49,9 +49,14 @@ namespace Ebd.Presentation.Api
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Ebd.Presentation.Api v1"));
             }
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Ebd.Presentation.Api v1");
+                c.RoutePrefix = string.Empty;
+            });
 
             app.UseHttpsRedirection();
 
