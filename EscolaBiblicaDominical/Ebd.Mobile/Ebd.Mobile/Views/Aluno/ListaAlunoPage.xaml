@@ -4,26 +4,35 @@
              xmlns:vm="clr-namespace:Ebd.Mobile.ViewModels.Aluno" 
              xmlns:response="clr-namespace:Ebd.Mobile.Services.Responses.Aluno"
              x:Class="Ebd.Mobile.Views.Aluno.ListaAlunoPage"
-             Title="Alunos"
+             Title="{Binding Title}"
              x:DataType="vm:ListaAlunoViewModel">
     <ContentPage.Content>
         <ScrollView Margin="8">
-            <StackLayout BindableLayout.ItemsSource="{Binding Alunos}">
-                <BindableLayout.ItemTemplate>
-                    <DataTemplate x:DataType="response:AlunoResponse">
-                        <StackLayout Orientation="Horizontal"
+            <StackLayout>
+                <Label Text="Turma" />
+                <Picker Title="Selecione uma turma"
+                        TitleColor="{StaticResource Primary}"
+                        ItemsSource="{Binding Turmas}"
+                        SelectedItem="{Binding TurmaSelecionada}"
+                        ItemDisplayBinding="{Binding TurmaSelecionada.Nome}"/>
+                
+                <StackLayout Margin="0,16,0,0" BindableLayout.ItemsSource="{Binding Alunos}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="response:AlunoResponse">
+                            <StackLayout Orientation="Horizontal"
                                      BackgroundColor="#F5f5f5">
-                            <FlexLayout HeightRequest="70"
+                                <FlexLayout HeightRequest="70"
                                         HorizontalOptions="StartAndExpand"
                                         Direction="Column"
                                         JustifyContent="SpaceAround">
-                                <Label Text="{Binding Nome}" FontSize="Medium" />
-                                <Label Text="10 pontos" FontSize="Subtitle" />
-                            </FlexLayout>
-                            <Image Source="icon_feed.png" />
-                        </StackLayout>
-                    </DataTemplate>
-                </BindableLayout.ItemTemplate>
+                                    <Label Text="{Binding Nome}" FontSize="Medium" />
+                                    <Label Text="10 pontos" FontSize="Subtitle" />
+                                </FlexLayout>
+                                <Image Source="icon_feed.png" />
+                            </StackLayout>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </StackLayout>
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

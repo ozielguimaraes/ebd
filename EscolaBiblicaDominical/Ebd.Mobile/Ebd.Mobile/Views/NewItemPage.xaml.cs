@@ -1,10 +1,6 @@
 ﻿using Ebd.Mobile.Models;
 using Ebd.Mobile.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace Ebd.Mobile.Views
 {
@@ -15,7 +11,7 @@ namespace Ebd.Mobile.Views
         public NewItemPage()
         {
             InitializeComponent();
-            BindingContext = new NewItemViewModel();
+            BindingContext ??= DependencyService.Get<NewItemViewModel>();
         }
     }
 }

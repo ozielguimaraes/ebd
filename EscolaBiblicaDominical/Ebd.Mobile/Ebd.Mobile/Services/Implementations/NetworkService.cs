@@ -59,7 +59,7 @@ namespace Ebd.Mobile.Services.Implementations
             {
                 return Task.Factory.StartNew(() => {
 #if DEBUG
-                    System.Diagnostics.Debug.WriteLine($"Retrying in {t.ToString("g")} due to exception '{(e.InnerException ?? e).Message}'");
+                    System.Diagnostics.Debug.WriteLine($"Retrying in {t:g} due to exception '{(e.InnerException ?? e).Message}'");
 #endif
                 });
             });

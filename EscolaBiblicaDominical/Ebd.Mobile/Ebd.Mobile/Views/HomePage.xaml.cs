@@ -10,7 +10,7 @@ namespace Ebd.Mobile.Views
         public HomePage()
         {
             InitializeComponent();
-            BindingContext = new HomeViewModel();
+            BindingContext = DependencyService.Get<HomeViewModel>();
         }
     }
 }

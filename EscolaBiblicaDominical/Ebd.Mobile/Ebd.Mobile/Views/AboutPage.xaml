@@ -4,11 +4,6 @@
              x:Class="Ebd.Mobile.Views.AboutPage"
              xmlns:vm="clr-namespace:Ebd.Mobile.ViewModels"
              Title="{Binding Title}">
-    
-    <ContentPage.BindingContext>
-        <vm:AboutViewModel />
-    </ContentPage.BindingContext>
-    
     <ContentPage.Resources>
         <ResourceDictionary>
             <Color x:Key="Accent">#96d1ff</Color>

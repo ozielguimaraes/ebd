@@ -1,8 +1,6 @@
 ﻿using Ebd.Mobile.Models;
+using Ebd.Mobile.Services.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace Ebd.Mobile.ViewModels
@@ -12,7 +10,7 @@ namespace Ebd.Mobile.ViewModels
         private string text;
         private string description;
 
-        public NewItemViewModel()
+        public NewItemViewModel(IDiagnosticService diagnosticService, IDialogService dialogService, ILoggerService logger)// : base(diagnosticService, dialogService, logger)
         {
             SaveCommand = new Command(OnSave, ValidateSave);
             CancelCommand = new Command(OnCancel);
@@ -49,7 +47,7 @@ namespace Ebd.Mobile.ViewModels
 
         private async void OnSave()
         {
-            Item newItem = new Item()
+            Item newItem = new()
             {
                 Id = Guid.NewGuid().ToString(),
                 Text = Text,

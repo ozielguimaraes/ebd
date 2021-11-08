@@ -1,4 +1,5 @@
-﻿using Ebd.Mobile.Views;
+﻿using Ebd.Mobile.Services.Interfaces;
+using Ebd.Mobile.Views;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,7 +11,7 @@ namespace Ebd.Mobile.ViewModels
     {
         public Command LoginCommand { get; }
 
-        public LoginViewModel()
+        public LoginViewModel(IDiagnosticService diagnosticService, IDialogService dialogService, ILoggerService logger)// : base(diagnosticService, dialogService, logger)
         {
             LoginCommand = new Command(OnLoginClicked);
         }

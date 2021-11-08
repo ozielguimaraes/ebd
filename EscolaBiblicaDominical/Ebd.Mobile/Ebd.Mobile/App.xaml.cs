@@ -1,4 +1,12 @@
 ﻿using Ebd.Mobile.Services;
+using Ebd.Mobile.Services.Implementations;
+using Ebd.Mobile.Services.Implementations.Dialog;
+using Ebd.Mobile.Services.Implementations.Log;
+using Ebd.Mobile.Services.Implementations.Logger;
+using Ebd.Mobile.Services.Interfaces;
+using Ebd.Mobile.ViewModels;
+using Ebd.Mobile.ViewModels.Aluno;
+using Ebd.Mobile.ViewModels.Chamada;
 using Ebd.Mobile.Views;
 using Ebd.Mobile.Views.Aluno;
 using Xamarin.Forms;
@@ -10,15 +18,33 @@ namespace Ebd.Mobile
         public App()
         {
             InitializeComponent();
-
-            DependencyService.Register<MockDataStore>();
+            RegisterDependencies();
             MainPage = new AppShell();
+        }
+
+        private static void RegisterDependencies()
+        {
+            DependencyService.Register<MockDataStore>();
+            //Services
+            DependencyService.Register<ILoggerService, LoggerService>();
+            DependencyService.Register<IDiagnosticService, DiagnosticService>();
+            DependencyService.Register<IDialogService, DialogService>();
+            DependencyService.Register<INetworkService, NetworkService>();
+            DependencyService.Register<IAlunoService, AlunoService>();
+            DependencyService.Register<ITurmaService, TurmaService>();
+            //ViewModels
+            DependencyService.Register<HomeViewModel>();
+            DependencyService.Register<ListaAlunoViewModel>();
+            DependencyService.Register<ItemsViewModel>();
+            DependencyService.Register<LoginViewModel>();
+            DependencyService.Register<NewItemViewModel>();
+            DependencyService.Register<ItemDetailViewModel>();
+            DependencyService.Register<AboutViewModel>();
+            DependencyService.Register<EfetuarChamadaViewModel>();
         }
 
         protected override void OnStart()
         {
-            Routing.RegisterRoute(nameof(HomePage), typeof(HomePage));
-            Routing.RegisterRoute(nameof(ListaAlunoPage), typeof(ListaAlunoPage));
         }
 
         protected override void OnSleep()

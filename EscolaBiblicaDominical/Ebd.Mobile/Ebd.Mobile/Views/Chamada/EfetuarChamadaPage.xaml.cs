@@ -10,7 +10,7 @@ namespace Ebd.Mobile.Views.Chamada
         public EfetuarChamadaPage()
         {
             InitializeComponent();
-            BindingContext = new EfetuarChamadaViewModel();
+            BindingContext ??= DependencyService.Get<EfetuarChamadaViewModel>();
         }
     }
 }

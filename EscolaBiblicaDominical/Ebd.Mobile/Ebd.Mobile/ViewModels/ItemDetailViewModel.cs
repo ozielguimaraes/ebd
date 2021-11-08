@@ -1,4 +1,5 @@
 ﻿using Ebd.Mobile.Models;
+using Ebd.Mobile.Services.Interfaces;
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -12,6 +13,11 @@ namespace Ebd.Mobile.ViewModels
         private string itemId;
         private string text;
         private string description;
+
+        public ItemDetailViewModel(IDiagnosticService diagnosticService, IDialogService dialogService, ILoggerService logger)// : base(diagnosticService, dialogService, logger)
+        {
+        }
+
         public string Id { get; set; }
 
         public string Text

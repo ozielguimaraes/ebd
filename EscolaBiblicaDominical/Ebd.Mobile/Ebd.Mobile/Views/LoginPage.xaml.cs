@@ -10,7 +10,7 @@ namespace Ebd.Mobile.Views
         public LoginPage()
         {
             InitializeComponent();
-            BindingContext = new LoginViewModel();
+            BindingContext ??= DependencyService.Get<LoginViewModel>();
         }
     }
 }

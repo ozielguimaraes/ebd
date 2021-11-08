@@ -1,7 +1,5 @@
-﻿using System;
-using System.ComponentModel;
+﻿using Ebd.Mobile.ViewModels;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace Ebd.Mobile.Views
 {
@@ -10,6 +8,7 @@ namespace Ebd.Mobile.Views
         public AboutPage()
         {
             InitializeComponent();
+            BindingContext = DependencyService.Get<AboutViewModel>();
         }
     }
 }

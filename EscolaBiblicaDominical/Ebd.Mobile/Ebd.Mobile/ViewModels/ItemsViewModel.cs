@@ -1,4 +1,5 @@
 ﻿using Ebd.Mobile.Models;
+using Ebd.Mobile.Services.Interfaces;
 using Ebd.Mobile.Views;
 using System;
 using System.Collections.ObjectModel;
@@ -17,7 +18,7 @@ namespace Ebd.Mobile.ViewModels
         public Command AddItemCommand { get; }
         public Command<Item> ItemTapped { get; }
 
-        public ItemsViewModel()
+        public ItemsViewModel(IDiagnosticService diagnosticService, IDialogService dialogService, ILoggerService logger)// : base(diagnosticService, dialogService, logger)
         {
             Title = "Browse";
             Items = new ObservableCollection<Item>();

@@ -6,6 +6,6 @@ namespace Ebd.Mobile.Services.Interfaces
 {
     public interface IAlunoService
     {
-        Task<IEnumerable<AlunoResponse>> ObterTodosAsync();
+        Task<IEnumerable<AlunoResponse>> ObterPorTurmaIdAsync(int turmaId);
     }
 }

@@ -1,17 +1,26 @@
-﻿using Ebd.Mobile.Views.Aluno;
+﻿using Ebd.Mobile.Services.Interfaces;
+using Ebd.Mobile.Views;
+using Ebd.Mobile.Views.Aluno;
+using MvvmHelpers.Commands;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace Ebd.Mobile.ViewModels
 {
     public class HomeViewModel : BaseViewModel
     {
-        public Command GoToAlunoPageCommand { get; }
+        //public HomeViewModel(IDiagnosticService diagnosticService, IDialogService dialogService, ILoggerService logger) //: base(diagnosticService, dialogService, logger)
+        //{
+        //    GoToAlunoPageCommand = new Command(async () => await ExecuteGoToAlunoPageCommand());
+        //}
 
-        public HomeViewModel()
-        {
-            GoToAlunoPageCommand = new Command(async () => await ExecuteGoToAlunoPageCommand());
-        }
+        private readonly AsyncCommand _goToAlunoPageCommand;
+        public AsyncCommand GoToAlunoPageCommand
+            => _goToAlunoPageCommand
+            ?? new AsyncCommand(
+                execute: ExecuteGoToAlunoPageCommand,
+                onException: CommandOnException);
 
         private async Task ExecuteGoToAlunoPageCommand()
         {

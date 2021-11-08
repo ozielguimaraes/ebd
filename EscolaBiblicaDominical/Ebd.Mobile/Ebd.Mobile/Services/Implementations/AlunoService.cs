@@ -10,13 +10,15 @@ namespace Ebd.Mobile.Services.Implementations
 {
     public class AlunoService : ApiService, IAlunoService
     {
+        private const string PathToService = "aluno";
+
         public AlunoService(INetworkService networkService) : base(networkService)
         {
         }
 
-        public async Task<IEnumerable<AlunoResponse>> ObterTodosAsync()
+        public async Task<IEnumerable<AlunoResponse>> ObterPorTurmaIdAsync(int turmaId)
         {
-            var response = await GetAndRetry<IEnumerable<AlunoResponse>>(uri: new Uri("aluno"), retryCount: DefaultRetryCount, OnRetry);
+            var response = await GetAndRetry<IEnumerable<AlunoResponse>>($"{PathToService}/turma/{turmaId}", retryCount: DefaultRetryCount, OnRetry);
 
             return response;
         }

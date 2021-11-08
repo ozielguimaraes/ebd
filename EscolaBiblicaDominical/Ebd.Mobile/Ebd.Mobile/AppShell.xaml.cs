@@ -1,7 +1,6 @@
-﻿using Ebd.Mobile.ViewModels;
-using Ebd.Mobile.Views;
+﻿using Ebd.Mobile.Views;
+using Ebd.Mobile.Views.Aluno;
 using System;
-using System.Collections.Generic;
 using Xamarin.Forms;
 
 namespace Ebd.Mobile
@@ -13,6 +12,8 @@ namespace Ebd.Mobile
             InitializeComponent();
             Routing.RegisterRoute(nameof(ItemDetailPage), typeof(ItemDetailPage));
             Routing.RegisterRoute(nameof(NewItemPage), typeof(NewItemPage));
+            Routing.RegisterRoute(nameof(HomePage), typeof(HomePage));
+            Routing.RegisterRoute(nameof(ListaAlunoPage), typeof(ListaAlunoPage));
         }
 
         private async void OnMenuItemClicked(object sender, EventArgs e)
