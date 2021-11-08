@@ -14,7 +14,7 @@
                         TitleColor="{StaticResource Primary}"
                         ItemsSource="{Binding Turmas}"
                         SelectedItem="{Binding TurmaSelecionada}"
-                        ItemDisplayBinding="{Binding TurmaSelecionada.Nome}"/>
+                        ItemDisplayBinding="{Binding FaixaIdadeNome}"/>
                 
                 <StackLayout Margin="0,16,0,0" BindableLayout.ItemsSource="{Binding Alunos}">
                     <BindableLayout.ItemTemplate>

@@ -39,13 +39,6 @@ namespace Ebd.Mobile.ViewModels.Aluno
         //    set => SetProperty(ref alunos, value);
         //}
 
-        private int turmaId;
-        public int TurmaId
-        {
-            get => turmaId;
-            set => SetProperty(ref turmaId, value);
-        }
-
         public ObservableCollection<AlunoResponse> Alunos { get; private set; } = new ObservableCollection<AlunoResponse>();
         public ObservableCollection<TurmaResponse> Turmas { get; private set; } = new ObservableCollection<TurmaResponse>();
 
@@ -55,10 +48,11 @@ namespace Ebd.Mobile.ViewModels.Aluno
             get => turmaSelecionada;
             set
             {
-                if (turmaSelecionada != value)
+                if (!value.Equals(turmaSelecionada))
+                {
+                    SetProperty(ref turmaSelecionada, value);
                     CarregarListaAlunosCommand.ExecuteAsync(true).SafeFireAndForget();
-
-                SetProperty(ref turmaSelecionada, value);
+                }
             }
         }
 
@@ -70,7 +64,7 @@ namespace Ebd.Mobile.ViewModels.Aluno
                 canExecute: CanExecuteCarregarListaAlunosCommand,
                 onException: CommandOnException);
 
-        private bool CanExecuteCarregarListaAlunosCommand(object canExecute) => !IsBusy;
+        private bool CanExecuteCarregarListaAlunosCommand(object canExecute) => !IsBusy && TurmaSelecionada is not null;
 
         public override Task Initialize(object args)
         {
@@ -132,7 +126,7 @@ namespace Ebd.Mobile.ViewModels.Aluno
             {
                 IsBusy = true;
                 CarregarListaAlunosCommand.RaiseCanExecuteChanged();
-                var alunos = await _alunoService.ObterPorTurmaIdAsync(TurmaId);
+                var alunos = await _alunoService.ObterPorTurmaIdAsync(TurmaSelecionada.TurmaId);
                 Alunos.Clear();
                 foreach (var item in alunos)
                 {
