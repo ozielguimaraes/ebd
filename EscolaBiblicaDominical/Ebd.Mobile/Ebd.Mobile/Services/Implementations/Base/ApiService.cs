@@ -1,6 +1,8 @@
 ﻿using Ebd.Mobile.Constants;
+using Ebd.Mobile.Services.Exceptions;
 using Ebd.Mobile.Services.Implementations.Logger;
 using Ebd.Mobile.Services.Interfaces;
+using Ebd.Mobile.Services.Responses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +20,7 @@ namespace Ebd.Mobile.Services.Implementations.Base
         private const string AuthenticationScheme = "Bearer";
         private readonly JsonSerializerOptions _jsonSerializerOptions;
         private readonly INetworkService _networkService;
-        internal const int DefaultRetryCount = 2;
+        internal const int DefaultRetryCount = 1;
         protected readonly HttpClient HttpClient;
 
         public ApiService(INetworkService networkService)
@@ -36,21 +38,29 @@ namespace Ebd.Mobile.Services.Implementations.Base
             _networkService = networkService;
         }
 
-        public async Task<T> GetAndRetry<T>(string requestUri, int retryCount, Func<Exception, int, Task> onRetry = null, string accessToken = null) where T : class
+        public async Task<BaseResponse<T>> GetAndRetry<T>(string requestUri, int retryCount, Func<Exception, int, Task> onRetry = null, string accessToken = null) where T : class
         {
             TryAddAuthorization(accessToken);
-            var func = new Func<Task<T>>(() => ProcessGetRequest<T>(requestUri));
-            return await _networkService.Retry<T>(func, retryCount, onRetry);
+            var func = new Func<Task<BaseResponse<T>>>(() => ProcessGetRequest<T>(requestUri));
+            return await _networkService.Retry(func, retryCount, onRetry);
         }
 
-        public async Task<T> GetAndRetry<T>(string requestUri, Func<int, TimeSpan> sleepDurationProvider, int retryCount, Func<Exception, TimeSpan, Task> onWaitAndRetry = null, string accessToken = null) where T : class
+        public async Task<BaseResponse<T>> GetAndRetry<T>(string requestUri, Func<int, TimeSpan> sleepDurationProvider, int retryCount, Func<Exception, TimeSpan, Task> onWaitAndRetry = null, string accessToken = null) where T : class
         {
             TryAddAuthorization(accessToken);
-            var func = new Func<Task<T>>(() => ProcessGetRequest<T>(requestUri));
-            return await _networkService.WaitAndRetry<T>(func, sleepDurationProvider, retryCount, onWaitAndRetry);
+            var func = new Func<Task<BaseResponse<T>>>(() => ProcessGetRequest<T>(requestUri));
+            return await _networkService.WaitAndRetry(func, sleepDurationProvider, retryCount, onWaitAndRetry);
         }
 
-        private async Task<T> ProcessGetRequest<T>(string requestUri) where T : class
+        protected virtual Task OnRetry(Exception e, int retryCount)
+        {
+            return Task.Factory.StartNew(() =>
+            {
+                LoggerService.Current.LogWarning($"Retry - Attempt #{retryCount} to get classes.");
+            });
+        }
+
+        private async Task<BaseResponse<T>> ProcessGetRequest<T>(string requestUri) where T : class
         {
             using HttpResponseMessage responseMessage = await HttpClient.GetAsync(requestUri);
             var responseContent = await responseMessage.Content.ReadAsStringAsync();
@@ -60,9 +70,10 @@ namespace Ebd.Mobile.Services.Implementations.Base
                 if (!responseMessage.IsSuccessStatusCode)
                     ExceptionFromHttpStatusCode(responseMessage, responseContent);
 
-                if (string.IsNullOrWhiteSpace(responseContent)) return default;
+                if (string.IsNullOrWhiteSpace(responseContent))
+                    return new BaseResponse<T>(new EmptyResponseException());
 
-                return JsonSerializer.Deserialize<T>(responseContent, _jsonSerializerOptions);
+                return new BaseResponse<T>(JsonSerializer.Deserialize<T>(responseContent, _jsonSerializerOptions));
             }
             catch (Exception ex)
             {
@@ -74,7 +85,7 @@ namespace Ebd.Mobile.Services.Implementations.Base
                         { "isSuccessStatusCode", responseMessage.IsSuccessStatusCode }
                     });
 
-                return default;
+                return new BaseResponse<T>(ex);
             }
         }
 

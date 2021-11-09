@@ -17,6 +17,7 @@ namespace Ebd.Mobile.Services.Responses
         }
 
         public bool IsSuccess { get; private set; }
+        public bool HasError => !IsSuccess;
         public T Data { get; private set; }
 
         public Exception Exception { get; private set; }

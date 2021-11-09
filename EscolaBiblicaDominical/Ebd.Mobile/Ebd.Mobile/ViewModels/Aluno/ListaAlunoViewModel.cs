@@ -70,12 +70,25 @@ namespace Ebd.Mobile.ViewModels.Aluno
                 IsBusy = true;
                 MainThread.BeginInvokeOnMainThread(() =>
                 {
-                    DialogService.ShowLoading();
+                    DialogService.ShowLoading("Buscando as turmas...");
                 });
 
-                var turmas = await _turmaService.ObterTodasAsync();
+                var response = await _turmaService.ObterTodasAsync();
+
+                if (response.HasError)
+                {
+                    MainThread.BeginInvokeOnMainThread(() =>
+                    {
+                        DialogService.HideLoading();
+                    });
+
+                    IsBusy = false;
+                    await DialogService.DisplayAlert("Oops", response.Exception.Message);
+                    return;
+                }
+
                 Turmas.Clear();
-                foreach (var item in turmas)
+                foreach (var item in response.Data)
                 {
                     MainThread.BeginInvokeOnMainThread(() => Turmas.Add(item));
                 }
@@ -122,9 +135,21 @@ namespace Ebd.Mobile.ViewModels.Aluno
                     DialogService.ShowLoading("Buscando alunos da turma...");
                 });
                 IsBusy = true;
-                var alunos = await _alunoService.ObterPorTurmaIdAsync(TurmaSelecionada.TurmaId);
+                var response = await _alunoService.ObterPorTurmaIdAsync(TurmaSelecionada.TurmaId);
+                if (response.HasError)
+                {
+                    MainThread.BeginInvokeOnMainThread(() =>
+                    {
+                        DialogService.HideLoading();
+                    });
+
+                    IsBusy = false;
+                    await DialogService.DisplayAlert("Oops", response.Exception.Message);
+                    return;
+                }
+
                 Alunos.Clear();
-                foreach (var item in alunos)
+                foreach (var item in response.Data)
                 {
                     MainThread.BeginInvokeOnMainThread(() => Alunos.Add(item));
                 }
