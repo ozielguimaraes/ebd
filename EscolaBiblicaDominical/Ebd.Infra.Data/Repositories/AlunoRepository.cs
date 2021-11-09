@@ -36,6 +36,7 @@ namespace Ebd.Infra.Data.Repositories
         public async Task<ICollection<Aluno>> ObterPorTurma(int turmaId)
         {
             return await DbSet
+                .Include(x => x.Pessoa)
                 .Where(x => x.TurmaId == turmaId)
                 .ToListAsync();
         }
