@@ -1,4 +1,5 @@
-﻿using Ebd.Mobile.Services.Implementations.Log;
+﻿using Acr.UserDialogs;
+using Ebd.Mobile.Services.Implementations.Log;
 using Ebd.Mobile.Services.Interfaces;
 using System;
 using System.Threading.Tasks;
@@ -31,5 +32,13 @@ namespace Ebd.Mobile.Services.Implementations.Dialog
                 })
             };
         }
+
+        public void ShowLoading(string message)
+            => UserDialogs.Instance.ShowLoading(
+                title: message,
+                maskType: MaskType.Black);
+
+        public void HideLoading()
+            => UserDialogs.Instance.HideLoading();
     }
 }

@@ -26,13 +26,12 @@ namespace Ebd.Mobile.ViewModels.Aluno
         public ListaAlunoViewModel(/*IAlunoService alunoService, ITurmaService turmaService*/)
         {
             Title = "Alunos";
-            IsBusy = true;
             //_alunoService = alunoService;
             //_turmaService = turmaService;
         }
 
 
-        //private ObservableCollection<AlunoResponse> alunos;
+        //private ObservableCollection<AlunoResponse> alunos = new();
         //public ObservableCollection<AlunoResponse> Alunos
         //{
         //    get => alunos;
@@ -48,11 +47,11 @@ namespace Ebd.Mobile.ViewModels.Aluno
             get => turmaSelecionada;
             set
             {
-                if (!value.Equals(turmaSelecionada))
-                {
-                    SetProperty(ref turmaSelecionada, value);
-                    CarregarListaAlunosCommand.ExecuteAsync(true).SafeFireAndForget();
-                }
+                var turmaSelecionadaAnteriormente = turmaSelecionada;
+                SetProperty(ref turmaSelecionada, value);
+
+                if (!turmaSelecionada.Equals(turmaSelecionadaAnteriormente))
+                    CarregarListaAlunosCommand.ExecuteAsync(true).ConfigureAwait(true);
             }
         }
 
@@ -61,34 +60,19 @@ namespace Ebd.Mobile.ViewModels.Aluno
             => _carregarListaAlunosCommand
             ?? new AsyncCommand<bool>(
                 execute: ExecuteCarregarListaAlunosCommand,
-                canExecute: CanExecuteCarregarListaAlunosCommand,
                 onException: CommandOnException);
 
-        private bool CanExecuteCarregarListaAlunosCommand(object canExecute) => !IsBusy && TurmaSelecionada is not null;
-
-        public override Task Initialize(object args)
-        {
-            MainThread.BeginInvokeOnMainThread(async () =>
-            {
-                try
-                {
-                    await CarregarTurmas();
-                }
-                catch (Exception ex)
-                {
-                    Logger.LogError("Erro ao inicializar tela de alunos", ex);
-                }
-            });
-
-            return base.Initialize(args);
-        }
-
-        private async Task CarregarTurmas()
+        public override async Task Initialize(object args)
         {
             if (IsBusy) return;
             try
             {
                 IsBusy = true;
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    DialogService.ShowLoading();
+                });
+
                 var turmas = await _turmaService.ObterTodasAsync();
                 Turmas.Clear();
                 foreach (var item in turmas)
@@ -111,10 +95,19 @@ namespace Ebd.Mobile.ViewModels.Aluno
                 Logger.LogError("Error to load list of classes", ex);
                 DiagnosticService.TrackError(ex);
                 await Shell.Current.GoToAsync("..");
-                await DialogService.DisplayAlert(ex);
+
+                MainThread.BeginInvokeOnMainThread(async () =>
+                {
+                    await DialogService.DisplayAlert(ex);
+                });
             }
             finally
             {
+                MainThread.BeginInvokeOnMainThread(() =>
+               {
+                   DialogService.HideLoading();
+               });
+
                 IsBusy = false;
             }
         }
@@ -124,8 +117,11 @@ namespace Ebd.Mobile.ViewModels.Aluno
             if (IsBusy && !force) return;
             try
             {
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    DialogService.ShowLoading("Buscando alunos da turma...");
+                });
                 IsBusy = true;
-                CarregarListaAlunosCommand.RaiseCanExecuteChanged();
                 var alunos = await _alunoService.ObterPorTurmaIdAsync(TurmaSelecionada.TurmaId);
                 Alunos.Clear();
                 foreach (var item in alunos)
@@ -142,8 +138,11 @@ namespace Ebd.Mobile.ViewModels.Aluno
             }
             finally
             {
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    DialogService.HideLoading();
+                });
                 IsBusy = false;
-                CarregarListaAlunosCommand.RaiseCanExecuteChanged();
             }
         }
     }

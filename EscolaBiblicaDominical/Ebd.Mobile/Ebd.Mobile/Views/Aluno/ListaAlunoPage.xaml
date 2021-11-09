@@ -2,10 +2,16 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              xmlns:vm="clr-namespace:Ebd.Mobile.ViewModels.Aluno" 
-             xmlns:response="clr-namespace:Ebd.Mobile.Services.Responses.Aluno"
+             xmlns:response="clr-namespace:Ebd.Mobile.Services.Responses.Aluno" 
+             xmlns:converters="clr-namespace:Ebd.Mobile.Converters"
              x:Class="Ebd.Mobile.Views.Aluno.ListaAlunoPage"
              Title="{Binding Title}"
              x:DataType="vm:ListaAlunoViewModel">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:IsNotNullConverter x:Key="IsNotNull" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.Content>
         <ScrollView Margin="8">
             <StackLayout>
@@ -15,9 +21,16 @@
                         ItemsSource="{Binding Turmas}"
                         SelectedItem="{Binding TurmaSelecionada}"
                         ItemDisplayBinding="{Binding FaixaIdadeNome}"/>
-                
-                <StackLayout Margin="0,16,0,0" BindableLayout.ItemsSource="{Binding Alunos}">
-                    <BindableLayout.ItemTemplate>
+
+                <CollectionView ItemsSource="{Binding Alunos}"
+                                Margin="0,16,0,0">
+                    <CollectionView.EmptyView>
+                        <Label Text="Nenhum aluno encontrado para a turma."
+                               FontSize="Subtitle"
+                               HorizontalTextAlignment="Center"
+                               IsVisible="{Binding TurmaSelecionada, Converter={StaticResource IsNotNull}}" />
+                    </CollectionView.EmptyView>
+                    <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="response:AlunoResponse">
                             <StackLayout Orientation="Horizontal"
                                      BackgroundColor="#F5f5f5">
@@ -31,8 +44,8 @@
                                 <Image Source="icon_feed.png" />
                             </StackLayout>
                         </DataTemplate>
-                    </BindableLayout.ItemTemplate>
-                </StackLayout>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

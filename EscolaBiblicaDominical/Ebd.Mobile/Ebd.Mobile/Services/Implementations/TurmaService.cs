@@ -3,7 +3,6 @@ using Ebd.Mobile.Services.Interfaces;
 using Ebd.Mobile.Services.Responses.Turma;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Ebd.Mobile.Services.Implementations
