@@ -5,6 +5,7 @@ namespace Ebd.Mobile.Services.Interfaces
 {
     public interface INetworkService
     {
+        Task<bool> HasInternetConnection();
         Task<T> Retry<T>(Func<Task<T>> func);
         Task<T> Retry<T>(Func<Task<T>> func, int retryCount);
         Task<T> Retry<T>(Func<Task<T>> func, int retryCount, Func<Exception, int, Task> onRetry);

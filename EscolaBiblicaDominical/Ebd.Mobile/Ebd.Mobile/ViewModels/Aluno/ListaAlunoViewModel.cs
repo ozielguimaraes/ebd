@@ -107,10 +107,10 @@ namespace Ebd.Mobile.ViewModels.Aluno
             {
                 Logger.LogError("Error to load list of classes", ex);
                 DiagnosticService.TrackError(ex);
-                await Shell.Current.GoToAsync("..");
 
                 MainThread.BeginInvokeOnMainThread(async () =>
                 {
+                    await Shell.Current.GoToAsync("..");
                     await DialogService.DisplayAlert(ex);
                 });
             }
@@ -158,8 +158,11 @@ namespace Ebd.Mobile.ViewModels.Aluno
             {
                 Logger.LogError("Error to load list of students", ex, new Dictionary<string, object> { { nameof(force), force } });
                 DiagnosticService.TrackError(ex);
-                await Shell.Current.GoToAsync("..");
-                await DialogService.DisplayAlert(ex);
+                MainThread.BeginInvokeOnMainThread(async () =>
+                {
+                    await Shell.Current.GoToAsync("..");
+                    await DialogService.DisplayAlert(ex);
+                });
             }
             finally
             {

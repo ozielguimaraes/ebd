@@ -40,6 +40,9 @@ namespace Ebd.Mobile.Services.Implementations.Base
 
         public async Task<BaseResponse<T>> GetAndRetry<T>(string requestUri, int retryCount, Func<Exception, int, Task> onRetry = null, string accessToken = null) where T : class
         {
+            if (! await _networkService.HasInternetConnection()) 
+                return new BaseResponse<T>(new NoInternetConnectionException());
+
             TryAddAuthorization(accessToken);
             var func = new Func<Task<BaseResponse<T>>>(() => ProcessGetRequest<T>(requestUri));
             return await _networkService.Retry(func, retryCount, onRetry);
@@ -47,6 +50,9 @@ namespace Ebd.Mobile.Services.Implementations.Base
 
         public async Task<BaseResponse<T>> GetAndRetry<T>(string requestUri, Func<int, TimeSpan> sleepDurationProvider, int retryCount, Func<Exception, TimeSpan, Task> onWaitAndRetry = null, string accessToken = null) where T : class
         {
+            if (!await _networkService.HasInternetConnection())
+                return new BaseResponse<T>(new NoInternetConnectionException());
+
             TryAddAuthorization(accessToken);
             var func = new Func<Task<BaseResponse<T>>>(() => ProcessGetRequest<T>(requestUri));
             return await _networkService.WaitAndRetry(func, sleepDurationProvider, retryCount, onWaitAndRetry);

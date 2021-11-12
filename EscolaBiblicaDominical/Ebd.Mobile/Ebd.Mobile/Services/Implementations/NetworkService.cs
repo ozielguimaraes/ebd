@@ -3,11 +3,15 @@ using Ebd.Mobile.Services.Interfaces;
 using Polly;
 using System;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 
 namespace Ebd.Mobile.Services.Implementations
 {
     public class NetworkService : INetworkService
     {
+        public async Task<bool> HasInternetConnection()
+        => await Task.FromResult(Connectivity.NetworkAccess == NetworkAccess.Internet);
+
         public async Task<T> Retry<T>(Func<Task<T>> func)
         {
             return await RetryInner(func);
