@@ -1,19 +1,19 @@
-﻿using System.Threading.Tasks;
-using System.Collections.ObjectModel;
-using Ebd.Mobile.Services.Responses.Aluno;
+﻿using Ebd.Mobile.Services.Implementations;
 using Ebd.Mobile.Services.Interfaces;
-using System;
-using Xamarin.Essentials;
-using MvvmHelpers.Commands;
-using MvvmHelpers;
-using System.Collections.Generic;
-using Ebd.Mobile.Services.Implementations;
-using Xamarin.Forms;
+using Ebd.Mobile.Services.Responses.Aluno;
 using Ebd.Mobile.Services.Responses.Turma;
+using Ebd.Mobile.Views.Chamada;
+using MvvmHelpers.Commands;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Threading.Tasks;
+using Xamarin.Essentials;
+using Xamarin.Forms;
 
-namespace Ebd.Mobile.ViewModels.Aluno
+namespace Ebd.Mobile.ViewModels.Chamada
 {
-    public class ListaAlunoViewModel : BaseViewModel
+    internal class EscolherTurmaViewModel : BaseViewModel
     {
         private static readonly Lazy<IAlunoService> alunoServiceLazy = new(() => new AlunoService(DependencyService.Get<INetworkService>()));
         private readonly IAlunoService _alunoService = alunoServiceLazy.Value;
@@ -21,13 +21,10 @@ namespace Ebd.Mobile.ViewModels.Aluno
         private static readonly Lazy<ITurmaService> turmaServiceLazy = new(() => new TurmaService(DependencyService.Get<INetworkService>()));
         private readonly ITurmaService _turmaService = turmaServiceLazy.Value;
 
-        public ListaAlunoViewModel()
+        public EscolherTurmaViewModel()
         {
-            Title = "Alunos";
+            Title = "Efetuar chamada";
         }
-
-        public ObservableCollection<AlunoResponse> Alunos { get; private set; } = new ObservableCollection<AlunoResponse>();
-        public ObservableCollection<TurmaResponse> Turmas { get; private set; } = new ObservableCollection<TurmaResponse>();
 
         private TurmaResponse turmaSelecionada;
         public TurmaResponse TurmaSelecionada
@@ -38,16 +35,42 @@ namespace Ebd.Mobile.ViewModels.Aluno
                 var turmaSelecionadaAnteriormente = turmaSelecionada;
                 SetProperty(ref turmaSelecionada, value);
 
+                PodeIniciarChamada = turmaSelecionada is not null;
+
                 if (!turmaSelecionada.Equals(turmaSelecionadaAnteriormente))
                     CarregarListaAlunosCommand.ExecuteAsync(true).ConfigureAwait(true);
             }
         }
+
+        private AlunoResponse aluno;
+        public AlunoResponse Aluno
+        {
+            get => aluno;
+            set => SetProperty(ref aluno, value);
+        }
+
+        private bool podeIniciarChamada = false;
+        public bool PodeIniciarChamada
+        {
+            get => podeIniciarChamada;
+            set => SetProperty(ref podeIniciarChamada, value);
+        }
+
+        public ObservableCollection<TurmaResponse> Turmas { get; private set; } = new ObservableCollection<TurmaResponse>();
+        public ObservableCollection<AlunoResponse> Alunos { get; private set; } = new ObservableCollection<AlunoResponse>();
 
         private readonly AsyncCommand<bool> _carregarListaAlunosCommand;
         public AsyncCommand<bool> CarregarListaAlunosCommand
             => _carregarListaAlunosCommand
             ?? new AsyncCommand<bool>(
                 execute: ExecuteCarregarListaAlunosCommand,
+                onException: CommandOnException);
+
+        private readonly AsyncCommand<bool> _iniciarChamadaCommand;
+        public AsyncCommand<bool> IniciarChamadaCommand
+            => _iniciarChamadaCommand
+            ?? new AsyncCommand<bool>(
+                execute: ExecuteIniciarChamadaCommand,
                 onException: CommandOnException);
 
         public override async Task Initialize(object args)
@@ -105,9 +128,9 @@ namespace Ebd.Mobile.ViewModels.Aluno
             finally
             {
                 MainThread.BeginInvokeOnMainThread(() =>
-               {
-                   DialogService.HideLoading();
-               });
+                {
+                    DialogService.HideLoading();
+                });
 
                 IsBusy = false;
             }
@@ -141,10 +164,45 @@ namespace Ebd.Mobile.ViewModels.Aluno
                 {
                     MainThread.BeginInvokeOnMainThread(() => Alunos.Add(item));
                 }
+
+                Aluno = Alunos[0];
             }
             catch (Exception ex)
             {
                 Logger.LogError("Error to load list of students", ex, new Dictionary<string, object> { { nameof(force), force } });
+                DiagnosticService.TrackError(ex);
+                MainThread.BeginInvokeOnMainThread(async () =>
+                {
+                    await Shell.Current.GoToAsync("..");
+                    await DialogService.DisplayAlert(ex);
+                });
+            }
+            finally
+            {
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    DialogService.HideLoading();
+                });
+                IsBusy = false;
+            }
+        }
+
+        private async Task ExecuteIniciarChamadaCommand(bool force)
+        {
+            if (IsBusy && !force) return;
+            try
+            {
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    DialogService.ShowLoading("Buscando alunos da turma...");
+                });
+                IsBusy = true;
+
+                await Shell.Current.GoToAsync(nameof(EfetuarChamadaPage));
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError("Error to start class presenc", ex, new Dictionary<string, object> { { nameof(force), force } });
                 DiagnosticService.TrackError(ex);
                 MainThread.BeginInvokeOnMainThread(async () =>
                 {

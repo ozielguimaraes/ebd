@@ -1,16 +1,30 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"             
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-             xmlns:chamada="clr-namespace:Ebd.Mobile.ViewModels.Chamada"
              x:Class="Ebd.Mobile.Views.Chamada.EfetuarChamadaPage"
-             Title="Efetuar chamada"
-             x:DataType="chamada:EfetuarChamadaViewModel">
+             xmlns:vm="clr-namespace:Ebd.Mobile.ViewModels.Chamada" 
+             xmlns:response="clr-namespace:Ebd.Mobile.Services.Responses.Aluno" 
+             xmlns:converters="clr-namespace:Ebd.Mobile.Converters"
+             BackgroundColor="#F5f5f5"
+             Title="{Binding Title}"
+             x:DataType="vm:EfetuarChamadaViewModel">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:IsNotNullConverter x:Key="IsNotNull" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="{Binding Aluno}" FontSize="Subtitle" />
+        <ScrollView Margin="8">
             <StackLayout>
+                <Label Text="Turma" />
+                <Picker Title="Selecione uma turma"
+                        TitleColor="{StaticResource Primary}"
+                        ItemsSource="{Binding Turmas}"
+                        SelectedItem="{Binding TurmaSelecionada}"
+                        ItemDisplayBinding="{Binding FaixaIdadeNome}"/>
 
+                <Button Text="Iniciar chamada"></Button>
             </StackLayout>
-        </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>
