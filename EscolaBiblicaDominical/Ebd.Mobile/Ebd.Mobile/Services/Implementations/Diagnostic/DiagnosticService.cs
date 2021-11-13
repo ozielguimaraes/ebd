@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using Xamarin.Forms;
 
-namespace Ebd.Mobile.Services.Implementations.Log
+namespace Ebd.Mobile.Services.Implementations.Diagnostic
 {
     internal sealed class DiagnosticService : IDiagnosticService
     {

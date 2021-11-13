@@ -1,7 +1,7 @@
 ﻿using Ebd.Mobile.Services;
 using Ebd.Mobile.Services.Implementations;
+using Ebd.Mobile.Services.Implementations.Diagnostic;
 using Ebd.Mobile.Services.Implementations.Dialog;
-using Ebd.Mobile.Services.Implementations.Log;
 using Ebd.Mobile.Services.Implementations.Logger;
 using Ebd.Mobile.Services.Interfaces;
 using Ebd.Mobile.ViewModels;
