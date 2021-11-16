@@ -189,7 +189,8 @@ namespace Ebd.Mobile.ViewModels.Chamada
             try
             {
                 IsBusy = true;
-                await Shell.Current.GoToAsync($"{nameof(EfetuarChamadaPage)}?LicaoId=8,Content={JsonSerializer.Serialize(TurmaSelecionada)}&AlunosTurma={JsonSerializer.Serialize(Alunos)}");
+                var licaoId = 1;//TODO Get from service..
+                await Shell.Current.GoToAsync($"{nameof(EfetuarChamadaPage)}?Licao={licaoId}&Content={JsonSerializer.Serialize(TurmaSelecionada)}&AlunosTurma={JsonSerializer.Serialize(Alunos)}");
             }
             catch (Exception ex)
             {

@@ -18,7 +18,7 @@ using Xamarin.Forms;
 
 namespace Ebd.Mobile.ViewModels.Chamada
 {
-    [QueryProperty(nameof(LicaoId), nameof(LicaoId))]
+    [QueryProperty(nameof(Licao), nameof(Licao))]
     [QueryProperty(nameof(Turma), nameof(Turma))]
     [QueryProperty(nameof(AlunosTurma), nameof(AlunosTurma))]
     internal class EfetuarChamadaViewModel : BaseViewModel
@@ -41,7 +41,7 @@ namespace Ebd.Mobile.ViewModels.Chamada
             Title = "Efetuar chamada";
         }
 
-        public int LicaoSelecionadaId { get; set; }
+        public int LicaoId { get; set; }
         public List<EfetuarChamada> AlunosParaEfetuarChamada { get; private set; } = new List<EfetuarChamada>();
         public ObservableCollection<RealizarAvaliacao> Avaliacoes { get; private set; } = new ObservableCollection<RealizarAvaliacao>();
 
@@ -57,14 +57,14 @@ namespace Ebd.Mobile.ViewModels.Chamada
             }
         }
 
-        private string licaoId;
-        public string LicaoId
+        private string licao;
+        public string Licao
         {
-            get => licaoId;
+            get => licao;
             set
             {
                 var content = Uri.UnescapeDataString(value);
-                SetProperty(ref licaoId, value);
+                SetProperty(ref licao, value);
                 SetLicaoId(content);
             }
         }
@@ -277,7 +277,7 @@ namespace Ebd.Mobile.ViewModels.Chamada
         {
             var request = new ChamadaRequest(
                 alunoId: AlunoParaEfetuarChamada.Aluno.AlunoId,
-                licaoId: LicaoSelecionadaId,
+                licaoId: LicaoId,
                 estavaPresente: EstaPresente,
                 avaliacoes: ObterIdAvaliacoesRealizadas()
                 );
@@ -289,7 +289,7 @@ namespace Ebd.Mobile.ViewModels.Chamada
 
         private void SetLicaoId(string content)
         {
-            LicaoSelecionadaId = int.Parse(content);
+            LicaoId = int.Parse(content);
         }
 
         private void SetTurmaSelecionada(string content)

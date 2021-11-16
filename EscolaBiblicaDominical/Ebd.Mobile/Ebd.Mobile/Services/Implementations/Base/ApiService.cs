@@ -19,6 +19,7 @@ namespace Ebd.Mobile.Services.Implementations.Base
     public abstract class ApiService : IApiService
     {
         private const string AuthenticationScheme = "Bearer";
+        private const string ApplicationJson = "application/json";
         private readonly JsonSerializerOptions _jsonSerializerOptions;
         private readonly INetworkService _networkService;
         internal const int DefaultRetryCount = 1;
@@ -30,7 +31,7 @@ namespace Ebd.Mobile.Services.Implementations.Base
             {
                 BaseAddress = new Uri(AppConstant.BaseUrl)
             };
-            HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(ApplicationJson));
 
             _jsonSerializerOptions = new JsonSerializerOptions
             {
@@ -127,7 +128,7 @@ namespace Ebd.Mobile.Services.Implementations.Base
         {
             using HttpResponseMessage responseMessage = await HttpClient.PostAsync(
                 requestUri,
-                new StringContent(JsonSerializer.Serialize(request), Encoding.UTF8)
+                new StringContent(JsonSerializer.Serialize(request), Encoding.UTF8, ApplicationJson)
                 );
             var responseContent = await responseMessage.Content.ReadAsStringAsync();
 
@@ -161,7 +162,7 @@ namespace Ebd.Mobile.Services.Implementations.Base
         {
             using HttpResponseMessage responseMessage = await HttpClient.PostAsync(
                 requestUri,
-                new StringContent(JsonSerializer.Serialize(request), Encoding.UTF8)
+                new StringContent(JsonSerializer.Serialize(request), Encoding.UTF8, ApplicationJson)
                 );
             var responseContent = await responseMessage.Content.ReadAsStringAsync();
 
