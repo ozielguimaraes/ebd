@@ -31,7 +31,10 @@ namespace Ebd.Mobile
             DependencyService.Register<IDialogService, DialogService>();
             DependencyService.Register<INetworkService, NetworkService>();
             DependencyService.Register<IAlunoService, AlunoService>();
+            DependencyService.Register<IAvaliacaoService, AvaliacaoService>();
+            DependencyService.Register<IChamadaService, ChamadaService>();
             DependencyService.Register<ITurmaService, TurmaService>();
+
             //ViewModels
             DependencyService.Register<HomeViewModel>();
             DependencyService.Register<ListaAlunoViewModel>();
@@ -41,6 +44,7 @@ namespace Ebd.Mobile
             DependencyService.Register<ItemDetailViewModel>();
             DependencyService.Register<AboutViewModel>();
             DependencyService.Register<EfetuarChamadaViewModel>();
+            DependencyService.Register<EscolherTurmaViewModel>();
         }
 
         protected override void OnStart()

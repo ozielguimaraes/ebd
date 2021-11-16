@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
@@ -29,6 +30,8 @@ namespace Ebd.Mobile.Services.Implementations.Base
             {
                 BaseAddress = new Uri(AppConstant.BaseUrl)
             };
+            HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
             _jsonSerializerOptions = new JsonSerializerOptions
             {
                 DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
@@ -40,12 +43,35 @@ namespace Ebd.Mobile.Services.Implementations.Base
 
         public async Task<BaseResponse<T>> GetAndRetry<T>(string requestUri, int retryCount, Func<Exception, int, Task> onRetry = null, string accessToken = null) where T : class
         {
-            if (! await _networkService.HasInternetConnection()) 
+            if (!await _networkService.HasInternetConnection())
                 return new BaseResponse<T>(new NoInternetConnectionException());
 
             TryAddAuthorization(accessToken);
             var func = new Func<Task<BaseResponse<T>>>(() => ProcessGetRequest<T>(requestUri));
             return await _networkService.Retry(func, retryCount, onRetry);
+        }
+
+        public async Task<EmptyResponse> PostAndRetry<TRequest>(string requestUri, TRequest request, Func<Exception, int, Task> onRetry = null, string accessToken = null)
+            where TRequest : class
+        {
+            if (!await _networkService.HasInternetConnection())
+                return new EmptyResponse(new NoInternetConnectionException());
+
+            TryAddAuthorization(accessToken);
+            var func = new Func<Task<EmptyResponse>>(() => ProcessPostRequest(requestUri, request));
+            return await _networkService.Retry(func, DefaultRetryCount, onRetry);
+        }
+
+        public async Task<BaseResponse<TResponse>> PostAndRetry<TRequest, TResponse>(string requestUri, TRequest request, Func<Exception, int, Task> onRetry = null, string accessToken = null)
+            where TRequest : class
+            where TResponse : class
+        {
+            if (!await _networkService.HasInternetConnection())
+                return new BaseResponse<TResponse>(new NoInternetConnectionException());
+
+            TryAddAuthorization(accessToken);
+            var func = new Func<Task<BaseResponse<TResponse>>>(() => ProcessPostRequest<TRequest, TResponse>(requestUri, request));
+            return await _networkService.Retry(func, DefaultRetryCount, onRetry);
         }
 
         public async Task<BaseResponse<T>> GetAndRetry<T>(string requestUri, Func<int, TimeSpan> sleepDurationProvider, int retryCount, Func<Exception, TimeSpan, Task> onWaitAndRetry = null, string accessToken = null) where T : class
@@ -92,6 +118,72 @@ namespace Ebd.Mobile.Services.Implementations.Base
                     });
 
                 return new BaseResponse<T>(ex);
+            }
+        }
+
+        private async Task<BaseResponse<TResponse>> ProcessPostRequest<TRequest, TResponse>(string requestUri, TRequest request)
+            where TResponse : class
+            where TRequest : class
+        {
+            using HttpResponseMessage responseMessage = await HttpClient.PostAsync(
+                requestUri,
+                new StringContent(JsonSerializer.Serialize(request), Encoding.UTF8)
+                );
+            var responseContent = await responseMessage.Content.ReadAsStringAsync();
+
+            try
+            {
+                if (!responseMessage.IsSuccessStatusCode)
+                    ExceptionFromHttpStatusCode(responseMessage, responseContent);
+
+                if (string.IsNullOrWhiteSpace(responseContent))
+                    return new BaseResponse<TResponse>(new EmptyResponseException());
+
+                return new BaseResponse<TResponse>(JsonSerializer.Deserialize<TResponse>(responseContent, _jsonSerializerOptions));
+            }
+            catch (Exception ex)
+            {
+                LoggerService.Current.LogError("Erro ao processar request", ex,
+                    new Dictionary<string, object> {
+                        { "requestUri", requestUri },
+                        { "requestBody", request },
+                        { "responseMessage", responseMessage },
+                        { "responseContent", responseContent },
+                        { "isSuccessStatusCode", responseMessage.IsSuccessStatusCode }
+                    });
+
+                return new BaseResponse<TResponse>(ex);
+            }
+        }
+
+        private async Task<EmptyResponse> ProcessPostRequest<TRequest>(string requestUri, TRequest request)
+            where TRequest : class
+        {
+            using HttpResponseMessage responseMessage = await HttpClient.PostAsync(
+                requestUri,
+                new StringContent(JsonSerializer.Serialize(request), Encoding.UTF8)
+                );
+            var responseContent = await responseMessage.Content.ReadAsStringAsync();
+
+            try
+            {
+                if (!responseMessage.IsSuccessStatusCode)
+                    ExceptionFromHttpStatusCode(responseMessage, responseContent);
+
+                return new EmptyResponse();
+            }
+            catch (Exception ex)
+            {
+                LoggerService.Current.LogError("Erro ao processar request", ex,
+                    new Dictionary<string, object> {
+                        { "requestUri", requestUri },
+                        { "requestBody", request },
+                        { "responseMessage", responseMessage },
+                        { "responseContent", responseContent },
+                        { "isSuccessStatusCode", responseMessage.IsSuccessStatusCode }
+                    });
+
+                return new EmptyResponse(ex);
             }
         }
 

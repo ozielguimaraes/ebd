@@ -7,6 +7,8 @@ using MvvmHelpers.Commands;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -23,7 +25,7 @@ namespace Ebd.Mobile.ViewModels.Chamada
 
         public EscolherTurmaViewModel()
         {
-            Title = "Efetuar chamada";
+            Title = "Escolher turma";
         }
 
         private TurmaResponse turmaSelecionada;
@@ -35,26 +37,17 @@ namespace Ebd.Mobile.ViewModels.Chamada
                 var turmaSelecionadaAnteriormente = turmaSelecionada;
                 SetProperty(ref turmaSelecionada, value);
 
-                PodeIniciarChamada = turmaSelecionada is not null;
-
-                if (!turmaSelecionada.Equals(turmaSelecionadaAnteriormente))
+                if (turmaSelecionada  is not null && !turmaSelecionada.Equals(turmaSelecionadaAnteriormente))
                     CarregarListaAlunosCommand.ExecuteAsync(true).ConfigureAwait(true);
             }
         }
 
-        private AlunoResponse aluno;
-        public AlunoResponse Aluno
-        {
-            get => aluno;
-            set => SetProperty(ref aluno, value);
-        }
-
-        private bool podeIniciarChamada = false;
-        public bool PodeIniciarChamada
-        {
-            get => podeIniciarChamada;
-            set => SetProperty(ref podeIniciarChamada, value);
-        }
+        //private bool podeIniciarChamada = false;
+        //public bool PodeIniciarChamada
+        //{
+        //    get => podeIniciarChamada;
+        //    set => SetProperty(ref podeIniciarChamada, value);
+        //}
 
         public ObservableCollection<TurmaResponse> Turmas { get; private set; } = new ObservableCollection<TurmaResponse>();
         public ObservableCollection<AlunoResponse> Alunos { get; private set; } = new ObservableCollection<AlunoResponse>();
@@ -66,10 +59,10 @@ namespace Ebd.Mobile.ViewModels.Chamada
                 execute: ExecuteCarregarListaAlunosCommand,
                 onException: CommandOnException);
 
-        private readonly AsyncCommand<bool> _iniciarChamadaCommand;
-        public AsyncCommand<bool> IniciarChamadaCommand
+        private readonly AsyncCommand _iniciarChamadaCommand;
+        public AsyncCommand IniciarChamadaCommand
             => _iniciarChamadaCommand
-            ?? new AsyncCommand<bool>(
+            ?? new AsyncCommand(
                 execute: ExecuteIniciarChamadaCommand,
                 onException: CommandOnException);
 
@@ -165,7 +158,10 @@ namespace Ebd.Mobile.ViewModels.Chamada
                     MainThread.BeginInvokeOnMainThread(() => Alunos.Add(item));
                 }
 
-                Aluno = Alunos[0];
+                //PodeIniciarChamada = Alunos.Any();
+
+                if (!Alunos.Any())
+                    await DialogService.DisplayAlert("Oops", "Nenhum aluno encontrado para a turma");
             }
             catch (Exception ex)
             {
@@ -187,26 +183,20 @@ namespace Ebd.Mobile.ViewModels.Chamada
             }
         }
 
-        private async Task ExecuteIniciarChamadaCommand(bool force)
+        private async Task ExecuteIniciarChamadaCommand()
         {
-            if (IsBusy && !force) return;
+            if (IsBusy) return;
             try
             {
-                MainThread.BeginInvokeOnMainThread(() =>
-                {
-                    DialogService.ShowLoading("Buscando alunos da turma...");
-                });
                 IsBusy = true;
-
-                await Shell.Current.GoToAsync(nameof(EfetuarChamadaPage));
+                await Shell.Current.GoToAsync($"{nameof(EfetuarChamadaPage)}?LicaoId=8,Content={JsonSerializer.Serialize(TurmaSelecionada)}&AlunosTurma={JsonSerializer.Serialize(Alunos)}");
             }
             catch (Exception ex)
             {
-                Logger.LogError("Error to start class presenc", ex, new Dictionary<string, object> { { nameof(force), force } });
+                Logger.LogError("Error to start class presence", ex);
                 DiagnosticService.TrackError(ex);
                 MainThread.BeginInvokeOnMainThread(async () =>
                 {
-                    await Shell.Current.GoToAsync("..");
                     await DialogService.DisplayAlert(ex);
                 });
             }

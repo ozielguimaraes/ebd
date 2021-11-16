@@ -3,11 +3,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Ebd.Mobile.Views.Chamada.EscolherTurmaPage"
              xmlns:vm="clr-namespace:Ebd.Mobile.ViewModels.Chamada" 
-             xmlns:response="clr-namespace:Ebd.Mobile.Services.Responses.Aluno" 
              xmlns:converters="clr-namespace:Ebd.Mobile.Converters"
              BackgroundColor="#F5f5f5"
              Title="{Binding Title}"
              x:DataType="vm:EscolherTurmaViewModel">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:IsNotNullConverter x:Key="IsNotNull" />
+            <converters:HasItemsConverter x:Key="HasItems" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.Content>
         <StackLayout Margin="8">
             <Label Text="Turma" />
@@ -17,9 +22,19 @@
                         SelectedItem="{Binding TurmaSelecionada}"
                         ItemDisplayBinding="{Binding FaixaIdadeNome}"/>
 
-            <Button Text="Iniciar chamada" 
-                    IsEnabled="{Binding PodeIniciarChamada}"
-                    Command="{Binding IniciarChamadaCommand}"></Button>
+            <Button Text="Iniciar chamada"
+                    Style="{StaticResource ButtonIsDisabled}"
+                    Command="{Binding IniciarChamadaCommand}">
+                <Button.Triggers>
+                    <MultiTrigger TargetType="Button">
+                        <MultiTrigger.Conditions>
+                            <BindingCondition Binding="{Binding TurmaSelecionada, Converter={StaticResource IsNotNull}}" Value="true" />
+                            <BindingCondition Binding="{Binding Alunos, Converter={StaticResource HasItems}}" Value="true" />
+                        </MultiTrigger.Conditions>
+                        <Setter Property="Style" Value="{StaticResource ButtonIsEnabled}" />
+                    </MultiTrigger>
+                </Button.Triggers>
+            </Button>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

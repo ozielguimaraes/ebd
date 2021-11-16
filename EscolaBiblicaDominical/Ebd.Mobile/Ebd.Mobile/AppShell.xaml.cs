@@ -1,6 +1,8 @@
-﻿using Ebd.Mobile.Views;
+﻿using Xamarin.Forms;
+using Ebd.Mobile.Views;
 using Ebd.Mobile.Views.Aluno;
 using Ebd.Mobile.Views.Chamada;
+using System;
 
 namespace Ebd.Mobile
 {

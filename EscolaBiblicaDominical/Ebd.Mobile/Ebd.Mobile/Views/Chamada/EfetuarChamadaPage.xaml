@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              x:Class="Ebd.Mobile.Views.Chamada.EfetuarChamadaPage"
              xmlns:vm="clr-namespace:Ebd.Mobile.ViewModels.Chamada" 
-             xmlns:response="clr-namespace:Ebd.Mobile.Services.Responses.Aluno" 
+             xmlns:models="clr-namespace:Ebd.Mobile.Models" 
              xmlns:converters="clr-namespace:Ebd.Mobile.Converters"
              BackgroundColor="#F5f5f5"
              Title="{Binding Title}"
@@ -16,14 +16,36 @@
     <ContentPage.Content>
         <ScrollView Margin="8">
             <StackLayout>
-                <Label Text="Turma" />
-                <Picker Title="Selecione uma turma"
-                        TitleColor="{StaticResource Primary}"
-                        ItemsSource="{Binding Turmas}"
-                        SelectedItem="{Binding TurmaSelecionada}"
-                        ItemDisplayBinding="{Binding FaixaIdadeNome}"/>
+                <Label Text="{Binding AlunoParaEfetuarChamada.Aluno.Nome}"
+                       FontAttributes="Bold"
+                       FontSize="Large"/>
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="Está presente hoje?"
+                       FontSize="Medium"
+                       FontAttributes="Bold"/>
+                    <Switch  IsToggled="{Binding EstaPresente}" />
+                </StackLayout>
+                <StackLayout BindableLayout.ItemsSource="{Binding Avaliacoes}"
+                             Margin="0,16,0,0"
+                             IsVisible="{Binding EstaPresente}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="models:RealizarAvaliacao">
+                            <StackLayout Orientation="Horizontal"
+                                         Padding="0,8">
+                                <Label Text="{Binding Nome}"
+                                       FontSize="Medium"
+                                       HorizontalOptions="StartAndExpand" />
+                                <Switch  IsToggled="{Binding FoiRealizada}" />
+                            </StackLayout>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </StackLayout>
 
-                <Button Text="Iniciar chamada"></Button>
+                <Button Text="Próximo"
+                        Margin="0,32,0,0"
+                        Command="{Binding ProximoAlunoCommand}"
+                        TextColor="{StaticResource Secondary}"
+                        BackgroundColor="{StaticResource Primary}"></Button>
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

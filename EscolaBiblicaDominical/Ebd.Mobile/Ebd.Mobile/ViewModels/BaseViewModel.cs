@@ -1,7 +1,7 @@
 ﻿using Ebd.Mobile.Models;
 using Ebd.Mobile.Services;
 using Ebd.Mobile.Services.Implementations.Dialog;
-using Ebd.Mobile.Services.Implementations.Log;
+using Ebd.Mobile.Services.Implementations.Diagnostic;
 using Ebd.Mobile.Services.Implementations.Logger;
 using Ebd.Mobile.Services.Interfaces;
 using System;
@@ -42,6 +42,14 @@ namespace Ebd.Mobile.ViewModels
             IsBusy = false;
 
             return Task.CompletedTask;
+        }
+
+        public void HideLoading()
+        {
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                DialogService.HideLoading();
+            });
         }
     }
 }
