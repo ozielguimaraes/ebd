@@ -10,6 +10,6 @@ namespace Ebd.Application.Business.Interfaces
     {
         Task<BaseResponse> AdicionarAsync(AdicionarRevistaRequest request);
         Task<RevistaResponse> ObterPorId(int revistaId);
-        Task<IEnumerable<RevistaResponse>> ObterPorPeriodo(int ano, int trimestre);
+        Task<RevistaResponse> ObterPorPeriodo(int ano, int trimestre);
     }
 }

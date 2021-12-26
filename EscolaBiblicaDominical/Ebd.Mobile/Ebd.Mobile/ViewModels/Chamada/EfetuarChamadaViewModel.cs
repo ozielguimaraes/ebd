@@ -4,12 +4,11 @@ using Ebd.Mobile.Services.Interfaces;
 using Ebd.Mobile.Services.Requests.Chamada;
 using Ebd.Mobile.Services.Responses;
 using Ebd.Mobile.Services.Responses.Aluno;
-using Ebd.Mobile.Services.Responses.Avaliacao;
 using Ebd.Mobile.Services.Responses.Turma;
+using MvvmHelpers;
 using MvvmHelpers.Commands;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -43,7 +42,7 @@ namespace Ebd.Mobile.ViewModels.Chamada
 
         public int LicaoId { get; set; }
         public List<EfetuarChamada> AlunosParaEfetuarChamada { get; private set; } = new List<EfetuarChamada>();
-        public ObservableCollection<RealizarAvaliacao> Avaliacoes { get; private set; } = new ObservableCollection<RealizarAvaliacao>();
+        public ObservableRangeCollection<RealizarAvaliacao> Avaliacoes { get; private set; } = new ObservableRangeCollection<RealizarAvaliacao>();
 
         private string turma;
         public string Turma
@@ -145,10 +144,13 @@ namespace Ebd.Mobile.ViewModels.Chamada
                 }
 
                 Avaliacoes.Clear();
-                foreach (var item in response.Data.Where(x => x.AvaliacaoId != IdAvaliacaoPresenca))
+
+                MainThread.BeginInvokeOnMainThread(() =>
                 {
-                    MainThread.BeginInvokeOnMainThread(() => Avaliacoes.Add(new RealizarAvaliacao(item)));
-                }
+                    Avaliacoes.AddRange(response.Data.Where(x => x.AvaliacaoId != IdAvaliacaoPresenca)
+                        .Select(avaliacao => new RealizarAvaliacao(avaliacao)));
+                });
+
                 if (Avaliacoes.Any())
                     SetAlunoParaEfetuarChamada();
                 else

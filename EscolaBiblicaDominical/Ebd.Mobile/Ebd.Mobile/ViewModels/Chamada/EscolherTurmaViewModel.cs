@@ -1,4 +1,5 @@
-﻿using Ebd.Mobile.Services.Implementations;
+﻿using Ebd.Mobile.Extensions;
+using Ebd.Mobile.Services.Implementations;
 using Ebd.Mobile.Services.Interfaces;
 using Ebd.Mobile.Services.Responses;
 using Ebd.Mobile.Services.Responses.Aluno;
@@ -8,7 +9,6 @@ using MvvmHelpers;
 using MvvmHelpers.Commands;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -24,6 +24,12 @@ namespace Ebd.Mobile.ViewModels.Chamada
 
         private static readonly Lazy<ITurmaService> turmaServiceLazy = new(() => new TurmaService(DependencyService.Get<INetworkService>()));
         private readonly ITurmaService _turmaService = turmaServiceLazy.Value;
+
+        private static readonly Lazy<IRevistaService> revistaServiceLazy = new(() => new RevistaService(DependencyService.Get<INetworkService>()));
+        private readonly IRevistaService _revistaService = revistaServiceLazy.Value;
+
+        private static readonly Lazy<ILicaoService> licaoServiceLazy = new(() => new LicaoService(DependencyService.Get<INetworkService>()));
+        private readonly ILicaoService _licaoService = revistaServiceLazy.Value;
 
         public EscolherTurmaViewModel()
         {
@@ -201,6 +207,24 @@ namespace Ebd.Mobile.ViewModels.Chamada
             try
             {
                 IsBusy = true;
+
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    DialogService.ShowLoading("Buscando informações da revista...");
+                });
+
+                var revistaResponse = await _revistaService.ObterPorPeriodoAsync(DateTime.Now.Year, DateTimeExtension.ObterTrimestreAtual());
+
+                if (revistaResponse.HasError)
+                {
+                    HideLoading();
+                    IsBusy = false;
+                    await DialogService.DisplayAlert("Oops", revistaResponse.Exception.Message);
+                    return;
+                }
+                revistaResponse.Data.RevistaId
+
+
                 var licaoId = 1;//TODO Get from service..
                 await Shell.Current.GoToAsync($"{nameof(EfetuarChamadaPage)}?Licao={licaoId}&Content={JsonSerializer.Serialize(TurmaSelecionada)}&AlunosTurma={JsonSerializer.Serialize(Alunos)}");
             }

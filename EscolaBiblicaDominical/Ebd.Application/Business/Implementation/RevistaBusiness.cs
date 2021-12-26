@@ -41,7 +41,7 @@ namespace Ebd.Application.Business.Implementation
             return RevistaMapper.FromEntityToResponse(result);
         }
 
-        public async Task<IEnumerable<RevistaResponse>> ObterPorPeriodo(int ano, int trimestre)
+        public async Task<RevistaResponse> ObterPorPeriodo(int ano, int trimestre)
         {
             var result = await _revistaRepository.ObterPorPeriodo(ano, trimestre);
             return RevistaMapper.FromEntityToResponse(result);

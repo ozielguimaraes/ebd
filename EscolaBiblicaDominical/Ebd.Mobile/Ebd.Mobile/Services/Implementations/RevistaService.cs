@@ -15,12 +15,12 @@ namespace Ebd.Mobile.Services.Implementations
         public RevistaService(INetworkService networkService) : base(networkService) { }
 
         public async Task<BaseResponse<RevistaResponse>> AdicionarAsync(AdicionarRevistaRequest request)
-            => await GetAndRetry<RevistaResponse>(PathToService, retryCount: DefaultRetryCount, OnRetry);
+            => await PostAndRetry<AdicionarRevistaRequest, RevistaResponse>(PathToService, request, OnRetry);
 
         public async Task<BaseResponse<RevistaResponse>> ObterPorIdAsync(int revistaId)
             => await GetAndRetry<RevistaResponse>($"{PathToService}/{revistaId}", retryCount: DefaultRetryCount, OnRetry);
 
-        public async Task<BaseResponse<IEnumerable<RevistaResponse>>> ObterPorPeriodoAsync(int ano, int trimestre)
-            => await GetAndRetry<IEnumerable<RevistaResponse>>($"{PathToService}/{trimestre}/{ano}", retryCount: DefaultRetryCount, OnRetry);
+        public async Task<BaseResponse<RevistaResponse>> ObterPorPeriodoAsync(int ano, int trimestre)
+            => await GetAndRetry<RevistaResponse>($"{PathToService}/{trimestre}/{ano}", retryCount: DefaultRetryCount, OnRetry);
     }
 }
