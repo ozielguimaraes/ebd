@@ -114,7 +114,7 @@ namespace Ebd.Mobile.Services.Implementations.Base
                     new Dictionary<string, object> {
                         { "requestUri", requestUri },
                         { "responseMessage", responseMessage },
-                        { "responseContent", responseContent },
+                        { "responseContent",JsonSerializer.Serialize(responseContent) },
                         { "isSuccessStatusCode", responseMessage.IsSuccessStatusCode }
                     });
 
@@ -147,8 +147,8 @@ namespace Ebd.Mobile.Services.Implementations.Base
                 LoggerService.Current.LogError("Erro ao processar request", ex,
                     new Dictionary<string, object> {
                         { "requestUri", requestUri },
-                        { "requestBody", request },
-                        { "responseMessage", responseMessage },
+                        { "requestBody", JsonSerializer.Serialize(request) },
+                        { "responseMessage", JsonSerializer.Serialize(responseMessage) },
                         { "responseContent", responseContent },
                         { "isSuccessStatusCode", responseMessage.IsSuccessStatusCode }
                     });
@@ -178,8 +178,8 @@ namespace Ebd.Mobile.Services.Implementations.Base
                 LoggerService.Current.LogError("Erro ao processar request", ex,
                     new Dictionary<string, object> {
                         { "requestUri", requestUri },
-                        { "requestBody", request },
-                        { "responseMessage", responseMessage },
+                        { "requestBody", JsonSerializer.Serialize(request) },
+                        { "responseMessage", JsonSerializer.Serialize(responseMessage) },
                         { "responseContent", responseContent },
                         { "isSuccessStatusCode", responseMessage.IsSuccessStatusCode }
                     });

@@ -22,6 +22,14 @@
                         SelectedItem="{Binding TurmaSelecionada}"
                         ItemDisplayBinding="{Binding FaixaIdadeNome}"/>
 
+            <Label Margin="0,12" IsVisible="{Binding TurmaSelecionada, Converter={StaticResource IsNotNull}}">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="{Binding AlunosMatriculados}" FontAttributes="Bold"/>
+                        <Span Text=" alunos matriculados"/>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
             <Button Text="Iniciar chamada"
                     Style="{StaticResource ButtonIsDisabled}"
                     Command="{Binding IniciarChamadaCommand}">

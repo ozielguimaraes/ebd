@@ -31,6 +31,11 @@ namespace Ebd.Presentation.Api.Controllers
             return BadRequest(response.GetValidationFailures());
         }
 
+        protected ObjectResult ResultWhenSearching(BaseResponse response)
+        {
+            return Ok(response);
+        }
+
         protected ObjectResult ResultWhenSearching(IEnumerable<BaseResponse> response)
         {
             return Ok(response);

@@ -6,7 +6,6 @@ namespace Ebd.Application.Responses
     public class AlunoResponse : BaseResponse
     {
         public AlunoResponse(ValidationResult validationResult) : base(validationResult) { }
-
         public AlunoResponse(int alunoId, string nome) : base(new ValidationResult())
         {
             AlunoId = alunoId;

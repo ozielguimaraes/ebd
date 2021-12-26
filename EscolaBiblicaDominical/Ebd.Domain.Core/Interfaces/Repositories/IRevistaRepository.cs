@@ -9,7 +9,6 @@ namespace Ebd.Domain.Core.Interfaces.Repositories
         Task<Revista> Adicionar(Revista revista);
         Task Atualizar(Revista revista);
         Task<Revista> ObterPorId(int id);
-        Task<Revista> ObterPorPeriodo(int ano, int trimestre);
-        Task<ICollection<Revista>> ObterTodas();
+        Task<ICollection<Revista>> ObterPorPeriodo(int ano, int trimestre);
     }
 }

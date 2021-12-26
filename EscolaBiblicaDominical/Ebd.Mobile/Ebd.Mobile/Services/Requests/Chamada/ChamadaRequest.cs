@@ -1,5 +1,4 @@
-﻿using Ebd.Mobile.Services.Requests.Avaliacao;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Ebd.Mobile.Services.Requests.Chamada
 {

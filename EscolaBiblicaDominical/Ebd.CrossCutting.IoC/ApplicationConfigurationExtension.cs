@@ -13,7 +13,9 @@ namespace Ebd.CrossCutting.IoC
             services.AddScoped(typeof(IAvaliacaoAlunoBusiness), typeof(AvaliacaoAlunoBusiness));
             services.AddScoped(typeof(IBairroBusiness), typeof(BairroBusiness));
             services.AddScoped(typeof(IChamadaBusiness), typeof(ChamadaBusiness));
+            services.AddScoped(typeof(ILicaoBusiness), typeof(LicaoBusiness));
             services.AddScoped(typeof(ITurmaBusiness), typeof(TurmaBusiness));
+            services.AddScoped(typeof(IRevistaBusiness), typeof(RevistaBusiness)); 
             
             return services;
         }

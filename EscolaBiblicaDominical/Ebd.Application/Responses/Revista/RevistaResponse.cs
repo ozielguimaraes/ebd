@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using Ebd.Application.Responses.Base;
 
-namespace Ebd.Domain.Core.Entities
+namespace Ebd.Application.Responses.Revista
 {
-    public class Revista
+    public class RevistaResponse : BaseResponse
     {
-        public Revista(int revistaId, string sumario, int ano, int trimestre)
+        public RevistaResponse(int revistaId, string sumario, int ano, int trimestre)
         {
             RevistaId = revistaId;
             Sumario = sumario;
@@ -16,6 +16,5 @@ namespace Ebd.Domain.Core.Entities
         public string Sumario { get; private set; }
         public int Ano { get; private set; }
         public int Trimestre { get; private set; }
-        public ICollection<Licao> Licoes { get; private set; }
     }
 }

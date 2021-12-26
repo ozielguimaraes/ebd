@@ -1,8 +1,10 @@
 ﻿using Ebd.Mobile.Services.Implementations;
 using Ebd.Mobile.Services.Interfaces;
+using Ebd.Mobile.Services.Responses;
 using Ebd.Mobile.Services.Responses.Aluno;
 using Ebd.Mobile.Services.Responses.Turma;
 using Ebd.Mobile.Views.Chamada;
+using MvvmHelpers;
 using MvvmHelpers.Commands;
 using System;
 using System.Collections.Generic;
@@ -37,9 +39,16 @@ namespace Ebd.Mobile.ViewModels.Chamada
                 var turmaSelecionadaAnteriormente = turmaSelecionada;
                 SetProperty(ref turmaSelecionada, value);
 
-                if (turmaSelecionada  is not null && !turmaSelecionada.Equals(turmaSelecionadaAnteriormente))
+                if (turmaSelecionada is not null && !turmaSelecionada.Equals(turmaSelecionadaAnteriormente))
                     CarregarListaAlunosCommand.ExecuteAsync(true).ConfigureAwait(true);
             }
+        }
+
+        private int alunosMatriculados;
+        public int AlunosMatriculados
+        {
+            get => alunosMatriculados;
+            set => SetProperty(ref alunosMatriculados, value);
         }
 
         //private bool podeIniciarChamada = false;
@@ -49,8 +58,8 @@ namespace Ebd.Mobile.ViewModels.Chamada
         //    set => SetProperty(ref podeIniciarChamada, value);
         //}
 
-        public ObservableCollection<TurmaResponse> Turmas { get; private set; } = new ObservableCollection<TurmaResponse>();
-        public ObservableCollection<AlunoResponse> Alunos { get; private set; } = new ObservableCollection<AlunoResponse>();
+        public ObservableRangeCollection<TurmaResponse> Turmas { get; private set; } = new ObservableRangeCollection<TurmaResponse>();
+        public ObservableRangeCollection<AlunoResponse> Alunos { get; private set; } = new ObservableRangeCollection<AlunoResponse>();
 
         private readonly AsyncCommand<bool> _carregarListaAlunosCommand;
         public AsyncCommand<bool> CarregarListaAlunosCommand
@@ -92,10 +101,7 @@ namespace Ebd.Mobile.ViewModels.Chamada
                 }
 
                 Turmas.Clear();
-                foreach (var item in response.Data)
-                {
-                    MainThread.BeginInvokeOnMainThread(() => Turmas.Add(item));
-                }
+                MainThread.BeginInvokeOnMainThread(() => Turmas.AddRange(response.Data));
 
                 if (Turmas.Count == 0)
                 {
@@ -153,10 +159,7 @@ namespace Ebd.Mobile.ViewModels.Chamada
                 }
 
                 Alunos.Clear();
-                foreach (var item in response.Data)
-                {
-                    MainThread.BeginInvokeOnMainThread(() => Alunos.Add(item));
-                }
+                AtualizarAlunos(response);
 
                 //PodeIniciarChamada = Alunos.Any();
 
@@ -181,6 +184,15 @@ namespace Ebd.Mobile.ViewModels.Chamada
                 });
                 IsBusy = false;
             }
+        }
+
+        private void AtualizarAlunos(BaseResponse<IEnumerable<AlunoResponse>> response)
+        {
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                Alunos.AddRange(response.Data);
+                AlunosMatriculados = Alunos.Count();
+            });
         }
 
         private async Task ExecuteIniciarChamadaCommand()
