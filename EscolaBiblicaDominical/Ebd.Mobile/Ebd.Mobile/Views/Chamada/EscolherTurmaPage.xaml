@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Ebd.Mobile.Views.Chamada.EscolherTurmaPage"
+             xmlns:vm="clr-namespace:Ebd.Mobile.ViewModels.Chamada" 
+             xmlns:converters="clr-namespace:Ebd.Mobile.Converters"
+             BackgroundColor="#F5f5f5"
+             Title="{Binding Title}"
+             x:DataType="vm:EscolherTurmaViewModel">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:IsNotNullConverter x:Key="IsNotNull" />
+            <converters:HasItemsConverter x:Key="HasItems" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <StackLayout Margin="8">
+            <Label Text="Turma" />
+            <Picker Title="Selecione uma turma"
+                        TitleColor="{StaticResource Primary}"
+                        ItemsSource="{Binding Turmas}"
+                        SelectedItem="{Binding TurmaSelecionada}"
+                        ItemDisplayBinding="{Binding FaixaIdadeNome}"/>
+
+            <Label Margin="0,12" IsVisible="{Binding TurmaSelecionada, Converter={StaticResource IsNotNull}}">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="{Binding AlunosMatriculados}" FontAttributes="Bold"/>
+                        <Span Text=" alunos matriculados"/>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <Button Text="Iniciar chamada"
+                    Style="{StaticResource ButtonIsDisabled}"
+                    Command="{Binding IniciarChamadaCommand}">
+                <Button.Triggers>
+                    <MultiTrigger TargetType="Button">
+                        <MultiTrigger.Conditions>
+                            <BindingCondition Binding="{Binding TurmaSelecionada, Converter={StaticResource IsNotNull}}" Value="true" />
+                            <BindingCondition Binding="{Binding Alunos, Converter={StaticResource HasItems}}" Value="true" />
+                        </MultiTrigger.Conditions>
+                        <Setter Property="Style" Value="{StaticResource ButtonIsEnabled}" />
+                    </MultiTrigger>
+                </Button.Triggers>
+            </Button>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

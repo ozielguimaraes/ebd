@@ -20,23 +20,11 @@ namespace Ebd.Mobile.ViewModels.Aluno
 
         private static readonly Lazy<ITurmaService> turmaServiceLazy = new(() => new TurmaService(DependencyService.Get<INetworkService>()));
         private readonly ITurmaService _turmaService = turmaServiceLazy.Value;
-        //private readonly IAlunoService _alunoService;
-        //private readonly ITurmaService _turmaService;
 
-        public ListaAlunoViewModel(/*IAlunoService alunoService, ITurmaService turmaService*/)
+        public ListaAlunoViewModel()
         {
             Title = "Alunos";
-            //_alunoService = alunoService;
-            //_turmaService = turmaService;
         }
-
-
-        //private ObservableCollection<AlunoResponse> alunos = new();
-        //public ObservableCollection<AlunoResponse> Alunos
-        //{
-        //    get => alunos;
-        //    set => SetProperty(ref alunos, value);
-        //}
 
         public ObservableCollection<AlunoResponse> Alunos { get; private set; } = new ObservableCollection<AlunoResponse>();
         public ObservableCollection<TurmaResponse> Turmas { get; private set; } = new ObservableCollection<TurmaResponse>();
@@ -70,12 +58,25 @@ namespace Ebd.Mobile.ViewModels.Aluno
                 IsBusy = true;
                 MainThread.BeginInvokeOnMainThread(() =>
                 {
-                    DialogService.ShowLoading();
+                    DialogService.ShowLoading("Buscando as turmas...");
                 });
 
-                var turmas = await _turmaService.ObterTodasAsync();
+                var response = await _turmaService.ObterTodasAsync();
+
+                if (response.HasError)
+                {
+                    MainThread.BeginInvokeOnMainThread(() =>
+                    {
+                        DialogService.HideLoading();
+                    });
+
+                    IsBusy = false;
+                    await DialogService.DisplayAlert("Oops", response.Exception.Message);
+                    return;
+                }
+
                 Turmas.Clear();
-                foreach (var item in turmas)
+                foreach (var item in response.Data)
                 {
                     MainThread.BeginInvokeOnMainThread(() => Turmas.Add(item));
                 }
@@ -94,10 +95,10 @@ namespace Ebd.Mobile.ViewModels.Aluno
             {
                 Logger.LogError("Error to load list of classes", ex);
                 DiagnosticService.TrackError(ex);
-                await Shell.Current.GoToAsync("..");
 
                 MainThread.BeginInvokeOnMainThread(async () =>
                 {
+                    await Shell.Current.GoToAsync("..");
                     await DialogService.DisplayAlert(ex);
                 });
             }
@@ -122,9 +123,21 @@ namespace Ebd.Mobile.ViewModels.Aluno
                     DialogService.ShowLoading("Buscando alunos da turma...");
                 });
                 IsBusy = true;
-                var alunos = await _alunoService.ObterPorTurmaIdAsync(TurmaSelecionada.TurmaId);
+                var response = await _alunoService.ObterPorTurmaIdAsync(TurmaSelecionada.TurmaId);
+                if (response.HasError)
+                {
+                    MainThread.BeginInvokeOnMainThread(() =>
+                    {
+                        DialogService.HideLoading();
+                    });
+
+                    IsBusy = false;
+                    await DialogService.DisplayAlert("Oops", response.Exception.Message);
+                    return;
+                }
+
                 Alunos.Clear();
-                foreach (var item in alunos)
+                foreach (var item in response.Data)
                 {
                     MainThread.BeginInvokeOnMainThread(() => Alunos.Add(item));
                 }
@@ -133,8 +146,11 @@ namespace Ebd.Mobile.ViewModels.Aluno
             {
                 Logger.LogError("Error to load list of students", ex, new Dictionary<string, object> { { nameof(force), force } });
                 DiagnosticService.TrackError(ex);
-                await Shell.Current.GoToAsync("..");
-                await DialogService.DisplayAlert(ex);
+                MainThread.BeginInvokeOnMainThread(async () =>
+                {
+                    await Shell.Current.GoToAsync("..");
+                    await DialogService.DisplayAlert(ex);
+                });
             }
             finally
             {

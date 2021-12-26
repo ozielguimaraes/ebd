@@ -2,6 +2,12 @@
 {
     public class Licao
     {
+        public Licao(string titulo, int revistaId)
+        {
+            Titulo = titulo;
+            RevistaId = revistaId;
+        }
+
         public int LicaoId { get; private set; }
         public string Titulo { get; private set; }
 

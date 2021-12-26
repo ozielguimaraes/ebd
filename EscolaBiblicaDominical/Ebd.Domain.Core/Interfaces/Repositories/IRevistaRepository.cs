@@ -10,6 +10,5 @@ namespace Ebd.Domain.Core.Interfaces.Repositories
         Task Atualizar(Revista revista);
         Task<Revista> ObterPorId(int id);
         Task<Revista> ObterPorPeriodo(int ano, int trimestre);
-        Task<ICollection<Revista>> ObterTodas();
     }
 }

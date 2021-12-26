@@ -1,5 +1,6 @@
 ﻿using Ebd.Mobile.Services.Implementations.Base;
 using Ebd.Mobile.Services.Interfaces;
+using Ebd.Mobile.Services.Responses;
 using Ebd.Mobile.Services.Responses.Aluno;
 using System;
 using System.Collections.Generic;
@@ -16,18 +17,7 @@ namespace Ebd.Mobile.Services.Implementations
         {
         }
 
-        public async Task<IEnumerable<AlunoResponse>> ObterPorTurmaIdAsync(int turmaId)
-        {
-            var response = await GetAndRetry<IEnumerable<AlunoResponse>>($"{PathToService}/turma/{turmaId}", retryCount: DefaultRetryCount, OnRetry);
-
-            return response;
-        }
-
-        private Task OnRetry(Exception e, int retryCount)
-        {
-            return Task.Factory.StartNew(() => {
-                System.Diagnostics.Debug.WriteLine($"Retry - Attempt #{retryCount} to get students.");
-            });
-        }
+        public async Task<BaseResponse<IEnumerable<AlunoResponse>>> ObterPorTurmaIdAsync(int turmaId)
+            => await GetAndRetry<IEnumerable<AlunoResponse>>($"{PathToService}/turma/{turmaId}", retryCount: DefaultRetryCount, OnRetry);
     }
 }

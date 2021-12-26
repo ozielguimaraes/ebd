@@ -7,8 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 
 namespace Ebd.Presentation.Api.Controllers
@@ -43,7 +41,7 @@ namespace Ebd.Presentation.Api.Controllers
 
         [Route("turma/{turmaId:int}")]
         [HttpGet]
-        [ProducesResponseType(typeof(AlunoResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IEnumerable<AlunoResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(List<ValidationFailure>), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(Exception), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Get([FromRoute] int turmaId)

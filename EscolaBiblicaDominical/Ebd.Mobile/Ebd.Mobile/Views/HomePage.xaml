@@ -45,6 +45,9 @@
                     <Grid Margin="4" 
                           FlexLayout.AlignSelf="Start"
                           FlexLayout.Basis="{OnIdiom Phone='50%'}">
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding GoToEscolherTurmaPageCommand}" />
+                        </Grid.GestureRecognizers>
                         <components:MenuCardView IconSource="icon_feed.png" Title="Chamada" />
                     </Grid>
                 </FlexLayout>

@@ -1,5 +1,4 @@
 ﻿using Ebd.Mobile.ViewModels.Aluno;
-using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -16,10 +15,10 @@ namespace Ebd.Mobile.Views.Aluno
             BindingContext = ViewModel ?? DependencyService.Get<ListaAlunoViewModel>();
         }
 
-        protected override void OnAppearing()
+        protected override async void OnAppearing()
         {
             base.OnAppearing();
-            MainThread.BeginInvokeOnMainThread(() => ViewModel.Initialize(null));
+            await ViewModel.Initialize(null);
         }
     }
 }

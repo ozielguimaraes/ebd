@@ -39,10 +39,5 @@ namespace Ebd.Infra.Data.Repositories
         {
             return await DbSet.FirstOrDefaultAsync(x => x.Ano == ano && x.Trimestre == trimestre);
         }
-
-        public async Task<ICollection<Revista>> ObterTodas()
-        {
-            return await DbSet.ToListAsync();
-        }
     }
 }

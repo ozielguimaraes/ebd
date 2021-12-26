@@ -1,12 +1,17 @@
-﻿using Ebd.Mobile.Services.Interfaces;
+﻿using Ebd.Mobile.Services.Implementations.Logger;
+using Ebd.Mobile.Services.Interfaces;
 using Polly;
 using System;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 
 namespace Ebd.Mobile.Services.Implementations
 {
     public class NetworkService : INetworkService
     {
+        public async Task<bool> HasInternetConnection()
+        => await Task.FromResult(Connectivity.NetworkAccess == NetworkAccess.Internet);
+
         public async Task<T> Retry<T>(Func<Task<T>> func)
         {
             return await RetryInner(func);
@@ -43,10 +48,9 @@ namespace Ebd.Mobile.Services.Implementations
         {
             var onRetryInner = new Func<Exception, int, Task>((e, i) =>
             {
-                return Task.Factory.StartNew(() => {
-#if DEBUG
-                    System.Diagnostics.Debug.WriteLine($"Retry #{i} due to exception '{(e.InnerException ?? e).Message}'");
-#endif
+                return Task.Factory.StartNew(() =>
+                {
+                    LoggerService.Current.LogWarning($"Retry #{i} due to exception '{(e.InnerException ?? e).Message}'");
                 });
             });
 
@@ -57,10 +61,9 @@ namespace Ebd.Mobile.Services.Implementations
         {
             var onRetryInner = new Func<Exception, TimeSpan, Task>((e, t) =>
             {
-                return Task.Factory.StartNew(() => {
-#if DEBUG
-                    System.Diagnostics.Debug.WriteLine($"Retrying in {t:g} due to exception '{(e.InnerException ?? e).Message}'");
-#endif
+                return Task.Factory.StartNew(() =>
+                {
+                    LoggerService.Current.LogWarning($"Retrying in {t:g} due to exception '{(e.InnerException ?? e).Message}'");
                 });
             });
 
