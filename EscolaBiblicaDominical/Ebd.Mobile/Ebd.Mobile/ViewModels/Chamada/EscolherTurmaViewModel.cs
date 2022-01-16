@@ -3,6 +3,8 @@ using Ebd.Mobile.Services.Implementations;
 using Ebd.Mobile.Services.Interfaces;
 using Ebd.Mobile.Services.Responses;
 using Ebd.Mobile.Services.Responses.Aluno;
+using Ebd.Mobile.Services.Responses.Licao;
+using Ebd.Mobile.Services.Responses.Revista;
 using Ebd.Mobile.Services.Responses.Turma;
 using Ebd.Mobile.Views.Chamada;
 using MvvmHelpers;
@@ -29,7 +31,7 @@ namespace Ebd.Mobile.ViewModels.Chamada
         private readonly IRevistaService _revistaService = revistaServiceLazy.Value;
 
         private static readonly Lazy<ILicaoService> licaoServiceLazy = new(() => new LicaoService(DependencyService.Get<INetworkService>()));
-        private readonly ILicaoService _licaoService = revistaServiceLazy.Value;
+        private readonly ILicaoService _licaoService = licaoServiceLazy.Value;
 
         public EscolherTurmaViewModel()
         {
@@ -45,8 +47,33 @@ namespace Ebd.Mobile.ViewModels.Chamada
                 var turmaSelecionadaAnteriormente = turmaSelecionada;
                 SetProperty(ref turmaSelecionada, value);
 
-                if (turmaSelecionada is not null && !turmaSelecionada.Equals(turmaSelecionadaAnteriormente))
-                    CarregarListaAlunosCommand.ExecuteAsync(true).ConfigureAwait(true);
+                if (turmaSelecionada is not null && turmaSelecionadaAnteriormente?.TurmaId != turmaSelecionada.TurmaId)
+                {
+                    RevistaSelecionada = null;
+                    LicaoSelecionada = null;
+                    CarregarRevistaCommand.ExecuteAsync(true).ConfigureAwait(true);
+                }
+            }
+        }
+
+        private RevistaResponse revistaSelecionada;
+        public RevistaResponse RevistaSelecionada
+        {
+            get => revistaSelecionada;
+            set
+            {
+                SetProperty(ref revistaSelecionada, value);
+                CarregarListaLicoesCommand.ExecuteAsync(true).ConfigureAwait(true);
+            }
+        }
+        private LicaoResponse licaoSelecionada;
+        public LicaoResponse LicaoSelecionada
+        {
+            get => licaoSelecionada;
+            set
+            {
+                SetProperty(ref licaoSelecionada, value);
+                CarregarListaAlunosCommand.ExecuteAsync(true).ConfigureAwait(true);
             }
         }
 
@@ -66,12 +93,27 @@ namespace Ebd.Mobile.ViewModels.Chamada
 
         public ObservableRangeCollection<TurmaResponse> Turmas { get; private set; } = new ObservableRangeCollection<TurmaResponse>();
         public ObservableRangeCollection<AlunoResponse> Alunos { get; private set; } = new ObservableRangeCollection<AlunoResponse>();
+        public ObservableRangeCollection<LicaoResponse> Licoes { get; private set; } = new ObservableRangeCollection<LicaoResponse>();
+
+        private readonly AsyncCommand<bool> _carregarRevistaCommand;
+        public AsyncCommand<bool> CarregarRevistaCommand
+            => _carregarRevistaCommand
+            ?? new AsyncCommand<bool>(
+                execute: ExecuteCarregarRevistaCommand,
+                onException: CommandOnException);
 
         private readonly AsyncCommand<bool> _carregarListaAlunosCommand;
         public AsyncCommand<bool> CarregarListaAlunosCommand
             => _carregarListaAlunosCommand
             ?? new AsyncCommand<bool>(
                 execute: ExecuteCarregarListaAlunosCommand,
+                onException: CommandOnException);
+
+        private readonly AsyncCommand<bool> _carregarListaLicoesCommand;
+        public AsyncCommand<bool> CarregarListaLicoesCommand
+            => _carregarListaLicoesCommand
+            ?? new AsyncCommand<bool>(
+                execute: ExecuteCarregarListaLicoesCommand,
                 onException: CommandOnException);
 
         private readonly AsyncCommand _iniciarChamadaCommand;
@@ -87,10 +129,12 @@ namespace Ebd.Mobile.ViewModels.Chamada
             try
             {
                 IsBusy = true;
+                
                 MainThread.BeginInvokeOnMainThread(() =>
                 {
                     DialogService.ShowLoading("Buscando as turmas...");
                 });
+                var carregarRevistaTask = CarregarRevistaCommand.ExecuteAsync(true).ConfigureAwait(false);
 
                 var response = await _turmaService.ObterTodasAsync();
 
@@ -106,18 +150,8 @@ namespace Ebd.Mobile.ViewModels.Chamada
                     return;
                 }
 
-                Turmas.Clear();
-                MainThread.BeginInvokeOnMainThread(() => Turmas.AddRange(response.Data));
-
-                if (Turmas.Count == 0)
-                {
-                    await Shell.Current.GoToAsync("..");
-                    await DialogService.DisplayAlert("Oops", "Nenhuma turma foi encontrada");
-                }
-                else if (Turmas.Count == 1)
-                {
-                    TurmaSelecionada = Turmas[0];
-                }
+                await UpdateTurmas(response);
+                await carregarRevistaTask;
             }
             catch (Exception ex)
             {
@@ -139,6 +173,123 @@ namespace Ebd.Mobile.ViewModels.Chamada
 
                 IsBusy = false;
             }
+        }
+
+        private async Task UpdateTurmas(BaseResponse<IEnumerable<TurmaResponse>> response)
+        {
+            Turmas.Clear();
+            MainThread.BeginInvokeOnMainThread(() => Turmas.AddRange(response.Data));
+
+            if (Turmas.Count == 0)
+            {
+                await Shell.Current.GoToAsync("..");
+                await DialogService.DisplayAlert("Oops", "Nenhuma turma foi encontrada");
+            }
+            else if (Turmas.Count == 1)
+            {
+                TurmaSelecionada = Turmas[0];
+            }
+        }
+
+        private async Task ExecuteCarregarRevistaCommand(bool force)
+        {
+            if (IsBusy && !force) return;
+            try
+            {
+                IsBusy = true;
+                var response = await _revistaService.ObterPorPeriodoAsync(turmaId: TurmaSelecionada.TurmaId, trimestre: ObterTrimestreAtual(), ano: ObterDataAtual().Year);
+                if (response.HasError)
+                {
+                    IsBusy = false;
+                    MainThread.BeginInvokeOnMainThread(async () =>
+                    {
+                        await Shell.Current.GoToAsync("..");
+                    await DialogService.DisplayAlert("Oops", response.Exception.Message);
+                    });
+                    return;
+                }
+
+                AtualizarRevista(response.Data);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError("Error to load actual magazine", ex, new Dictionary<string, object> { { nameof(force), force } });
+                DiagnosticService.TrackError(ex);
+                MainThread.BeginInvokeOnMainThread(async () =>
+                {
+                    await Shell.Current.GoToAsync("..");
+                    await DialogService.DisplayAlert(ex);
+                });
+            }
+            finally
+            {
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    DialogService.HideLoading();
+                });
+                IsBusy = false;
+            }
+        }
+
+        private async Task ExecuteCarregarListaLicoesCommand(bool force)
+        {
+            if (IsBusy && !force) return;
+            try
+            {
+                if (RevistaSelecionada is null) return;
+
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    DialogService.ShowLoading("Buscando as lições da revista...");
+                });
+                IsBusy = true;
+                var response = await _licaoService.ObterPorRevistaAsync(RevistaSelecionada.RevistaId);
+                if (response.HasError)
+                {
+                    MainThread.BeginInvokeOnMainThread(() =>
+                    {
+                        DialogService.HideLoading();
+                    });
+
+                    IsBusy = false;
+                    await DialogService.DisplayAlert("Oops", response.Exception.Message);
+                    return;
+                }
+
+                AtualizarLicoes(response.Data);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError("Error to load actual magazine", ex, new Dictionary<string, object> { { nameof(force), force } });
+                DiagnosticService.TrackError(ex);
+                MainThread.BeginInvokeOnMainThread(async () =>
+                {
+                    await Shell.Current.GoToAsync("..");
+                    await DialogService.DisplayAlert(ex);
+                });
+            }
+            finally
+            {
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    DialogService.HideLoading();
+                });
+                IsBusy = false;
+            }
+        }
+
+        private void AtualizarLicoes(IEnumerable<LicaoResponse> licoes)
+        {
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                Licoes.Clear();
+                Licoes.AddRange(licoes);
+            });
+        }
+
+        private void AtualizarRevista(RevistaResponse response)
+        {
+            RevistaSelecionada = response;
         }
 
         private async Task ExecuteCarregarListaAlunosCommand(bool force)
@@ -206,6 +357,8 @@ namespace Ebd.Mobile.ViewModels.Chamada
             if (IsBusy) return;
             try
             {
+                if (TurmaSelecionada is null) return;
+
                 IsBusy = true;
 
                 MainThread.BeginInvokeOnMainThread(() =>
@@ -213,7 +366,7 @@ namespace Ebd.Mobile.ViewModels.Chamada
                     DialogService.ShowLoading("Buscando informações da revista...");
                 });
 
-                var revistaResponse = await _revistaService.ObterPorPeriodoAsync(DateTime.Now.Year, DateTimeExtension.ObterTrimestreAtual());
+                var revistaResponse = await _revistaService.ObterPorPeriodoAsync(TurmaSelecionada.TurmaId, DateTime.Now.Year, DateTimeExtension.ObterTrimestreAtual());
 
                 if (revistaResponse.HasError)
                 {
@@ -222,11 +375,8 @@ namespace Ebd.Mobile.ViewModels.Chamada
                     await DialogService.DisplayAlert("Oops", revistaResponse.Exception.Message);
                     return;
                 }
-                revistaResponse.Data.RevistaId
 
-
-                var licaoId = 1;//TODO Get from service..
-                await Shell.Current.GoToAsync($"{nameof(EfetuarChamadaPage)}?Licao={licaoId}&Content={JsonSerializer.Serialize(TurmaSelecionada)}&AlunosTurma={JsonSerializer.Serialize(Alunos)}");
+                await Shell.Current.GoToAsync($"{nameof(EfetuarChamadaPage)}?Licao={LicaoSelecionada.LicaoId}&Turma={JsonSerializer.Serialize(TurmaSelecionada)}&AlunosTurma={JsonSerializer.Serialize(Alunos)}");
             }
             catch (Exception ex)
             {

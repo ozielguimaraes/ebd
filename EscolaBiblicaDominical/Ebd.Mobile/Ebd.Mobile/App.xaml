@@ -12,6 +12,9 @@
             <Style TargetType="Label">
                 <Setter Property="TextColor" Value="Black" />
             </Style>
+            <Style TargetType="Entry">
+                <Setter Property="TextColor" Value="Black" />
+            </Style>
 
             <Style x:Key="ButtonIsDisabled" TargetType="Button">
                 <Setter Property="BackgroundColor" Value="#C3C3C3" />

@@ -1,15 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Ebd.Mobile.Extensions
 {
     public static class DateTimeExtension
     {
         public static DateTime ObterDataAtual()
+            => ObterDataLocal(DateTime.Now);
+
+        public static DateTime ObterDataLocal(this DateTime dateTime)
         {
-            var aas = new DateTimeWithZone();
-            return aas.LocalTime;
+            var dateTimeWithZone = new DateTimeWithZone(dateTime);
+            return dateTimeWithZone.LocalTime;
         }
 
         public static int ObterTrimestreAtual()
@@ -23,10 +24,19 @@ namespace Ebd.Mobile.Extensions
             else return 4;
         }
     }
+
     public struct DateTimeWithZone
     {
+        private static readonly TimeZoneInfo _defaultTimeZone = TimeZoneInfo.FindSystemTimeZoneById("UTC");
         private readonly DateTime utcDateTime;
         private readonly TimeZoneInfo timeZone;
+
+        public DateTimeWithZone(DateTime dateTime)
+        {
+            var dateTimeUnspec = DateTime.SpecifyKind(dateTime, DateTimeKind.Unspecified);
+            utcDateTime = TimeZoneInfo.ConvertTimeToUtc(dateTimeUnspec, _defaultTimeZone);
+            timeZone = _defaultTimeZone;
+        }
 
         public DateTimeWithZone(DateTime dateTime, TimeZoneInfo timeZone)
         {
@@ -36,7 +46,7 @@ namespace Ebd.Mobile.Extensions
         }
 
         public DateTime UniversalTime => utcDateTime;
-        public TimeZoneInfo TimeZone => timeZone;
+        public TimeZoneInfo TimeZone => timeZone ?? _defaultTimeZone;
         public DateTime LocalTime => TimeZoneInfo.ConvertTime(utcDateTime, timeZone);
     }
 }

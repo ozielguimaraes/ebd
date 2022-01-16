@@ -4,8 +4,9 @@ namespace Ebd.Domain.Core.Entities
 {
     public class Revista
     {
-        public Revista(int revistaId, string sumario, int ano, int trimestre)
+        public Revista(int turmaId, int revistaId, string sumario, int ano, int trimestre)
         {
+            TurmaId = turmaId;
             RevistaId = revistaId;
             Sumario = sumario;
             Ano = ano;
@@ -16,6 +17,9 @@ namespace Ebd.Domain.Core.Entities
         public string Sumario { get; private set; }
         public int Ano { get; private set; }
         public int Trimestre { get; private set; }
+
+        public int TurmaId { get; private set; }
+        public Turma Turma { get; private set; }
         public ICollection<Licao> Licoes { get; private set; }
     }
 }

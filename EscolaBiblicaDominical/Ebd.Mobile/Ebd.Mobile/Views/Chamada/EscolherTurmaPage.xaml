@@ -30,6 +30,23 @@
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
+
+            <StackLayout IsVisible="{Binding RevistaSelecionada, Converter={StaticResource IsNotNull}}">
+                <Label Text="Revista" />
+                <Entry Text="{Binding RevistaSelecionada.Sumario}"
+                       TextColor="red"
+                       IsEnabled="False" />
+            </StackLayout>
+
+            <StackLayout IsVisible="{Binding LicaoSelecionada, Converter={StaticResource IsNotNull}}">
+                <Label Text="Lição" />
+                <Picker Title="Selecione uma lição"
+                        TitleColor="{StaticResource Primary}"
+                        ItemsSource="{Binding Licoes}"
+                        SelectedItem="{Binding LicaoSelecionada}"
+                        ItemDisplayBinding="{Binding Titulo}"/>
+            </StackLayout>
+
             <Button Text="Iniciar chamada"
                     Style="{StaticResource ButtonIsDisabled}"
                     Command="{Binding IniciarChamadaCommand}">

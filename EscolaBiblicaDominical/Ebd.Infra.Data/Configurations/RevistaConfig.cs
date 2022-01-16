@@ -24,6 +24,9 @@ namespace Ebd.Infra.Data.Configurations
                 .HasMaxLength(60)
                 .IsRequired();
 
+            builder.Property(c => c.TurmaId)
+                .IsRequired();
+
             builder.HasMany(c => c.Licoes)
                 .WithOne(e => e.Revista)
                 .IsRequired();

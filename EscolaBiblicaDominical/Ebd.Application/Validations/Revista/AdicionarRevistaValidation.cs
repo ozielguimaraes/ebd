@@ -14,6 +14,8 @@ namespace Ebd.Application.Validations.Revista
             RuleFor(c => c.Trimestre)
                .NotEmpty().WithMessage("Campo {0} é obrigatório")
                .ExclusiveBetween(1, 4).WithMessage("{0} informado não é valido");
+            RuleFor(c => c.TurmaId)
+               .NotEmpty().WithMessage("Campo {0} é obrigatório");
             RuleFor(c => c.Sumario)
                .NotEmpty().WithMessage("Campo Sumário é obrigatório")
                .MinimumLength(10).WithMessage("Mínimo {1} caracteres");

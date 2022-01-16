@@ -290,7 +290,12 @@ namespace Ebd.Infra.Data.Migrations
                     b.Property<int>("Trimestre")
                         .HasColumnType("int");
 
+                    b.Property<int>("TurmaId")
+                        .HasColumnType("int");
+
                     b.HasKey("RevistaId");
+
+                    b.HasIndex("TurmaId");
 
                     b.HasIndex("Ano", "Trimestre");
 
@@ -439,6 +444,17 @@ namespace Ebd.Infra.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Pessoa");
+
+                    b.Navigation("Turma");
+                });
+
+            modelBuilder.Entity("Ebd.Domain.Core.Entities.Revista", b =>
+                {
+                    b.HasOne("Ebd.Domain.Core.Entities.Turma", "Turma")
+                        .WithMany()
+                        .HasForeignKey("TurmaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Turma");
                 });
