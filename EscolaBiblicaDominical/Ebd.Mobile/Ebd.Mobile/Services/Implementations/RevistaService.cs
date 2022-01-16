@@ -3,7 +3,6 @@ using Ebd.Mobile.Services.Interfaces;
 using Ebd.Mobile.Services.Requests.Revista;
 using Ebd.Mobile.Services.Responses;
 using Ebd.Mobile.Services.Responses.Revista;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Ebd.Mobile.Services.Implementations
@@ -20,7 +19,7 @@ namespace Ebd.Mobile.Services.Implementations
         public async Task<BaseResponse<RevistaResponse>> ObterPorIdAsync(int revistaId)
             => await GetAndRetry<RevistaResponse>($"{PathToService}/{revistaId}", retryCount: DefaultRetryCount, OnRetry);
 
-        public async Task<BaseResponse<RevistaResponse>> ObterPorPeriodoAsync(int ano, int trimestre)
-            => await GetAndRetry<RevistaResponse>($"{PathToService}/{trimestre}/{ano}", retryCount: DefaultRetryCount, OnRetry);
+        public async Task<BaseResponse<RevistaResponse>> ObterPorPeriodoAsync(int turmaId, int ano, int trimestre)
+            => await GetAndRetry<RevistaResponse>($"{PathToService}/turma/{turmaId}/{trimestre}-{ano}", retryCount: DefaultRetryCount, OnRetry);
     }
 }

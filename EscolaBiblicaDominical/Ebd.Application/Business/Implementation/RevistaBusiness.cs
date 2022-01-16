@@ -26,12 +26,7 @@ namespace Ebd.Application.Business.Implementation
             var validationResult = validator.Validate(request);
             if (!validationResult.IsValid) return new ValidationResponse(validationResult);
 
-            var result = await _revistaRepository.Adicionar(new Revista(
-                revistaId: request.RevistaId,
-                sumario: request.Sumario,
-                ano: request.Ano,
-                trimestre: request.Trimestre
-                ));
+            var result = await _revistaRepository.Adicionar(RevistaMapper.FromRequestToEntity(request));
             return RevistaMapper.FromEntityToResponse(result);
         }
 
@@ -41,9 +36,9 @@ namespace Ebd.Application.Business.Implementation
             return RevistaMapper.FromEntityToResponse(result);
         }
 
-        public async Task<RevistaResponse> ObterPorPeriodo(int ano, int trimestre)
+        public async Task<RevistaResponse> ObterPorPeriodo(int turmaId, int ano, int trimestre)
         {
-            var result = await _revistaRepository.ObterPorPeriodo(ano, trimestre);
+            var result = await _revistaRepository.ObterPorPeriodo(turmaId, ano, trimestre);
             return RevistaMapper.FromEntityToResponse(result);
         }
     }

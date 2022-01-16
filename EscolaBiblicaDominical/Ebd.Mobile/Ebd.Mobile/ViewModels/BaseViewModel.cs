@@ -1,4 +1,5 @@
-﻿using Ebd.Mobile.Models;
+﻿using Ebd.Mobile.Extensions;
+using Ebd.Mobile.Models;
 using Ebd.Mobile.Services;
 using Ebd.Mobile.Services.Implementations.Dialog;
 using Ebd.Mobile.Services.Implementations.Diagnostic;
@@ -36,6 +37,9 @@ namespace Ebd.Mobile.ViewModels
 
         protected void CommandOnException(Exception ex)
             => MainThread.BeginInvokeOnMainThread(() => DialogService.DisplayAlert(ex));
+
+        protected int ObterTrimestreAtual() => DateTimeExtension.ObterTrimestreAtual();
+        protected DateTime ObterDataAtual() => DateTimeExtension.ObterDataAtual();
 
         public virtual Task Initialize(object args)
         {

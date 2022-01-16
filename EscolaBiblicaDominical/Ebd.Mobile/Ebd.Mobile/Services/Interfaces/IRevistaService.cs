@@ -9,6 +9,6 @@ namespace Ebd.Mobile.Services.Interfaces
     {
         Task<BaseResponse<RevistaResponse>> AdicionarAsync(AdicionarRevistaRequest request);
         Task<BaseResponse<RevistaResponse>> ObterPorIdAsync(int revistaId);
-        Task<BaseResponse<RevistaResponse>> ObterPorPeriodoAsync(int ano, int trimestre);
+        Task<BaseResponse<RevistaResponse>> ObterPorPeriodoAsync(int turmaId, int ano, int trimestre);
     }
 }

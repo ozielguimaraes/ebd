@@ -59,20 +59,20 @@ namespace Ebd.Presentation.Api.Controllers
             }
         }
 
-        [Route("{trimestre:int}/{ano:int}")]
+        [Route("turma/{turmaId:int}/trimestre/{trimestre:int}-{ano:int}")]
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<RevistaResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(RevistaResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(List<ValidationFailure>), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(Exception), StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Get([FromRoute] int ano, [FromRoute] int trimestre)
+        public async Task<IActionResult> Get([FromRoute] int turmaId, [FromRoute] int ano, [FromRoute] int trimestre)
         {
             try
             {
-                return ResultWhenSearching(await _revistaBusiness.ObterPorPeriodo(ano, trimestre));
+                return ResultWhenSearching(await _revistaBusiness.ObterPorPeriodo(turmaId, ano, trimestre));
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex, $"Erro ao obter as revistas do periodo {ano}/{trimestre}");
+                Logger.LogError(ex, $"Erro ao obter as revistas do periodo turma/{turmaId}/trimestre/{trimestre}-{ano}");
                 return InternalServerError(ex);
             }
         }
