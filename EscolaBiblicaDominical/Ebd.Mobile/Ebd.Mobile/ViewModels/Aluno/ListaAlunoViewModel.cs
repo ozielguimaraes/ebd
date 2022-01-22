@@ -38,7 +38,7 @@ namespace Ebd.Mobile.ViewModels.Aluno
                 var turmaSelecionadaAnteriormente = turmaSelecionada;
                 SetProperty(ref turmaSelecionada, value);
 
-                if (!turmaSelecionada.Equals(turmaSelecionadaAnteriormente))
+                if (turmaSelecionada is not null && !turmaSelecionada.Equals(turmaSelecionadaAnteriormente))
                     CarregarListaAlunosCommand.ExecuteAsync(true).ConfigureAwait(true);
             }
         }

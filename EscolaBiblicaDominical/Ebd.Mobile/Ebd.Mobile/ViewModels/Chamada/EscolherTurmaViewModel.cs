@@ -63,7 +63,8 @@ namespace Ebd.Mobile.ViewModels.Chamada
             set
             {
                 SetProperty(ref revistaSelecionada, value);
-                CarregarListaLicoesCommand.ExecuteAsync(true).ConfigureAwait(true);
+                if (value is not null)
+                    CarregarListaLicoesCommand.ExecuteAsync(true).ConfigureAwait(true);
             }
         }
         private LicaoResponse licaoSelecionada;
@@ -73,7 +74,8 @@ namespace Ebd.Mobile.ViewModels.Chamada
             set
             {
                 SetProperty(ref licaoSelecionada, value);
-                CarregarListaAlunosCommand.ExecuteAsync(true).ConfigureAwait(true);
+                if (value is not null)
+                    CarregarListaAlunosCommand.ExecuteAsync(true).ConfigureAwait(true);
             }
         }
 
@@ -129,12 +131,11 @@ namespace Ebd.Mobile.ViewModels.Chamada
             try
             {
                 IsBusy = true;
-                
+
                 MainThread.BeginInvokeOnMainThread(() =>
                 {
                     DialogService.ShowLoading("Buscando as turmas...");
                 });
-                var carregarRevistaTask = CarregarRevistaCommand.ExecuteAsync(true).ConfigureAwait(false);
 
                 var response = await _turmaService.ObterTodasAsync();
 
@@ -151,7 +152,6 @@ namespace Ebd.Mobile.ViewModels.Chamada
                 }
 
                 await UpdateTurmas(response);
-                await carregarRevistaTask;
             }
             catch (Exception ex)
             {
@@ -204,7 +204,7 @@ namespace Ebd.Mobile.ViewModels.Chamada
                     MainThread.BeginInvokeOnMainThread(async () =>
                     {
                         await Shell.Current.GoToAsync("..");
-                    await DialogService.DisplayAlert("Oops", response.Exception.Message);
+                        await DialogService.DisplayAlert("Oops", response.Exception.Message);
                     });
                     return;
                 }
@@ -236,8 +236,6 @@ namespace Ebd.Mobile.ViewModels.Chamada
             if (IsBusy && !force) return;
             try
             {
-                if (RevistaSelecionada is null) return;
-
                 MainThread.BeginInvokeOnMainThread(() =>
                 {
                     DialogService.ShowLoading("Buscando as lições da revista...");
