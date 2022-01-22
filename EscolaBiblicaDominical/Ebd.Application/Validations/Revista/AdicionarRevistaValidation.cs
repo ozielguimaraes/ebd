@@ -13,7 +13,7 @@ namespace Ebd.Application.Validations.Revista
                .GreaterThanOrEqualTo(DateTime.UtcNow.Year).WithMessage("{0} deve ser maior ou igual a {1}");
             RuleFor(c => c.Trimestre)
                .NotEmpty().WithMessage("Campo {0} é obrigatório")
-               .ExclusiveBetween(1, 4).WithMessage("{0} informado não é valido");
+               .InclusiveBetween(1, 4).WithMessage("{0} informado não é valido");
             RuleFor(c => c.TurmaId)
                .NotEmpty().WithMessage("Campo {0} é obrigatório");
             RuleFor(c => c.Sumario)

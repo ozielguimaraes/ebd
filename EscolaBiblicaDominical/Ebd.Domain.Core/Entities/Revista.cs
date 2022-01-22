@@ -4,6 +4,14 @@ namespace Ebd.Domain.Core.Entities
 {
     public class Revista
     {
+        public Revista(int turmaId, string sumario, int ano, int trimestre)
+        {
+            TurmaId = turmaId;
+            Sumario = sumario;
+            Ano = ano;
+            Trimestre = trimestre;
+        }
+
         public Revista(int turmaId, int revistaId, string sumario, int ano, int trimestre)
         {
             TurmaId = turmaId;

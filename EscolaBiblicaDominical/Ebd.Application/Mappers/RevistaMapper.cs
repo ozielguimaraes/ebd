@@ -27,7 +27,6 @@ namespace Ebd.Application.Mappers
 
         internal static Revista FromRequestToEntity(AdicionarRevistaRequest request)
             => new Revista(
-                   revistaId: request.RevistaId,
                    turmaId: request.TurmaId,
                    sumario: request.Sumario,
                    ano: request.Ano,
