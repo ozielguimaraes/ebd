@@ -451,7 +451,7 @@ namespace Ebd.Infra.Data.Migrations
             modelBuilder.Entity("Ebd.Domain.Core.Entities.Revista", b =>
                 {
                     b.HasOne("Ebd.Domain.Core.Entities.Turma", "Turma")
-                        .WithMany()
+                        .WithMany("Revistas")
                         .HasForeignKey("TurmaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -486,6 +486,8 @@ namespace Ebd.Infra.Data.Migrations
                     b.Navigation("Alunos");
 
                     b.Navigation("Professores");
+
+                    b.Navigation("Revistas");
                 });
 #pragma warning restore 612, 618
         }

@@ -26,6 +26,7 @@ namespace Ebd.Infra.Data.Configurations
 
             builder.Property(c => c.TurmaId)
                 .IsRequired();
+            builder.HasOne(x => x.Turma).WithMany(x => x.Revistas);
 
             builder.HasMany(c => c.Licoes)
                 .WithOne(e => e.Revista)

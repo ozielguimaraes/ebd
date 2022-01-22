@@ -24,7 +24,7 @@ namespace Ebd.Infra.Data.Migrations
                 column: "TurmaId",
                 principalTable: "Turma",
                 principalColumn: "TurmaId",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.NoAction);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

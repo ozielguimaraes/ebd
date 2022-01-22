@@ -11,5 +11,6 @@ namespace Ebd.Domain.Core.Entities
 
         public ICollection<Aluno> Alunos { get; private set; }
         public ICollection<Professor> Professores { get; private set; }
+        public ICollection<Revista> Revistas { get; private set; }
     }
 }
