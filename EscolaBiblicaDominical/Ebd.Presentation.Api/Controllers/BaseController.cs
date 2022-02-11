@@ -43,7 +43,7 @@ namespace Ebd.Presentation.Api.Controllers
 
         protected ObjectResult InternalServerError(Exception exception)
         {
-            return StatusCode((int)HttpStatusCode.InternalServerError, exception.FullException());
+            return StatusCode(StatusCodes.Status500InternalServerError, exception.FullException());
         }
     }
 }

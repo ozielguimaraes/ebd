@@ -2,7 +2,7 @@
 
 namespace Ebd.Mobile.Services.Responses
 {
-    public class BaseResponse<T>
+    public class BaseResponse<T> : AbstractResponse
     {
         public BaseResponse(T data)
         {

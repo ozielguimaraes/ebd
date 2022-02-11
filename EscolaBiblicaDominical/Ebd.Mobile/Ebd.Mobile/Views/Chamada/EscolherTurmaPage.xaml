@@ -38,7 +38,7 @@
                        IsEnabled="False" />
             </StackLayout>
 
-            <StackLayout IsVisible="{Binding LicaoSelecionada, Converter={StaticResource IsNotNull}}">
+            <StackLayout IsVisible="{Binding RevistaSelecionada, Converter={StaticResource IsNotNull}}">
                 <Label Text="Lição" />
                 <Picker Title="Selecione uma lição"
                         TitleColor="{StaticResource Primary}"

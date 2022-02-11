@@ -32,10 +32,10 @@ namespace Ebd.Application.Business.Implementation
                 alunoId: request.AlunoId,
                 licaoId: request.LicaoId,
                 estavaPresente: request.EstavaPresente,
-                data: DateTime.UtcNow
+                data: DateTime.Now
                 ));
-            if (request.EstavaPresente)
-                await _avaliacaoAlunoBusiness.AdicionarAsync(request.AlunoId, request.Avaliacoes);
+
+            await _avaliacaoAlunoBusiness.AdicionarAsync(request.AlunoId, request.LicaoId, request.EstavaPresente, request.Avaliacoes);
 
             //------
             //TODO fazer transaction Scope

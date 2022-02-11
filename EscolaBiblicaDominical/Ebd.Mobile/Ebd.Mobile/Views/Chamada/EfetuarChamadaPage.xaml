@@ -29,13 +29,13 @@
                              Margin="0,16,0,0"
                              IsVisible="{Binding EstaPresente}">
                     <BindableLayout.ItemTemplate>
-                        <DataTemplate x:DataType="models:RealizarAvaliacao">
+                        <DataTemplate x:DataType="vm:RealizarAvaliacaoVm">
                             <StackLayout Orientation="Horizontal"
                                          Padding="0,8">
                                 <Label Text="{Binding Nome}"
                                        FontSize="Medium"
                                        HorizontalOptions="StartAndExpand" />
-                                <Switch  IsToggled="{Binding FoiRealizada}" />
+                                <Switch IsToggled="{Binding FoiRealizada, Mode=TwoWay}" />
                             </StackLayout>
                         </DataTemplate>
                     </BindableLayout.ItemTemplate>
