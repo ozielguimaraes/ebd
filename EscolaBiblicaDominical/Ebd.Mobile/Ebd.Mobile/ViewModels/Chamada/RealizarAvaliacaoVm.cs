@@ -2,7 +2,7 @@
 
 namespace Ebd.Mobile.ViewModels.Chamada
 {
-    public class RealizarAvaliacaoVm :BaseViewModel
+    public class RealizarAvaliacaoVm : BaseViewModel
     {
         public RealizarAvaliacaoVm(AvaliacaoResponse avaliacaoResponse)
         {

@@ -8,6 +8,20 @@ namespace Ebd.Infra.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Avaliacao",
+                columns: table => new
+                {
+                    AvaliacaoId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nota = table.Column<int>(type: "int", nullable: false),
+                    Nome = table.Column<string>(type: "nvarchar(35)", maxLength: 35, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Avaliacao", x => x.AvaliacaoId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Bairro",
                 columns: table => new
                 {
@@ -33,21 +47,6 @@ namespace Ebd.Infra.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Pessoa", x => x.PessoaId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Revista",
-                columns: table => new
-                {
-                    RevistaId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Sumario = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false),
-                    Ano = table.Column<int>(type: "int", nullable: false),
-                    Trimestre = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Revista", x => x.RevistaId);
                 });
 
             migrationBuilder.CreateTable(
@@ -118,26 +117,6 @@ namespace Ebd.Infra.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Licao",
-                columns: table => new
-                {
-                    LicaoId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Titulo = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false),
-                    RevistaId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Licao", x => x.LicaoId);
-                    table.ForeignKey(
-                        name: "FK_Licao_Revista_RevistaId",
-                        column: x => x.RevistaId,
-                        principalTable: "Revista",
-                        principalColumn: "RevistaId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Aluno",
                 columns: table => new
                 {
@@ -197,6 +176,77 @@ namespace Ebd.Infra.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Revista",
+                columns: table => new
+                {
+                    RevistaId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Sumario = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false),
+                    Ano = table.Column<int>(type: "int", nullable: false),
+                    Trimestre = table.Column<int>(type: "int", nullable: false),
+                    TurmaId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Revista", x => x.RevistaId);
+                    table.ForeignKey(
+                        name: "FK_Revista_Turma_TurmaId",
+                        column: x => x.TurmaId,
+                        principalTable: "Turma",
+                        principalColumn: "TurmaId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Licao",
+                columns: table => new
+                {
+                    LicaoId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Titulo = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false),
+                    RevistaId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Licao", x => x.LicaoId);
+                    table.ForeignKey(
+                        name: "FK_Licao_Revista_RevistaId",
+                        column: x => x.RevistaId,
+                        principalTable: "Revista",
+                        principalColumn: "RevistaId");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AvaliacaoAluno",
+                columns: table => new
+                {
+                    AvaliacaoAlunoId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AvaliacaoId = table.Column<int>(type: "int", nullable: false),
+                    AlunoId = table.Column<int>(type: "int", nullable: false),
+                    LicaoId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AvaliacaoAluno", x => x.AvaliacaoAlunoId);
+                    table.ForeignKey(
+                        name: "FK_AvaliacaoAluno_Aluno_AlunoId",
+                        column: x => x.AlunoId,
+                        principalTable: "Aluno",
+                        principalColumn: "AlunoId");
+                    table.ForeignKey(
+                        name: "FK_AvaliacaoAluno_Avaliacao_AvaliacaoId",
+                        column: x => x.AvaliacaoId,
+                        principalTable: "Avaliacao",
+                        principalColumn: "AvaliacaoId");
+                    table.ForeignKey(
+                        name: "FK_AvaliacaoAluno_Licao_LicaoId",
+                        column: x => x.LicaoId,
+                        principalTable: "Licao",
+                        principalColumn: "LicaoId");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Chamada",
                 columns: table => new
                 {
@@ -240,6 +290,26 @@ namespace Ebd.Infra.Data.Migrations
                 column: "TurmaId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AvaliacaoAluno_AlunoId",
+                table: "AvaliacaoAluno",
+                column: "AlunoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AvaliacaoAluno_AvaliacaoId",
+                table: "AvaliacaoAluno",
+                column: "AvaliacaoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AvaliacaoAluno_LicaoId",
+                table: "AvaliacaoAluno",
+                column: "LicaoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Bairro_Nome",
+                table: "Bairro",
+                column: "Nome");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Chamada_AlunoId",
                 table: "Chamada",
                 column: "AlunoId");
@@ -270,6 +340,11 @@ namespace Ebd.Infra.Data.Migrations
                 column: "RevistaId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Pessoa_Nome",
+                table: "Pessoa",
+                column: "Nome");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Professor_PessoaId",
                 table: "Professor",
                 column: "PessoaId");
@@ -278,10 +353,23 @@ namespace Ebd.Infra.Data.Migrations
                 name: "IX_Professor_TurmaId",
                 table: "Professor",
                 column: "TurmaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Revista_Ano_Trimestre",
+                table: "Revista",
+                columns: new[] { "Ano", "Trimestre" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Revista_TurmaId",
+                table: "Revista",
+                column: "TurmaId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "AvaliacaoAluno");
+
             migrationBuilder.DropTable(
                 name: "Chamada");
 
@@ -293,6 +381,9 @@ namespace Ebd.Infra.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Professor");
+
+            migrationBuilder.DropTable(
+                name: "Avaliacao");
 
             migrationBuilder.DropTable(
                 name: "Aluno");
@@ -307,10 +398,10 @@ namespace Ebd.Infra.Data.Migrations
                 name: "Pessoa");
 
             migrationBuilder.DropTable(
-                name: "Turma");
+                name: "Revista");
 
             migrationBuilder.DropTable(
-                name: "Revista");
+                name: "Turma");
         }
     }
 }

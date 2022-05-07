@@ -11,6 +11,7 @@ using MvvmHelpers;
 using MvvmHelpers.Commands;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -40,11 +41,22 @@ namespace Ebd.Mobile.ViewModels.Chamada
         public EfetuarChamadaViewModel()
         {
             Title = "Efetuar chamada";
+
+            Avaliacoes = new ObservableCollection<RealizarAvaliacao>();
         }
 
         public int LicaoId { get; set; }
         public List<EfetuarChamada> AlunosParaEfetuarChamada { get; private set; } = new List<EfetuarChamada>();
-        public ObservableRangeCollection<RealizarAvaliacaoVm> Avaliacoes { get; private set; } = new ObservableRangeCollection<RealizarAvaliacaoVm>();
+        //public ObservableCollection<RealizarAvaliacao> Avaliacoes { get; set; } = new ObservableCollection<RealizarAvaliacao>();
+
+
+
+        private ObservableCollection<RealizarAvaliacao> avaliacoes;
+        public ObservableCollection<RealizarAvaliacao> Avaliacoes
+        {
+            get => avaliacoes;
+            set => SetProperty(ref avaliacoes, value);
+        }
 
         private string turma;
         public string Turma
@@ -147,13 +159,19 @@ namespace Ebd.Mobile.ViewModels.Chamada
 
                 MainThread.BeginInvokeOnMainThread(() =>
                 {
-                    Avaliacoes.Clear();
-                    Avaliacoes.AddRange(response.Data.Where(x => x.AvaliacaoId != IdAvaliacaoPresenca)
-                        .Select(avaliacao => new RealizarAvaliacaoVm(avaliacao)));
+                    var items = response.Data.Where(x => x.AvaliacaoId != IdAvaliacaoPresenca)
+                         .Select(avaliacao => new RealizarAvaliacao(avaliacao));
+                    Avaliacoes = new ObservableCollection<RealizarAvaliacao>(items);
+
+                    //Avaliacoes.Clear();
+
+                    //Avaliacoes.AddRange(items)
                 });
 
                 if (Avaliacoes.Any())
+                {
                     SetAlunoParaEfetuarChamada();
+                }
                 else
                 {
                     await Shell.Current.GoToAsync("..");

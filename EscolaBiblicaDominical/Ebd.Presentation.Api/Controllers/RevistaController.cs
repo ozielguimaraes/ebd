@@ -36,8 +36,9 @@ namespace Ebd.Presentation.Api.Controllers
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex, $"Erro ao obter lições da revista: {revistaId}");
-                return InternalServerError(ex);
+                var message = $"Erro ao obter lições da revista: {revistaId}";
+                Logger.LogError(ex, message);
+                return InternalServerError(ex, message);
             }
         }
 
@@ -55,7 +56,7 @@ namespace Ebd.Presentation.Api.Controllers
             catch (Exception ex)
             {
                 Logger.LogError(ex, "Erro ao adicionar revista");
-                return InternalServerError(ex);
+                return InternalServerError(ex, "Erro ao adicionar revista");
             }
         }
 
@@ -72,8 +73,9 @@ namespace Ebd.Presentation.Api.Controllers
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex, $"Erro ao obter as revistas do periodo turma/{turmaId}/trimestre/{trimestre}-{ano}");
-                return InternalServerError(ex);
+                var message = $"Erro ao obter as revistas do periodo turma/{turmaId}/trimestre/{trimestre}-{ano}";
+                Logger.LogError(ex, message);
+                return InternalServerError(ex, message);
             }
         }
     }

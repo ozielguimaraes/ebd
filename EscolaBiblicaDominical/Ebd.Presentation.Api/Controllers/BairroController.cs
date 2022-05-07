@@ -31,7 +31,7 @@ namespace Ebd.Presentation.Api.Controllers
             catch (Exception ex)
             {
                 Logger.LogError(ex, "Erro ao obter os bairros");
-                return InternalServerError(ex);
+                return InternalServerError(ex, "Erro ao obter os bairros");
             }
         }
     }

@@ -4,11 +4,13 @@ using Ebd.Mobile.Services.Implementations.Diagnostic;
 using Ebd.Mobile.Services.Implementations.Dialog;
 using Ebd.Mobile.Services.Implementations.Logger;
 using Ebd.Mobile.Services.Interfaces;
+using Ebd.Mobile.Services.Mocks;
 using Ebd.Mobile.ViewModels;
 using Ebd.Mobile.ViewModels.Aluno;
 using Ebd.Mobile.ViewModels.Chamada;
 using Ebd.Mobile.Views;
 using Ebd.Mobile.Views.Aluno;
+using Plugin.FirebasePushNotification;
 using Xamarin.Forms;
 
 namespace Ebd.Mobile
@@ -19,7 +21,20 @@ namespace Ebd.Mobile
         {
             InitializeComponent();
             RegisterDependencies();
+            ConfigureFirebaseRefreshToken();
             MainPage = new AppShell();
+        }
+
+        private void ConfigureFirebaseRefreshToken()
+        {
+            CrossFirebasePushNotification.Current.Subscribe("all");
+            CrossFirebasePushNotification.Current.OnTokenRefresh += OnFirebaseTokenRefresh;
+        }
+
+        private void OnFirebaseTokenRefresh(object source, FirebasePushNotificationTokenEventArgs args)
+        {
+            LoggerService.Current.LogInformation($"Firebase newToken: {args.Token}");
+            //PushNotificationService.Current.SendRegistrationToServer(token: args.Token);
         }
 
         private static void RegisterDependencies()
@@ -30,10 +45,13 @@ namespace Ebd.Mobile
             DependencyService.Register<IDiagnosticService, DiagnosticService>();
             DependencyService.Register<IDialogService, DialogService>();
             DependencyService.Register<INetworkService, NetworkService>();
+
             DependencyService.Register<IAlunoService, AlunoService>();
             DependencyService.Register<IAvaliacaoService, AvaliacaoService>();
             DependencyService.Register<IChamadaService, ChamadaService>();
             DependencyService.Register<ITurmaService, TurmaService>();
+            DependencyService.Register<IRevistaService, RevistaMock>();
+            DependencyService.Register<ILicaoService, LicaoMock>();
 
             //ViewModels
             DependencyService.Register<HomeViewModel>();

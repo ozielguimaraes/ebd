@@ -1,10 +1,8 @@
 ﻿using Ebd.Mobile.Services.Implementations.Base;
 using Ebd.Mobile.Services.Interfaces;
 using Ebd.Mobile.Services.Requests.Licao;
-using Ebd.Mobile.Services.Requests.Revista;
 using Ebd.Mobile.Services.Responses;
 using Ebd.Mobile.Services.Responses.Licao;
-using Ebd.Mobile.Services.Responses.Revista;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

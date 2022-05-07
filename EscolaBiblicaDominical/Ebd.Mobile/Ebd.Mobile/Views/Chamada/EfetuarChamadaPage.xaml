@@ -23,9 +23,30 @@
                     <Label Text="Está presente hoje?"
                        FontSize="Medium"
                        FontAttributes="Bold"/>
-                    <Switch  IsToggled="{Binding EstaPresente}" />
+                    <Switch  IsToggled="{Binding EstaPresente, Mode=OneWayToSource}" />
                 </StackLayout>
-                <StackLayout BindableLayout.ItemsSource="{Binding Avaliacoes}"
+
+                <StackLayout IsVisible="{Binding EstaPresente, Mode=OneWay}">
+                    <Label Text="EstaPresente=TRUE" />
+                </StackLayout>
+
+                    <ListView ItemsSource="{Binding Avaliacoes}"
+                             Margin="0,16,0,0">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <StackLayout Orientation="Horizontal"
+                                         Padding="0,8">
+                                    <Label  Text="ASSS"/>
+                                    <!--<Label Text="{Binding Nome}"
+                                       FontSize="Medium"
+                                       HorizontalOptions="StartAndExpand" />
+                                <Switch IsToggled="{Binding FoiRealizada, Mode=TwoWay}" />-->
+                                </StackLayout>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
+                <!--<StackLayout BindableLayout.ItemsSource="{Binding Avaliacoes, Mode=TwoWay}"
                              Margin="0,16,0,0"
                              IsVisible="{Binding EstaPresente}">
                     <BindableLayout.ItemTemplate>
@@ -39,7 +60,7 @@
                             </StackLayout>
                         </DataTemplate>
                     </BindableLayout.ItemTemplate>
-                </StackLayout>
+                </StackLayout>-->
 
                 <Button Text="Próximo"
                         Margin="0,32,0,0"

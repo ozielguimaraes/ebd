@@ -79,11 +79,16 @@ namespace Ebd.Infra.Data.Migrations
                     b.Property<int>("AvaliacaoId")
                         .HasColumnType("int");
 
+                    b.Property<int>("LicaoId")
+                        .HasColumnType("int");
+
                     b.HasKey("AvaliacaoAlunoId");
 
                     b.HasIndex("AlunoId");
 
                     b.HasIndex("AvaliacaoId");
+
+                    b.HasIndex("LicaoId");
 
                     b.ToTable("AvaliacaoAluno");
                 });
@@ -338,7 +343,7 @@ namespace Ebd.Infra.Data.Migrations
                         .HasForeignKey("ResponsavelId");
 
                     b.HasOne("Ebd.Domain.Core.Entities.Turma", "Turma")
-                        .WithMany("Alunos")
+                        .WithMany()
                         .HasForeignKey("TurmaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -355,18 +360,26 @@ namespace Ebd.Infra.Data.Migrations
                     b.HasOne("Ebd.Domain.Core.Entities.Aluno", "Aluno")
                         .WithMany("AvaliacoesAluno")
                         .HasForeignKey("AlunoId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Ebd.Domain.Core.Entities.Avaliacao", "Avaliacao")
                         .WithMany("AvaliacoesAluno")
                         .HasForeignKey("AvaliacaoId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Ebd.Domain.Core.Entities.Licao", "Licao")
+                        .WithMany("AvaliacoesAluno")
+                        .HasForeignKey("LicaoId")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Aluno");
 
                     b.Navigation("Avaliacao");
+
+                    b.Navigation("Licao");
                 });
 
             modelBuilder.Entity("Ebd.Domain.Core.Entities.Chamada", b =>
@@ -423,7 +436,7 @@ namespace Ebd.Infra.Data.Migrations
                     b.HasOne("Ebd.Domain.Core.Entities.Revista", "Revista")
                         .WithMany("Licoes")
                         .HasForeignKey("RevistaId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Revista");
@@ -438,7 +451,7 @@ namespace Ebd.Infra.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("Ebd.Domain.Core.Entities.Turma", "Turma")
-                        .WithMany("Professores")
+                        .WithMany()
                         .HasForeignKey("TurmaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -451,7 +464,7 @@ namespace Ebd.Infra.Data.Migrations
             modelBuilder.Entity("Ebd.Domain.Core.Entities.Revista", b =>
                 {
                     b.HasOne("Ebd.Domain.Core.Entities.Turma", "Turma")
-                        .WithMany("Revistas")
+                        .WithMany()
                         .HasForeignKey("TurmaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -469,6 +482,11 @@ namespace Ebd.Infra.Data.Migrations
                     b.Navigation("AvaliacoesAluno");
                 });
 
+            modelBuilder.Entity("Ebd.Domain.Core.Entities.Licao", b =>
+                {
+                    b.Navigation("AvaliacoesAluno");
+                });
+
             modelBuilder.Entity("Ebd.Domain.Core.Entities.Pessoa", b =>
                 {
                     b.Navigation("Contatos");
@@ -479,15 +497,6 @@ namespace Ebd.Infra.Data.Migrations
             modelBuilder.Entity("Ebd.Domain.Core.Entities.Revista", b =>
                 {
                     b.Navigation("Licoes");
-                });
-
-            modelBuilder.Entity("Ebd.Domain.Core.Entities.Turma", b =>
-                {
-                    b.Navigation("Alunos");
-
-                    b.Navigation("Professores");
-
-                    b.Navigation("Revistas");
                 });
 #pragma warning restore 612, 618
         }

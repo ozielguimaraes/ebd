@@ -36,13 +36,13 @@ namespace Ebd.Presentation.Api.Controllers
             catch (Exception ex)
             {
                 Logger.LogError(ex, $"Erro ao obter lições da revista: {revistaId}");
-                return InternalServerError(ex);
+                return InternalServerError(ex, $"Erro ao obter lições da revista: {revistaId}");
             }
         }
 
         [Route("")]
         [HttpPost]
-        [ProducesResponseType(typeof(LicaoResponse), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(LicaoResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(List<ValidationFailure>), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(Exception), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Post([FromBody] AdicionarLicaoRequest request)
@@ -54,7 +54,7 @@ namespace Ebd.Presentation.Api.Controllers
             catch (Exception ex)
             {
                 Logger.LogError(ex, "Erro ao adicionar lição");
-                return InternalServerError(ex);
+                return InternalServerError(ex, "Erro ao adicionar lição");
             }
         }
     }
