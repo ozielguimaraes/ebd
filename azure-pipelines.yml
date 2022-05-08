@@ -31,7 +31,7 @@ steps:
     feedsToUse: 'select'
 
 - task: DotNetCoreCLI@2
-  displayName: 'Build '
+  displayName: 'Build'
   inputs:
     command: 'build'
     projects: |
@@ -39,16 +39,15 @@ steps:
       **/Ebd.Infra.Data.csproj
       **/Ebd.CrossCutting.IoC.csproj
       **/Ebd.Application.csproj
-      **/Ebd.Presentation.Api.csproj
     arguments: '-o $(Build.ArtifactStagingDirectory)'
 
 - task: DotNetCoreCLI@2
   displayName: 'Publish files'
   inputs:
     command: 'publish'
+    projects: '**/Ebd.Presentation.Api.csproj'
     publishWebProjects: true
     arguments: '-o $(Build.ArtifactStagingDirectory)'
-    zipAfterPublish: true
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Build Artifacts $(Build.ArtifactStagingDirectory)'
@@ -58,7 +57,6 @@ steps:
     publishLocation: 'Container'
 
 - task: AzureRmWebAppDeployment@4
-  displayName: 'Publish to Azure app service'
   inputs:
     ConnectionType: 'AzureRM'
     azureSubscription: 'GTech(b42a60f5-3c02-4a26-851c-36d2273fb56a)'
