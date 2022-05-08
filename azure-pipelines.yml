@@ -39,6 +39,7 @@ steps:
       **/Ebd.Infra.Data.csproj
       **/Ebd.CrossCutting.IoC.csproj
       **/Ebd.Application.csproj
+      **/Ebd.Presentation.Api.csproj
     arguments: '-o $(Build.ArtifactStagingDirectory)'
 
 - task: DotNetCoreCLI@2
