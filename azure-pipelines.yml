@@ -45,9 +45,9 @@ steps:
   displayName: 'Publish files'
   inputs:
     command: 'publish'
-    projects: '**/Ebd.Presentation.Api.csproj'
     publishWebProjects: true
     arguments: '-o $(Build.ArtifactStagingDirectory)'
+    zipAfterPublish: false
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Build Artifacts $(Build.ArtifactStagingDirectory)'
