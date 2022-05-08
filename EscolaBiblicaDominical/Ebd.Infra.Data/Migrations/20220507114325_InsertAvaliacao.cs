@@ -12,7 +12,7 @@ namespace Ebd.Infra.Data.Migrations
                 values: new object[,]
                 {
                     { 1, "Presença", 2 },
-                    { 2, "Trouxe visita?", 3 },
+                    { 2, "Trouxe visita?", 5 },
                     { 3, "Trouxe lição?", 2 },
                     { 4, "Trouxe bíblia?", 3 },
                     { 5, "Trouxe oferta?", 1 }

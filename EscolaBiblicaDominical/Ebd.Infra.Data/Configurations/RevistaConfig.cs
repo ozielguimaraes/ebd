@@ -26,11 +26,12 @@ namespace Ebd.Infra.Data.Configurations
 
             builder.Property(c => c.TurmaId)
                 .IsRequired();
-            builder.HasOne(x => x.Turma).WithMany(x => x.Revistas);
+            builder.HasOne(x => x.Turma);
 
             builder.HasMany(c => c.Licoes)
                 .WithOne(e => e.Revista)
-                .IsRequired();
+                .OnDelete(DeleteBehavior.NoAction)
+                .HasForeignKey(x => x.RevistaId);
 
             builder.HasIndex(i => new { i.Ano, i.Trimestre });
 

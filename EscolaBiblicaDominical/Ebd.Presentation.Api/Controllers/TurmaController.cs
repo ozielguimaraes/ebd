@@ -35,7 +35,7 @@ namespace Ebd.Presentation.Api.Controllers
             catch (Exception ex)
             {
                 Logger.LogError(ex, "Erro ao obter todas turmas");
-                return InternalServerError(ex);
+                return InternalServerError(ex, "Erro ao obter todas turmas");
             }
         }
     }

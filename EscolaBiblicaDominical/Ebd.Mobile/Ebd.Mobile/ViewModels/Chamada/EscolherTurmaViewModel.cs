@@ -49,9 +49,12 @@ namespace Ebd.Mobile.ViewModels.Chamada
 
                 if (turmaSelecionada is not null && turmaSelecionadaAnteriormente?.TurmaId != turmaSelecionada.TurmaId)
                 {
-                    RevistaSelecionada = null;
-                    LicaoSelecionada = null;
-                    CarregarRevistaCommand.ExecuteAsync(true).ConfigureAwait(true);
+                    MainThread.BeginInvokeOnMainThread(() =>
+                    {
+                        RevistaSelecionada = null;
+                        LicaoSelecionada = null;
+                        CarregarRevistaCommand.ExecuteAsync(true).ConfigureAwait(true);
+                    });
                 }
             }
         }
@@ -63,18 +66,21 @@ namespace Ebd.Mobile.ViewModels.Chamada
             set
             {
                 SetProperty(ref revistaSelecionada, value);
-                CarregarListaLicoesCommand.ExecuteAsync(true).ConfigureAwait(true);
+                if (value is not null)
+                {
+                    MainThread.BeginInvokeOnMainThread(() =>
+                    {
+                        CarregarListaAlunosCommand.ExecuteAsync(true).ConfigureAwait(true);
+                        CarregarListaLicoesCommand.ExecuteAsync(true).ConfigureAwait(true);
+                    });
+                }
             }
         }
         private LicaoResponse licaoSelecionada;
         public LicaoResponse LicaoSelecionada
         {
             get => licaoSelecionada;
-            set
-            {
-                SetProperty(ref licaoSelecionada, value);
-                CarregarListaAlunosCommand.ExecuteAsync(true).ConfigureAwait(true);
-            }
+            set => SetProperty(ref licaoSelecionada, value);
         }
 
         private int alunosMatriculados;
@@ -129,12 +135,11 @@ namespace Ebd.Mobile.ViewModels.Chamada
             try
             {
                 IsBusy = true;
-                
+
                 MainThread.BeginInvokeOnMainThread(() =>
                 {
                     DialogService.ShowLoading("Buscando as turmas...");
                 });
-                var carregarRevistaTask = CarregarRevistaCommand.ExecuteAsync(true).ConfigureAwait(false);
 
                 var response = await _turmaService.ObterTodasAsync();
 
@@ -151,7 +156,6 @@ namespace Ebd.Mobile.ViewModels.Chamada
                 }
 
                 await UpdateTurmas(response);
-                await carregarRevistaTask;
             }
             catch (Exception ex)
             {
@@ -204,7 +208,7 @@ namespace Ebd.Mobile.ViewModels.Chamada
                     MainThread.BeginInvokeOnMainThread(async () =>
                     {
                         await Shell.Current.GoToAsync("..");
-                    await DialogService.DisplayAlert("Oops", response.Exception.Message);
+                        await DialogService.DisplayAlert("Oops", response.Exception.Message);
                     });
                     return;
                 }
@@ -236,8 +240,6 @@ namespace Ebd.Mobile.ViewModels.Chamada
             if (IsBusy && !force) return;
             try
             {
-                if (RevistaSelecionada is null) return;
-
                 MainThread.BeginInvokeOnMainThread(() =>
                 {
                     DialogService.ShowLoading("Buscando as lições da revista...");
@@ -254,7 +256,7 @@ namespace Ebd.Mobile.ViewModels.Chamada
                     IsBusy = false;
                     await DialogService.DisplayAlert("Oops", response.Exception.Message);
                     return;
-                }
+                } 
 
                 AtualizarLicoes(response.Data);
             }
@@ -305,17 +307,13 @@ namespace Ebd.Mobile.ViewModels.Chamada
                 var response = await _alunoService.ObterPorTurmaIdAsync(TurmaSelecionada.TurmaId);
                 if (response.HasError)
                 {
-                    MainThread.BeginInvokeOnMainThread(() =>
-                    {
-                        DialogService.HideLoading();
-                    });
+                    HideLoading();
 
                     IsBusy = false;
                     await DialogService.DisplayAlert("Oops", response.Exception.Message);
                     return;
                 }
 
-                Alunos.Clear();
                 AtualizarAlunos(response);
 
                 //PodeIniciarChamada = Alunos.Any();
@@ -335,10 +333,7 @@ namespace Ebd.Mobile.ViewModels.Chamada
             }
             finally
             {
-                MainThread.BeginInvokeOnMainThread(() =>
-                {
-                    DialogService.HideLoading();
-                });
+                HideLoading();
                 IsBusy = false;
             }
         }
@@ -347,6 +342,7 @@ namespace Ebd.Mobile.ViewModels.Chamada
         {
             MainThread.BeginInvokeOnMainThread(() =>
             {
+                Alunos.Clear();
                 Alunos.AddRange(response.Data);
                 AlunosMatriculados = Alunos.Count();
             });
@@ -357,25 +353,6 @@ namespace Ebd.Mobile.ViewModels.Chamada
             if (IsBusy) return;
             try
             {
-                if (TurmaSelecionada is null) return;
-
-                IsBusy = true;
-
-                MainThread.BeginInvokeOnMainThread(() =>
-                {
-                    DialogService.ShowLoading("Buscando informações da revista...");
-                });
-
-                var revistaResponse = await _revistaService.ObterPorPeriodoAsync(TurmaSelecionada.TurmaId, DateTime.Now.Year, DateTimeExtension.ObterTrimestreAtual());
-
-                if (revistaResponse.HasError)
-                {
-                    HideLoading();
-                    IsBusy = false;
-                    await DialogService.DisplayAlert("Oops", revistaResponse.Exception.Message);
-                    return;
-                }
-
                 await Shell.Current.GoToAsync($"{nameof(EfetuarChamadaPage)}?Licao={LicaoSelecionada.LicaoId}&Turma={JsonSerializer.Serialize(TurmaSelecionada)}&AlunosTurma={JsonSerializer.Serialize(Alunos)}");
             }
             catch (Exception ex)
@@ -386,14 +363,6 @@ namespace Ebd.Mobile.ViewModels.Chamada
                 {
                     await DialogService.DisplayAlert(ex);
                 });
-            }
-            finally
-            {
-                MainThread.BeginInvokeOnMainThread(() =>
-                {
-                    DialogService.HideLoading();
-                });
-                IsBusy = false;
             }
         }
     }

@@ -1,4 +1,6 @@
-﻿namespace Ebd.Domain.Core.Entities
+﻿using System.Collections.Generic;
+
+namespace Ebd.Domain.Core.Entities
 {
     public class Licao
     {
@@ -13,5 +15,7 @@
 
         public int RevistaId { get; private set; }
         public Revista Revista { get; private set; }
+
+        public ICollection<AvaliacaoAluno> AvaliacoesAluno { get; set; }
     }
 }

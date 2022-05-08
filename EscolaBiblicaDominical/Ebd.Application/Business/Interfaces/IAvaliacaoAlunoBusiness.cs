@@ -5,6 +5,6 @@ namespace Ebd.Application.Business.Interfaces
 {
     public interface IAvaliacaoAlunoBusiness
     {
-        Task AdicionarAsync(int alunoId, IEnumerable<int> idsAvaliacao);
+        Task AdicionarAsync(int alunoId, int licaoId, bool estavaPresente, IEnumerable<int> idsAvaliacao);
     }
 }

@@ -16,11 +16,22 @@ namespace Ebd.Application.Business.Implementation
             _avaliacaoAlunoRepository = avaliacaoAlunoRepository;
         }
 
-        public async Task AdicionarAsync(int alunoId, IEnumerable<int> idsAvaliacao)
+        public async Task AdicionarAsync(int alunoId, int licaoId, bool estavaPresente, IEnumerable<int> idsAvaliacao)
         {
-            var avaliacoes = idsAvaliacao.Select(id => new AvaliacaoAluno(avaliacaoId: id, alunoId: alunoId));
-            
+            var avaliacoes = new List<AvaliacaoAluno>();
+
+            if (estavaPresente)
+                foreach (var id in idsAvaliacao)
+                {
+                    avaliacoes.Add(new AvaliacaoAluno(avaliacaoId: id, alunoId: alunoId, licaoId: licaoId));
+                }
+            else
+                avaliacoes.Add(new AvaliacaoAluno(avaliacaoId: ObterIdDaAvaliacaoPresenca(), alunoId: alunoId, licaoId: licaoId));
+
             await _avaliacaoAlunoRepository.AdicionarAsync(avaliacoes);
         }
+
+        private int ObterIdDaAvaliacaoPresenca()
+            => 1;
     }
 }

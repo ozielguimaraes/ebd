@@ -34,7 +34,7 @@ namespace Ebd.Presentation.Api.Controllers
             catch (Exception ex)
             {
                 Logger.LogError(ex, "Erro ao obter as avaliações");
-                return InternalServerError(ex);
+                return InternalServerError(ex, "Erro ao obter as avaliações");
             }
         }
     }

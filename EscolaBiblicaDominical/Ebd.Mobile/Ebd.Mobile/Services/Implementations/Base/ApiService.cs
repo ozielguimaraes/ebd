@@ -126,9 +126,10 @@ namespace Ebd.Mobile.Services.Implementations.Base
             where TResponse : class
             where TRequest : class
         {
+            var contentRequest = JsonSerializer.Serialize(request);
             using HttpResponseMessage responseMessage = await HttpClient.PostAsync(
                 requestUri,
-                new StringContent(JsonSerializer.Serialize(request), Encoding.UTF8, ApplicationJson)
+                new StringContent(contentRequest, Encoding.UTF8, ApplicationJson)
                 );
             var responseContent = await responseMessage.Content.ReadAsStringAsync();
 

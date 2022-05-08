@@ -28,14 +28,18 @@
                     <CollectionView.EmptyView>
                         <Label Text="Nenhum aluno encontrado para a turma."
                                FontSize="Subtitle"
-                               HorizontalTextAlignment="Center"
-                               IsVisible="{Binding TurmaSelecionada, Converter={StaticResource IsNotNull}}" />
+                               HorizontalTextAlignment="Center" />
                     </CollectionView.EmptyView>
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="response:AlunoResponse">
-                            <Frame Padding="0" CornerRadius="8" HasShadow="False">
-                                <StackLayout Orientation="Horizontal" Margin="10,0">
-                                    <FlexLayout HeightRequest="70"
+                            <Frame Padding="0" 
+                                   CornerRadius="8"
+                                   HasShadow="False">
+                                <StackLayout 
+                                    Orientation="Horizontal" 
+                                    Margin="10,8">
+                                    <FlexLayout 
+                                        HeightRequest="70"
                                         HorizontalOptions="StartAndExpand"
                                         Direction="Column"
                                         JustifyContent="SpaceAround">

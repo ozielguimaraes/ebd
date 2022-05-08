@@ -16,7 +16,7 @@ namespace Ebd.Presentation.Api.Controllers
     {
         private readonly IAlunoBusiness _alunoBusiness;
 
-        public AlunoController(ILogger<BaseController> logger, IAlunoBusiness alunoBusiness) : base(logger)
+        public AlunoController(ILogger<AlunoController> logger, IAlunoBusiness alunoBusiness) : base(logger)
         {
             _alunoBusiness = alunoBusiness;
         }
@@ -35,7 +35,7 @@ namespace Ebd.Presentation.Api.Controllers
             catch (Exception ex)
             {
                 Logger.LogError(ex, "Erro ao adicionar aluno");
-                return InternalServerError(ex);
+                return InternalServerError(ex, "Erro ao adicionar aluno");
             }
         }
 
@@ -53,7 +53,7 @@ namespace Ebd.Presentation.Api.Controllers
             catch (Exception ex)
             {
                 Logger.LogError(ex, "Erro ao obter aluno por turma");
-                return InternalServerError(ex);
+                return InternalServerError(ex, "Erro ao obter aluno por turma");
             }
         }
     }

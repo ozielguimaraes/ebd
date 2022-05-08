@@ -20,6 +20,6 @@ namespace Ebd.Mobile.Services.Implementations
             => await GetAndRetry<RevistaResponse>($"{PathToService}/{revistaId}", retryCount: DefaultRetryCount, OnRetry);
 
         public async Task<BaseResponse<RevistaResponse>> ObterPorPeriodoAsync(int turmaId, int ano, int trimestre)
-            => await GetAndRetry<RevistaResponse>($"{PathToService}/turma/{turmaId}/{trimestre}-{ano}", retryCount: DefaultRetryCount, OnRetry);
+            => await GetAndRetry<RevistaResponse>($"{PathToService}/turma/{turmaId}/trimestre/{trimestre}-{ano}", retryCount: DefaultRetryCount, OnRetry);
     }
 }

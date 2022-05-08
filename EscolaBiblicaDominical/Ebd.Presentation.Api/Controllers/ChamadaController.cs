@@ -28,7 +28,7 @@ namespace Ebd.Presentation.Api.Controllers
             catch (Exception ex)
             {
                 Logger.LogError(ex, "Erro ao efetuar chamada");
-                return InternalServerError(ex);
+                return InternalServerError(ex, "Erro ao efetuar chamada");
             }
         }
     }

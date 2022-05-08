@@ -5,14 +5,17 @@ using Ebd.Mobile.Services.Interfaces;
 using System;
 using Xamarin.Essentials;
 using MvvmHelpers.Commands;
-using MvvmHelpers;
 using System.Collections.Generic;
 using Ebd.Mobile.Services.Implementations;
 using Xamarin.Forms;
 using Ebd.Mobile.Services.Responses.Turma;
+using System.Text.Json;
+using MvvmHelpers;
 
 namespace Ebd.Mobile.ViewModels.Aluno
 {
+    [QueryProperty(nameof(Turma), nameof(Turma))]
+    [QueryProperty(nameof(Alunos), nameof(Alunos))]
     public class ListaAlunoViewModel : BaseViewModel
     {
         private static readonly Lazy<IAlunoService> alunoServiceLazy = new(() => new AlunoService(DependencyService.Get<INetworkService>()));
@@ -26,8 +29,32 @@ namespace Ebd.Mobile.ViewModels.Aluno
             Title = "Alunos";
         }
 
-        public ObservableCollection<AlunoResponse> Alunos { get; private set; } = new ObservableCollection<AlunoResponse>();
-        public ObservableCollection<TurmaResponse> Turmas { get; private set; } = new ObservableCollection<TurmaResponse>();
+        public ObservableRangeCollection<AlunoResponse> Alunos { get; private set; } = new ObservableRangeCollection<AlunoResponse>();
+        public ObservableRangeCollection<TurmaResponse> Turmas { get; private set; } = new ObservableRangeCollection<TurmaResponse>();
+
+        private string turma;
+        public string Turma
+        {
+            get => turma;
+            set
+            {
+                var content = Uri.UnescapeDataString(value ?? string.Empty);
+                SetProperty(ref turma, value);
+                SetTurmaSelecionada(content);
+            }
+        }
+
+        private string alunosTurma;
+        public string AlunosTurma
+        {
+            get => alunosTurma;
+            set
+            {
+                var content = Uri.UnescapeDataString(value ?? string.Empty);
+                SetProperty(ref alunosTurma, value);
+                SetAlunosTurma(content);
+            }
+        }
 
         private TurmaResponse turmaSelecionada;
         public TurmaResponse TurmaSelecionada
@@ -38,8 +65,8 @@ namespace Ebd.Mobile.ViewModels.Aluno
                 var turmaSelecionadaAnteriormente = turmaSelecionada;
                 SetProperty(ref turmaSelecionada, value);
 
-                if (!turmaSelecionada.Equals(turmaSelecionadaAnteriormente))
-                    CarregarListaAlunosCommand.ExecuteAsync(true).ConfigureAwait(true);
+                if (turmaSelecionada is not null && !turmaSelecionada.Equals(turmaSelecionadaAnteriormente))
+                    MainThread.BeginInvokeOnMainThread(() => CarregarListaAlunosCommand.ExecuteAsync(true).ConfigureAwait(true)); ;
             }
         }
 
@@ -75,11 +102,11 @@ namespace Ebd.Mobile.ViewModels.Aluno
                     return;
                 }
 
-                Turmas.Clear();
-                foreach (var item in response.Data)
+                MainThread.BeginInvokeOnMainThread(() =>
                 {
-                    MainThread.BeginInvokeOnMainThread(() => Turmas.Add(item));
-                }
+                    Turmas.Clear();
+                    Turmas.AddRange(response.Data);
+                });
 
                 if (Turmas.Count == 0)
                 {
@@ -160,6 +187,17 @@ namespace Ebd.Mobile.ViewModels.Aluno
                 });
                 IsBusy = false;
             }
+        }
+
+        private void SetTurmaSelecionada(string content)
+        {
+            TurmaSelecionada = JsonSerializer.Deserialize<TurmaResponse>(content);
+        }
+
+        private void SetAlunosTurma(string content)
+        {
+            Alunos.Clear();
+            Alunos.AddRange(JsonSerializer.Deserialize<IEnumerable<AlunoResponse>>(content));
         }
     }
 }

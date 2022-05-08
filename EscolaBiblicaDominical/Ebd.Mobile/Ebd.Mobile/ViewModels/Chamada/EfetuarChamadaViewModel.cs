@@ -4,11 +4,14 @@ using Ebd.Mobile.Services.Interfaces;
 using Ebd.Mobile.Services.Requests.Chamada;
 using Ebd.Mobile.Services.Responses;
 using Ebd.Mobile.Services.Responses.Aluno;
+using Ebd.Mobile.Services.Responses.Chamada;
 using Ebd.Mobile.Services.Responses.Turma;
+using Ebd.Mobile.Views.Aluno;
 using MvvmHelpers;
 using MvvmHelpers.Commands;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -38,11 +41,22 @@ namespace Ebd.Mobile.ViewModels.Chamada
         public EfetuarChamadaViewModel()
         {
             Title = "Efetuar chamada";
+
+            Avaliacoes = new ObservableCollection<RealizarAvaliacao>();
         }
 
         public int LicaoId { get; set; }
         public List<EfetuarChamada> AlunosParaEfetuarChamada { get; private set; } = new List<EfetuarChamada>();
-        public ObservableRangeCollection<RealizarAvaliacao> Avaliacoes { get; private set; } = new ObservableRangeCollection<RealizarAvaliacao>();
+        //public ObservableCollection<RealizarAvaliacao> Avaliacoes { get; set; } = new ObservableCollection<RealizarAvaliacao>();
+
+
+
+        private ObservableCollection<RealizarAvaliacao> avaliacoes;
+        public ObservableCollection<RealizarAvaliacao> Avaliacoes
+        {
+            get => avaliacoes;
+            set => SetProperty(ref avaliacoes, value);
+        }
 
         private string turma;
         public string Turma
@@ -96,8 +110,8 @@ namespace Ebd.Mobile.ViewModels.Chamada
                 var turmaSelecionadaAnteriormente = turmaSelecionada;
                 SetProperty(ref turmaSelecionada, value);
 
-                if (!turmaSelecionada.Equals(turmaSelecionadaAnteriormente))
-                    CarregarListaAlunosCommand.ExecuteAsync(true).ConfigureAwait(true);
+                //if (!turmaSelecionada.Equals(turmaSelecionadaAnteriormente))
+                //CarregarListaAlunosCommand.ExecuteAsync(true).ConfigureAwait(true);
             }
         }
 
@@ -143,16 +157,21 @@ namespace Ebd.Mobile.ViewModels.Chamada
                     return;
                 }
 
-                Avaliacoes.Clear();
-
                 MainThread.BeginInvokeOnMainThread(() =>
                 {
-                    Avaliacoes.AddRange(response.Data.Where(x => x.AvaliacaoId != IdAvaliacaoPresenca)
-                        .Select(avaliacao => new RealizarAvaliacao(avaliacao)));
+                    var items = response.Data.Where(x => x.AvaliacaoId != IdAvaliacaoPresenca)
+                         .Select(avaliacao => new RealizarAvaliacao(avaliacao));
+                    Avaliacoes = new ObservableCollection<RealizarAvaliacao>(items);
+
+                    //Avaliacoes.Clear();
+
+                    //Avaliacoes.AddRange(items)
                 });
 
                 if (Avaliacoes.Any())
+                {
                     SetAlunoParaEfetuarChamada();
+                }
                 else
                 {
                     await Shell.Current.GoToAsync("..");
@@ -246,7 +265,9 @@ namespace Ebd.Mobile.ViewModels.Chamada
                 {
                     HideLoading();
                     IsBusy = false;
+
                     await DialogService.DisplayAlert("Hehe", "Chamada realizada com sucesso.");
+                    await FinalizarChamada();
                     return;
                 }
             }
@@ -270,24 +291,31 @@ namespace Ebd.Mobile.ViewModels.Chamada
         private void SetChamadaRealizada()
         {
             var alunoAtual = AlunosParaEfetuarChamada.First(f => f.Aluno.AlunoId == AlunoParaEfetuarChamada.Aluno.AlunoId);
-            alunoAtual.SetChamadaFoiRealizada();
             AlunosParaEfetuarChamada.Remove(alunoAtual);
+            alunoAtual.SetChamadaFoiRealizada();
             AlunosParaEfetuarChamada.Add(alunoAtual);
         }
 
-        private async Task<EmptyResponse> EfetuarChamadaAsync()
+        private async Task FinalizarChamada()
+        {
+            await Shell.Current.GoToAsync($"{nameof(ListaAlunoPage)}?Turma={JsonSerializer.Serialize(TurmaSelecionada)}&Alunos={JsonSerializer.Serialize(AlunosParaEfetuarChamada.Select(x => x.Aluno))}");
+        }
+
+        private async Task<BaseResponse<ChamadaResponse>> EfetuarChamadaAsync()
         {
             var request = new ChamadaRequest(
                 alunoId: AlunoParaEfetuarChamada.Aluno.AlunoId,
                 licaoId: LicaoId,
                 estavaPresente: EstaPresente,
-                avaliacoes: ObterIdAvaliacoesRealizadas()
+                avaliacoes: ObterIdsAvaliacoesRealizadas()
                 );
             return await _chamadaService.EfetuarChamadaAsync(request);
         }
 
-        private IEnumerable<int> ObterIdAvaliacoesRealizadas()
-            => EstaPresente ? Avaliacoes.Where(x => x.FoiRealizada).Select(x => x.AvaliacaoId) : null;
+        private IEnumerable<int> ObterIdsAvaliacoesRealizadas()
+        {
+            return EstaPresente ? Avaliacoes.Where(x => x.FoiRealizada).Select(x => x.AvaliacaoId) : null;
+        }
 
         private void SetLicaoId(string content)
         {
@@ -301,7 +329,11 @@ namespace Ebd.Mobile.ViewModels.Chamada
 
         private void SetAlunos(string content)
         {
-            AlunosParaEfetuarChamada.AddRange(JsonSerializer.Deserialize<List<AlunoResponse>>(content).Select(x => new EfetuarChamada(x)));
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                AlunosParaEfetuarChamada.Clear();
+                AlunosParaEfetuarChamada.AddRange(JsonSerializer.Deserialize<IEnumerable<AlunoResponse>>(content).Select(x => new EfetuarChamada(x)));
+            });
         }
 
         private bool NaoPossuiAlgumAlunoParaEfetuarChamada()
@@ -310,6 +342,9 @@ namespace Ebd.Mobile.ViewModels.Chamada
         private void SetAlunoParaEfetuarChamada()
         {
             AlunoParaEfetuarChamada = AlunosParaEfetuarChamada.FirstOrDefault(x => !x.ChamadaRealizada);
+            foreach (var item in Avaliacoes)
+                item.FoiRealizada = false;
+            EstaPresente = false;
         }
     }
 }
