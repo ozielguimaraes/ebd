@@ -3,11 +3,6 @@ using Ebd.Application.Responses.Revista;
 using Ebd.Domain.Core.Entities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using FluentAssertions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ebd.Application.Tests.Mappers
 {
@@ -20,6 +15,14 @@ namespace Ebd.Application.Tests.Mappers
             var result = RevistaMapper.FromEntityToResponse(new Revista(1, 10, "Test Unit", 2022, 2));
 
             result.Should().BeEquivalentTo(new RevistaResponse(1, 10, "Test Unit", 2022, 2));
+        }
+
+        [TestMethod]
+        public void FromRequestToEntity_WhenNull()
+        {
+            var result = RevistaMapper.FromEntityToResponse((Revista)null);
+
+            result.Should().BeNull();
         }
     }
 }
