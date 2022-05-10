@@ -103,8 +103,7 @@ namespace Ebd.Mobile.Services.Implementations.Base
                 if (!responseMessage.IsSuccessStatusCode)
                     ExceptionFromHttpStatusCode(responseMessage, responseContent);
 
-                if (string.IsNullOrWhiteSpace(responseContent))
-                    return new BaseResponse<T>(new EmptyResponseException());
+                if (string.IsNullOrWhiteSpace(responseContent)) return default;
 
                 return new BaseResponse<T>(JsonSerializer.Deserialize<T>(responseContent, _jsonSerializerOptions));
             }

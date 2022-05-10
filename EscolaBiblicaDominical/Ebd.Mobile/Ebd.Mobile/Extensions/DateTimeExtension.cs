@@ -16,6 +16,9 @@ namespace Ebd.Mobile.Extensions
         public static int ObterTrimestreAtual()
             => ObterDataAtual().ObterTrimestre();
 
+        public static string ObterTrimestreAtualComoString(this DateTime dateTime)
+            => dateTime.ObterTrimestre().ToString().PadLeft(2, '0');
+
         public static int ObterTrimestre(this DateTime date)
         {
             if (date.Month >= 1 && date.Month <= 3) return 1;
