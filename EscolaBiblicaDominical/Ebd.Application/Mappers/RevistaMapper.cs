@@ -8,16 +8,13 @@ namespace Ebd.Application.Mappers
 {
     public class RevistaMapper
     {
-        public static RevistaResponse FromEntityToResponse(Revista entity)
-        {
-            return new RevistaResponse(
-                revistaId: entity.RevistaId, 
+        public static RevistaResponse FromEntityToResponse(Revista entity) => entity is null ? null : new RevistaResponse(
+                revistaId: entity.RevistaId,
                 turmaId: entity.TurmaId,
                 sumario: entity.Sumario,
                 ano: entity.Ano,
                 trimestre: entity.Trimestre
                 );
-        }
 
         public static IEnumerable<RevistaResponse> FromEntityToResponse(IEnumerable<Revista> entities)
         {
@@ -27,7 +24,6 @@ namespace Ebd.Application.Mappers
 
         internal static Revista FromRequestToEntity(AdicionarRevistaRequest request)
             => new Revista(
-                   revistaId: request.RevistaId,
                    turmaId: request.TurmaId,
                    sumario: request.Sumario,
                    ano: request.Ano,

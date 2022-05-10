@@ -3,6 +3,6 @@
     public enum ClassificacaoContato
     {
         Principal,
-        Secundario
+        CasaAvos
     }
 }

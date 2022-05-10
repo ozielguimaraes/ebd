@@ -4,9 +4,7 @@ using Ebd.Application.Requests.Revista;
 using Ebd.Application.Responses.Base;
 using Ebd.Application.Responses.Revista;
 using Ebd.Application.Validations.Revista;
-using Ebd.Domain.Core.Entities;
 using Ebd.Domain.Core.Interfaces.Repositories;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Ebd.Application.Business.Implementation
