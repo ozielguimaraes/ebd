@@ -34,9 +34,9 @@ steps:
     apkFiles: '**/*.apk'
     apksign: true
     apksignerKeystoreFile: 'EbdAlias.keystore'
-    apksignerKeystorePassword: $(keystore.password)
-    apksignerKeystoreAlias: $(key.alias)
-    apksignerKeyPassword: $(key.password)
+    apksignerKeystorePassword: '$(keystore.password)'
+    apksignerKeystoreAlias: '$(key.alias)'
+    apksignerKeyPassword: '$(key.password)'
     apksignerArguments: --out $(outputDirectory)/ebd.release.apk
     zipalign: true
 
