@@ -39,14 +39,14 @@ steps:
     apksignerArguments: --out $(outputDirectory)/ebd.release.apk
     zipalign: true
 
-- task: AppCenterDistribute@3
-  displayName: Sending apk to AppCenter
-  inputs:
-    serverEndpoint: 'VSAC'
-    appSlug: '$(appSlug)'
-    appFile: '$(outputDirectory)/ebd.release.apk'
-    symbolsOption: 'Android'
-    releaseNotesOption: 'input'
-    releaseNotesInput: 'New version'
-    destinationType: 'groups'
-    distributionGroupId: '$(distributionGroupId)'
+#- task: AppCenterDistribute@3
+  #displayName: Sending apk to AppCenter
+  #uts:
+    #serverEndpoint: 'VSAC'
+    #appSlug: '$(appSlug)'
+    #appFile: '$(outputDirectory)/ebd.release.apk'
+    #symbolsOption: 'Android'
+    #releaseNotesOption: 'input'
+    #releaseNotesInput: 'New version'
+    #destinationType: 'groups'
+    #distributionGroupId: '$(distributionGroupId)'
