@@ -21,7 +21,20 @@ steps:
     restoreSolution: '**/*.sln'
 
 - task: XamarinAndroid@1
+  displayName: Building android projects for $(buildConfiguration)
   inputs:
     projectFile: '**/*droid*.csproj'
     outputDirectory: '$(outputDirectory)'
     configuration: '$(buildConfiguration)'
+
+- task: AndroidSigning@3
+  displayName: Signing android apk
+  inputs:
+    apkFiles: '**/*.apk'
+    apksign: true
+    apksignerKeystoreFile: 'EbdAlias.keystore'
+    apksignerKeystorePassword: $(keystore.password)
+    apksignerKeystoreAlias: $(key.alias)
+    apksignerKeyPassword: $(key.password)
+    apksignerArguments: --out $(outputDirectory)/ebd.release.apk
+    zipalign: true
