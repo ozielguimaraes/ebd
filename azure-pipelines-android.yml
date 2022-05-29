@@ -33,7 +33,7 @@ steps:
   inputs:
     apkFiles: '**/*.apk'
     apksign: true
-    apksignerKeystoreFile: 'ebd-development.keystore'
+    apksignerKeystoreFile: 'ebd-development.jks'
     apksignerKeystorePassword: 'GodIsG00dEv3r'
     apksignerKeystoreAlias: 'EbdDev'
     apksignerKeyPassword: 'GodIsG00dEv3r'
