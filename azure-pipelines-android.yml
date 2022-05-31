@@ -31,13 +31,15 @@ steps:
 - task: AndroidSigning@2
   displayName: Signing android apk
   inputs:
-    apkFiles: '**/*.apk'
+    #apkFiles: '**/*.apk'
+    apkFiles: '**/*.aab'
     jarsign: true
     jarsignerKeystoreFile: 'ebd-development.jks'
     jarsignerKeyPassword: 'GodIsG00dEv3r'
     jarsignerKeystoreAlias: 'EbdDev'
     jarsignerKeystorePassword: 'GodIsG00dEv3r'
-    jarsignerArguments: --out $(outputDirectory)/ebd.release.apk
+    jarsignerArguments: -sigalg SHA256withRSA -digestalg SHA-256
+    #jarsignerArguments: --out $(outputDirectory)/ebd.release.apk
     zipalign: true
 
 #- task: AppCenterDistribute@3
