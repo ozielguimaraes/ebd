@@ -28,19 +28,31 @@ steps:
     outputDirectory: '$(outputDirectory)'
     configuration: '$(buildConfiguration)'
 
-- task: AndroidSigning@2
+- task: AndroidSigning@3
   displayName: Signing android apk
   inputs:
     apkFiles: '**/*.apk'
-    #apkFiles: '**/*.aab'
-    jarsign: true
-    jarsignerKeystoreFile: 'ebd-development.jks'
-    jarsignerKeyPassword: 'GodIsG00dEv3r'
-    jarsignerKeystoreAlias: 'EbdDev'
-    jarsignerKeystorePassword: 'GodIsG00dEv3r'
-    jarsignerArguments: -sigalg SHA256withRSA -digestalg SHA-256
-    #jarsignerArguments: --out $(outputDirectory)/ebd.release.apk
+    apksign: true
+    apksignerKeystoreFile: 'ebd-development.jks'
+    apksignerKeyPassword: 'GodIsG00dEv3r'
+    apksignerKeystoreAlias: 'EbdDev'
+    apksignerKeystorePassword: 'GodIsG00dEv3r'
+    apksignerArguments: --out $(outputDirectory)/ebd.release.apk
     zipalign: true
+
+# - task: AndroidSigning@2
+#   displayName: Signing android apk
+#   inputs:
+#     apkFiles: '**/*.apk'
+#     #apkFiles: '**/*.aab'
+#     jarsign: true
+#     jarsignerKeystoreFile: 'ebd-development.jks'
+#     jarsignerKeyPassword: 'GodIsG00dEv3r'
+#     jarsignerKeystoreAlias: 'EbdDev'
+#     jarsignerKeystorePassword: 'GodIsG00dEv3r'
+#     jarsignerArguments: -sigalg SHA256withRSA -digestalg SHA-256
+#     #jarsignerArguments: --out $(outputDirectory)/ebd.release.apk
+#     zipalign: true
 
 #- task: AppCenterDistribute@3
   #displayName: Sending apk to AppCenter
