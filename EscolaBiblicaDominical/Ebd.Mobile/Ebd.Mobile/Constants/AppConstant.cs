@@ -2,6 +2,6 @@
 {
     internal class AppConstant
     {
-        public const string BaseUrl = "https://escolabiblicadominical.azurewebsites.net/api/";
+        public const string BaseUrl = "https://3d55-189-37-67-123.sa.ngrok.io/api/";
     }
 }

@@ -49,12 +49,9 @@ namespace Ebd.Mobile.ViewModels.Chamada
 
                 if (turmaSelecionada is not null && turmaSelecionadaAnteriormente?.TurmaId != turmaSelecionada.TurmaId)
                 {
-                    MainThread.BeginInvokeOnMainThread(() =>
-                    {
-                        RevistaSelecionada = null;
-                        LicaoSelecionada = null;
-                        CarregarRevistaCommand.ExecuteAsync(true).ConfigureAwait(true);
-                    });
+                    RevistaSelecionada = null;
+                    LicaoSelecionada = null;
+                    CarregarRevistaCommand.ExecuteAsync(true).ConfigureAwait(true);
                 }
             }
         }
@@ -202,6 +199,12 @@ namespace Ebd.Mobile.ViewModels.Chamada
             {
                 IsBusy = true;
                 var response = await _revistaService.ObterPorPeriodoAsync(turmaId: TurmaSelecionada.TurmaId, trimestre: ObterTrimestreAtual(), ano: ObterDataAtual().Year);
+                if (response is null)
+                {
+                    ExibirDialogoNenhumaRevistaCadastradaNoTrimestre();
+                    return;
+                }
+
                 if (response.HasError)
                 {
                     IsBusy = false;
@@ -235,6 +238,16 @@ namespace Ebd.Mobile.ViewModels.Chamada
             }
         }
 
+        private void ExibirDialogoNenhumaRevistaCadastradaNoTrimestre()
+        {
+            IsBusy = false;
+            MainThread.BeginInvokeOnMainThread(async () =>
+            {
+                var dataAtual = ObterDataAtual();
+                await DialogService.DisplayAlert("Oops", $"Nenhuma revista cadastrada ainda para esta turma no trimestre {dataAtual.ObterTrimestreAtualComoString()}-{dataAtual.Year}");
+            });
+        }
+
         private async Task ExecuteCarregarListaLicoesCommand(bool force)
         {
             if (IsBusy && !force) return;
@@ -256,7 +269,7 @@ namespace Ebd.Mobile.ViewModels.Chamada
                     IsBusy = false;
                     await DialogService.DisplayAlert("Oops", response.Exception.Message);
                     return;
-                } 
+                }
 
                 AtualizarLicoes(response.Data);
             }

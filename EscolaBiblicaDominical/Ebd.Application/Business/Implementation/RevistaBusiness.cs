@@ -27,7 +27,7 @@ namespace Ebd.Application.Business.Implementation
             if (!validationResult.IsValid) return new ValidationResponse(validationResult);
 
             if (await ExistePorPeriodo(request.TurmaId, request.Ano, request.Trimestre))
-                return new ValidationResponse(new FluentValidation.Results.ValidationResult(new List<ValidationFailure>
+                return new ValidationResponse(new ValidationResult(new List<ValidationFailure>
                 {
                     new ValidationFailure("RevistaId", "Já existe uma revista adicionada nesse trimestre.")
                 }));

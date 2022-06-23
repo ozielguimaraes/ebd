@@ -4,6 +4,7 @@ using Ebd.Mobile.Services.Interfaces;
 using Ebd.Mobile.Services.Requests.Chamada;
 using Ebd.Mobile.Services.Responses;
 using Ebd.Mobile.Services.Responses.Aluno;
+using Ebd.Mobile.Services.Responses.Avaliacao;
 using Ebd.Mobile.Services.Responses.Chamada;
 using Ebd.Mobile.Services.Responses.Turma;
 using Ebd.Mobile.Views.Aluno;
@@ -42,7 +43,7 @@ namespace Ebd.Mobile.ViewModels.Chamada
         {
             Title = "Efetuar chamada";
 
-            Avaliacoes = new ObservableCollection<RealizarAvaliacao>();
+            Avaliacoes = new ObservableRangeCollection<RealizarAvaliacao>();
         }
 
         public int LicaoId { get; set; }
@@ -50,9 +51,8 @@ namespace Ebd.Mobile.ViewModels.Chamada
         //public ObservableCollection<RealizarAvaliacao> Avaliacoes { get; set; } = new ObservableCollection<RealizarAvaliacao>();
 
 
-
-        private ObservableCollection<RealizarAvaliacao> avaliacoes;
-        public ObservableCollection<RealizarAvaliacao> Avaliacoes
+        private ObservableRangeCollection<RealizarAvaliacao> avaliacoes;
+        public ObservableRangeCollection<RealizarAvaliacao> Avaliacoes
         {
             get => avaliacoes;
             set => SetProperty(ref avaliacoes, value);
@@ -156,17 +156,7 @@ namespace Ebd.Mobile.ViewModels.Chamada
                     await DialogService.DisplayAlert("Oops", response.Exception.Message);
                     return;
                 }
-
-                MainThread.BeginInvokeOnMainThread(() =>
-                {
-                    var items = response.Data.Where(x => x.AvaliacaoId != IdAvaliacaoPresenca)
-                         .Select(avaliacao => new RealizarAvaliacao(avaliacao));
-                    Avaliacoes = new ObservableCollection<RealizarAvaliacao>(items);
-
-                    //Avaliacoes.Clear();
-
-                    //Avaliacoes.AddRange(items)
-                });
+                AtualizarAvaliacoes(response.Data.Where(x => x.AvaliacaoId != IdAvaliacaoPresenca));
 
                 if (Avaliacoes.Any())
                 {
@@ -194,6 +184,19 @@ namespace Ebd.Mobile.ViewModels.Chamada
                 HideLoading();
                 IsBusy = false;
             }
+        }
+
+        private void AtualizarAvaliacoes(IEnumerable<AvaliacaoResponse> items) => AtualizarAvaliacoes(items.Select(s => new RealizarAvaliacao(s)));
+
+        private void AtualizarAvaliacoes(IEnumerable<RealizarAvaliacao> items)
+        {
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                //Avaliacoes = new ObservableRangeCollection<RealizarAvaliacao>(items);
+
+                Avaliacoes.Clear();
+                Avaliacoes.AddRange(items);
+            });
         }
 
         private async Task ExecuteCarregarListaAlunosCommand(bool force)
@@ -342,8 +345,8 @@ namespace Ebd.Mobile.ViewModels.Chamada
         private void SetAlunoParaEfetuarChamada()
         {
             AlunoParaEfetuarChamada = AlunosParaEfetuarChamada.FirstOrDefault(x => !x.ChamadaRealizada);
-            foreach (var item in Avaliacoes)
-                item.FoiRealizada = false;
+
+            AtualizarAvaliacoes(Avaliacoes);
             EstaPresente = false;
         }
     }

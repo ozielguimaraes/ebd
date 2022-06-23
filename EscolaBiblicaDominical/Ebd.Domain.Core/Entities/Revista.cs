@@ -23,6 +23,7 @@ namespace Ebd.Domain.Core.Entities
 
         public int RevistaId { get; private set; }
         public string Sumario { get; private set; }
+        public string RemoverDepois { get; private set; }
         public int Ano { get; private set; }
         public int Trimestre { get; private set; }
 

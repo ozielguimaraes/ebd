@@ -31,7 +31,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ebd.Mobile.iOS", "Ebd.Mobil
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ebd.Mobile", "Ebd.Mobile\Ebd.Mobile\Ebd.Mobile.csproj", "{C874A1B5-9235-4F7A-8A92-60702B332495}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ebd.Application.Tests", "Ebd.Application.Tests\Ebd.Application.Tests.csproj", "{E00445B8-BAB2-4D75-B9F9-82F9E0304DB7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ebd.Application.Tests", "Ebd.Application.Tests\Ebd.Application.Tests.csproj", "{E00445B8-BAB2-4D75-B9F9-82F9E0304DB7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
