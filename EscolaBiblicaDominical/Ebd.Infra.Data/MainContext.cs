@@ -46,8 +46,7 @@ namespace Ebd.Infra.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.ApplyConfigurationsFromAssembly(System.Reflection.Assembly.GetExecutingAssembly());
-
-            //builder.InserirRegistrosPadrao();
+  
             base.OnModelCreating(builder);
         }
     }

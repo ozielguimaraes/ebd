@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
+#nullable disable
+
 namespace Ebd.Infra.Data.Migrations
 {
     [DbContext(typeof(MainContext))]
@@ -15,16 +17,18 @@ namespace Ebd.Infra.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.11")
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "6.0.6")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
             modelBuilder.Entity("Ebd.Domain.Core.Entities.Aluno", b =>
                 {
                     b.Property<int>("AlunoId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AlunoId"), 1L, 1);
 
                     b.Property<int>("PessoaId")
                         .HasColumnType("int");
@@ -43,15 +47,16 @@ namespace Ebd.Infra.Data.Migrations
 
                     b.HasIndex("TurmaId");
 
-                    b.ToTable("Aluno");
+                    b.ToTable("Aluno", (string)null);
                 });
 
             modelBuilder.Entity("Ebd.Domain.Core.Entities.Avaliacao", b =>
                 {
                     b.Property<int>("AvaliacaoId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AvaliacaoId"), 1L, 1);
 
                     b.Property<string>("Nome")
                         .IsRequired()
@@ -63,15 +68,16 @@ namespace Ebd.Infra.Data.Migrations
 
                     b.HasKey("AvaliacaoId");
 
-                    b.ToTable("Avaliacao");
+                    b.ToTable("Avaliacao", (string)null);
                 });
 
             modelBuilder.Entity("Ebd.Domain.Core.Entities.AvaliacaoAluno", b =>
                 {
                     b.Property<int>("AvaliacaoAlunoId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AvaliacaoAlunoId"), 1L, 1);
 
                     b.Property<int>("AlunoId")
                         .HasColumnType("int");
@@ -90,15 +96,16 @@ namespace Ebd.Infra.Data.Migrations
 
                     b.HasIndex("LicaoId");
 
-                    b.ToTable("AvaliacaoAluno");
+                    b.ToTable("AvaliacaoAluno", (string)null);
                 });
 
             modelBuilder.Entity("Ebd.Domain.Core.Entities.Bairro", b =>
                 {
                     b.Property<int>("BairroId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BairroId"), 1L, 1);
 
                     b.Property<string>("Nome")
                         .IsRequired()
@@ -109,15 +116,16 @@ namespace Ebd.Infra.Data.Migrations
 
                     b.HasIndex("Nome");
 
-                    b.ToTable("Bairro");
+                    b.ToTable("Bairro", (string)null);
                 });
 
             modelBuilder.Entity("Ebd.Domain.Core.Entities.Chamada", b =>
                 {
                     b.Property<int>("ChamadaId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ChamadaId"), 1L, 1);
 
                     b.Property<int>("AlunoId")
                         .HasColumnType("int");
@@ -137,15 +145,16 @@ namespace Ebd.Infra.Data.Migrations
 
                     b.HasIndex("LicaoId");
 
-                    b.ToTable("Chamada");
+                    b.ToTable("Chamada", (string)null);
                 });
 
             modelBuilder.Entity("Ebd.Domain.Core.Entities.Contato", b =>
                 {
                     b.Property<int>("ContatoId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ContatoId"), 1L, 1);
 
                     b.Property<int>("Classificacao")
                         .HasColumnType("int");
@@ -165,15 +174,16 @@ namespace Ebd.Infra.Data.Migrations
 
                     b.HasIndex("PessoaId");
 
-                    b.ToTable("Contato");
+                    b.ToTable("Contato", (string)null);
                 });
 
             modelBuilder.Entity("Ebd.Domain.Core.Entities.Endereco", b =>
                 {
                     b.Property<int>("EnderecoId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EnderecoId"), 1L, 1);
 
                     b.Property<int>("BairroId")
                         .HasColumnType("int");
@@ -205,15 +215,16 @@ namespace Ebd.Infra.Data.Migrations
 
                     b.HasIndex("PessoaId");
 
-                    b.ToTable("Endereco");
+                    b.ToTable("Endereco", (string)null);
                 });
 
             modelBuilder.Entity("Ebd.Domain.Core.Entities.Licao", b =>
                 {
                     b.Property<int>("LicaoId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LicaoId"), 1L, 1);
 
                     b.Property<int>("RevistaId")
                         .HasColumnType("int");
@@ -227,15 +238,16 @@ namespace Ebd.Infra.Data.Migrations
 
                     b.HasIndex("RevistaId");
 
-                    b.ToTable("Licao");
+                    b.ToTable("Licao", (string)null);
                 });
 
             modelBuilder.Entity("Ebd.Domain.Core.Entities.Pessoa", b =>
                 {
                     b.Property<int>("PessoaId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PessoaId"), 1L, 1);
 
                     b.Property<DateTime>("NascidoEm")
                         .HasColumnType("datetime2");
@@ -252,15 +264,16 @@ namespace Ebd.Infra.Data.Migrations
 
                     b.HasIndex("Nome");
 
-                    b.ToTable("Pessoa");
+                    b.ToTable("Pessoa", (string)null);
                 });
 
             modelBuilder.Entity("Ebd.Domain.Core.Entities.Professor", b =>
                 {
                     b.Property<int>("ProfessorId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProfessorId"), 1L, 1);
 
                     b.Property<int>("PessoaId")
                         .HasColumnType("int");
@@ -274,18 +287,22 @@ namespace Ebd.Infra.Data.Migrations
 
                     b.HasIndex("TurmaId");
 
-                    b.ToTable("Professor");
+                    b.ToTable("Professor", (string)null);
                 });
 
             modelBuilder.Entity("Ebd.Domain.Core.Entities.Revista", b =>
                 {
                     b.Property<int>("RevistaId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RevistaId"), 1L, 1);
 
                     b.Property<int>("Ano")
                         .HasColumnType("int");
+
+                    b.Property<string>("RemoverDepois")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Sumario")
                         .IsRequired()
@@ -304,15 +321,16 @@ namespace Ebd.Infra.Data.Migrations
 
                     b.HasIndex("Ano", "Trimestre");
 
-                    b.ToTable("Revista");
+                    b.ToTable("Revista", (string)null);
                 });
 
             modelBuilder.Entity("Ebd.Domain.Core.Entities.Turma", b =>
                 {
                     b.Property<int>("TurmaId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TurmaId"), 1L, 1);
 
                     b.Property<int>("IdadeMaxima")
                         .HasColumnType("int");
@@ -327,7 +345,7 @@ namespace Ebd.Infra.Data.Migrations
 
                     b.HasKey("TurmaId");
 
-                    b.ToTable("Turma");
+                    b.ToTable("Turma", (string)null);
                 });
 
             modelBuilder.Entity("Ebd.Domain.Core.Entities.Aluno", b =>

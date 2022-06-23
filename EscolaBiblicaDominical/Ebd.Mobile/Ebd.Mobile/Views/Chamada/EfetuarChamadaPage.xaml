@@ -26,25 +26,22 @@
                     <Switch  IsToggled="{Binding EstaPresente, Mode=OneWayToSource}" />
                 </StackLayout>
 
-                <StackLayout IsVisible="{Binding EstaPresente, Mode=OneWay}">
-                    <Label Text="EstaPresente=TRUE" />
-                </StackLayout>
-
-                    <ListView ItemsSource="{Binding Avaliacoes}"
-                             Margin="0,16,0,0">
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <StackLayout Orientation="Horizontal"
+                <CollectionView ItemsSource="{Binding Avaliacoes}"
+                                Margin="0,16,0,0"
+                                IsVisible="{Binding EstaPresente}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:RealizarAvaliacao">
+                            <StackLayout Orientation="Horizontal"
+                                         Background="red"
                                          Padding="0,8">
-                                    <Label  Text="ASSS"/>
-                                    <!--<Label Text="{Binding Nome}"
+                                <Label Text="{Binding Nome}"
                                        FontSize="Medium"
                                        HorizontalOptions="StartAndExpand" />
-                                <Switch IsToggled="{Binding FoiRealizada, Mode=TwoWay}" />-->
-                                </StackLayout>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
+                                <Switch IsToggled="{Binding FoiRealizada, Mode=TwoWay}" />
+                            </StackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
 
                 <!--<StackLayout BindableLayout.ItemsSource="{Binding Avaliacoes, Mode=TwoWay}"
                              Margin="0,16,0,0"
@@ -53,7 +50,7 @@
                         <DataTemplate x:DataType="vm:RealizarAvaliacaoVm">
                             <StackLayout Orientation="Horizontal"
                                          Padding="0,8">
-                                <Label Text="{Binding Nome}"
+                                <Label Text="{Binding Nome, Mode=TwoWay}"
                                        FontSize="Medium"
                                        HorizontalOptions="StartAndExpand" />
                                 <Switch IsToggled="{Binding FoiRealizada, Mode=TwoWay}" />

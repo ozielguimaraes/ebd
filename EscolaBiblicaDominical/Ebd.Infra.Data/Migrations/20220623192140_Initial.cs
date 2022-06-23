@@ -1,6 +1,8 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
+#nullable disable
+
 namespace Ebd.Infra.Data.Migrations
 {
     public partial class Initial : Migration
@@ -139,8 +141,7 @@ namespace Ebd.Infra.Data.Migrations
                         name: "FK_Aluno_Pessoa_ResponsavelId",
                         column: x => x.ResponsavelId,
                         principalTable: "Pessoa",
-                        principalColumn: "PessoaId",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "PessoaId");
                     table.ForeignKey(
                         name: "FK_Aluno_Turma_TurmaId",
                         column: x => x.TurmaId,
@@ -182,6 +183,7 @@ namespace Ebd.Infra.Data.Migrations
                     RevistaId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Sumario = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false),
+                    RemoverDepois = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Ano = table.Column<int>(type: "int", nullable: false),
                     Trimestre = table.Column<int>(type: "int", nullable: false),
                     TurmaId = table.Column<int>(type: "int", nullable: false)
