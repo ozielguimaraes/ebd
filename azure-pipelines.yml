@@ -17,7 +17,6 @@ steps:
   displayName: 'Install .NET Core sdk 6.x'
   inputs:
     packageType: 'sdk'
-    useGlobalJson: true
     version: 6.x
 
 - task: DotNetCoreCLI@2
