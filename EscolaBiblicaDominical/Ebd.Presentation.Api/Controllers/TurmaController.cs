@@ -1,5 +1,5 @@
 ﻿using Ebd.Application.Business.Interfaces;
-using Ebd.Application.Responses;
+using Ebd.Application.Responses.Turma;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

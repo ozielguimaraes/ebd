@@ -30,7 +30,12 @@ namespace Ebd.Infra.Data.Repositories
 
         public async Task<Aluno> ObterPorId(int id)
         {
-            return await DbSet.FindAsync(id);
+            return await DbSet
+                .Include(x => x.Pessoa).ThenInclude(c => c.Enderecos)
+                .Include(x => x.Pessoa).ThenInclude(c => c.Contatos)
+                .Include(x => x.Responsavel).ThenInclude(c => c.Enderecos)
+                .Include(x => x.Responsavel).ThenInclude(c => c.Contatos)
+                .FirstOrDefaultAsync(f => f.AlunoId == id);
         }
 
         public async Task<ICollection<Aluno>> ObterPorTurma(int turmaId)

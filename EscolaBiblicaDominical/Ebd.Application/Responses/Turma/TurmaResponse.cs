@@ -1,7 +1,7 @@
 ﻿using Ebd.Application.Responses.Base;
 using FluentValidation.Results;
 
-namespace Ebd.Application.Responses
+namespace Ebd.Application.Responses.Turma
 {
     public class TurmaResponse : BaseResponse
     {

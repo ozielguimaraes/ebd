@@ -1,6 +1,6 @@
 ﻿using Ebd.Application.Business.Interfaces;
 using Ebd.Application.Requests.Aluno;
-using Ebd.Application.Responses;
+using Ebd.Application.Responses.Aluno;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -23,7 +23,7 @@ namespace Ebd.Presentation.Api.Controllers
 
         [Route("")]
         [HttpPost]
-        [ProducesResponseType(typeof(AlunoResponse), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(ListaAlunoResponse), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(List<ValidationFailure>), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(Exception), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Post([FromBody] AdicionarAlunoRequest request)
@@ -39,9 +39,26 @@ namespace Ebd.Presentation.Api.Controllers
             }
         }
 
+        [Route("{alunoId:int}")]
+        [HttpGet]
+        [ProducesResponseType(typeof(ListaAlunoResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Exception), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetById([FromRoute] int alunoId)
+        {
+            try
+            {
+                return ResultWhenSearching(await _alunoBusiness.ObterPorId(alunoId));
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "Erro ao obter aluno por Id");
+                return InternalServerError(ex, "Erro ao obter aluno por Id");
+            }
+        }
+
         [Route("turma/{turmaId:int}")]
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<AlunoResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IEnumerable<ListaAlunoResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(List<ValidationFailure>), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(Exception), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Get([FromRoute] int turmaId)
