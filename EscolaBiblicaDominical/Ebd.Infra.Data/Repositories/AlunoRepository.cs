@@ -31,6 +31,7 @@ namespace Ebd.Infra.Data.Repositories
         public async Task<Aluno> ObterPorId(int id)
         {
             return await DbSet
+                .Include(x => x.Turma)
                 .Include(x => x.Pessoa).ThenInclude(c => c.Enderecos)
                 .Include(x => x.Pessoa).ThenInclude(c => c.Contatos)
                 .Include(x => x.Responsavel).ThenInclude(c => c.Enderecos)

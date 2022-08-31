@@ -2,7 +2,6 @@
 using Ebd.Application.Responses;
 using Ebd.Application.Responses.Endereco;
 using Ebd.Domain.Core.Entities;
-using System;
 using System.Collections.Generic;
 
 namespace Ebd.Application.Mappers
