@@ -24,9 +24,16 @@ steps:
 - task: XamarinAndroid@1
   displayName: Building android projects for $(buildConfiguration)
   inputs:
-    projectFile: '**/*droid*.csproj'
+    projectFile: '**/*Tests.csproj'
     outputDirectory: '$(outputDirectory)'
     configuration: '$(buildConfiguration)'
+
+- task: DotNetCoreCLI@2
+  displayName: Run unit tests
+  inputs:
+    command: test
+    projects: "$(projects)"
+    arguments: "--configuration $(buildConfiguration)"
 
 - task: AndroidSigning@3
   displayName: Signing android apk
@@ -39,13 +46,6 @@ steps:
     apksignerKeystorePassword: 'GodIsG00dEv3r'
     apksignerArguments: --out $(outputDirectory)/ebd.release.apk
     zipalign: true
-
-- task: DotNetCoreCLI@2
-  displayName: Run unit tests
-  inputs:
-    command: test
-    projects: "$(projects)"
-    arguments: "--configuration $(buildConfiguration)"
 
 # - task: AndroidSigning@2
 #   displayName: Signing android apk
