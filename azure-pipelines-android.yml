@@ -24,7 +24,7 @@ steps:
 - task: XamarinAndroid@1
   displayName: Building android projects for $(buildConfiguration)
   inputs:
-    projectFile: '**/*Tests.csproj'
+    projectFile: '**/*Droid*.csproj'
     outputDirectory: '$(outputDirectory)'
     configuration: '$(buildConfiguration)'
 
@@ -32,7 +32,7 @@ steps:
   displayName: Run unit tests
   inputs:
     command: test
-    projects: "$(projects)"
+    projects: '**/*Tests.csproj'
     arguments: "--configuration $(buildConfiguration)"
 
 - task: AndroidSigning@3
