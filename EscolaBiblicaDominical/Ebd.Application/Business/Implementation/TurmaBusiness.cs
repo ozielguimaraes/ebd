@@ -1,6 +1,6 @@
 ﻿using Ebd.Application.Business.Interfaces;
 using Ebd.Application.Mappers;
-using Ebd.Application.Responses;
+using Ebd.Application.Responses.Turma;
 using Ebd.Domain.Core.Interfaces.Repositories;
 using System.Collections.Generic;
 using System.Threading.Tasks;

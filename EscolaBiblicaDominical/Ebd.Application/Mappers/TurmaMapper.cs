@@ -1,4 +1,4 @@
-﻿using Ebd.Application.Responses;
+﻿using Ebd.Application.Responses.Turma;
 using Ebd.Domain.Core.Entities;
 using System.Collections.Generic;
 
