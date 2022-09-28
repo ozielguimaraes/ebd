@@ -3,11 +3,10 @@ using Ebd.Application.Requests.Endereco;
 using System;
 using System.Collections.Generic;
 
-namespace Ebd.Application.Requests.Aluno
+namespace Ebd.Application.Requests.Pessoa
 {
-    public class ResponsavelRequest
+    public class PessoaRequest
     {
-        public int PessoaId { get; set; }
         public string Nome { get; set; }
         public bool WhatsappIgualCelular { get; set; }
         public DateTime NascidoEm { get; set; }

@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
+#nullable disable
+
 namespace Ebd.Infra.Data.Migrations
 {
     public partial class InsertBairro : Migration

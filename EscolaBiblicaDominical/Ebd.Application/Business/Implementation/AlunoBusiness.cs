@@ -1,12 +1,9 @@
 ﻿using Ebd.Application.Business.Interfaces;
 using Ebd.Application.Mappers;
-using Ebd.Application.Requests;
 using Ebd.Application.Requests.Aluno;
-using Ebd.Application.Responses;
+using Ebd.Application.Responses.Aluno;
 using Ebd.Application.Validations.Aluno;
-using Ebd.Domain.Core.Entities;
 using Ebd.Domain.Core.Interfaces.Repositories;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -20,18 +17,26 @@ namespace Ebd.Application.Business.Implementation
         {
             _alunoRepository = alunoRepository;
         }
-        public async Task<AlunoResponse> Adicionar(AdicionarAlunoRequest request)
+
+        public async Task<ListaAlunoResponse> Adicionar(AdicionarAlunoRequest request)
         {
             var validator = new AdicionarAlunoValidation();
             var validationResult = validator.Validate(request);
-            if (!validationResult.IsValid) return new AlunoResponse(validationResult);
+            if (!validationResult.IsValid) return new ListaAlunoResponse(validationResult);
 
             var response = await _alunoRepository.Adicionar(AlunoMapper.FromRequestToEntity(request));
 
             return AlunoMapper.FromEntityToResponse(response);
         }
 
-        public async Task<IEnumerable<AlunoResponse>> ObterPorTurma(int turmaId)
+        public async Task<DetalhesAlunoResponse> ObterPorId(int alunoId)
+         {
+            var result = await _alunoRepository.ObterPorId(alunoId);
+
+            return AlunoMapper.FromEntityToDetalhesResponse(result);
+        }
+
+        public async Task<IEnumerable<ListaAlunoResponse>> ObterPorTurma(int turmaId)
         {
             var result = await _alunoRepository.ObterPorTurma(turmaId);
 

@@ -13,14 +13,25 @@ namespace Ebd.Infra.Data.Configurations
 
             builder.Property(x => x.AlunoId)
                 .IsRequired();
+
             builder.HasOne(x => x.Aluno)
-                .WithMany(x => x.AvaliacoesAluno);
+                .WithMany(x => x.AvaliacoesAluno)
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.Property(x => x.AvaliacaoId)
                 .IsRequired();
+
             builder.HasOne(x => x.Avaliacao)
-                .WithMany(x => x.AvaliacoesAluno);
-         
+                .WithMany(x => x.AvaliacoesAluno)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder.Property(x => x.LicaoId)
+                .IsRequired();
+
+            builder.HasOne(x => x.Licao)
+                .WithMany(x => x.AvaliacoesAluno)
+                .OnDelete(DeleteBehavior.NoAction);
+
             builder.ToTable("AvaliacaoAluno");
         }
     }

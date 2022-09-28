@@ -2,7 +2,7 @@
 {
     public enum TipoContatoRequest
     {
-        Principal,
-        Secundario
+        Email,
+        Celular
     }
 }

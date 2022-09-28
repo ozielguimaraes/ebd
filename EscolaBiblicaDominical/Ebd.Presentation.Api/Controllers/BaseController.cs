@@ -1,5 +1,4 @@
 ﻿using Ebd.Application.Responses.Base;
-using Ebd.Presentation.Extension;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -31,14 +30,20 @@ namespace Ebd.Presentation.Api.Controllers
             return BadRequest(response.GetValidationFailures());
         }
 
+        protected ObjectResult ResultWhenSearching(BaseResponse response)
+        {
+            return Ok(response);
+        }
+
         protected ObjectResult ResultWhenSearching(IEnumerable<BaseResponse> response)
         {
             return Ok(response);
         }
 
-        protected ObjectResult InternalServerError(Exception exception)
+        protected ObjectResult InternalServerError(Exception exception, string message)
         {
-            return StatusCode((int)HttpStatusCode.InternalServerError, exception.FullException());
+            Logger.LogError(exception, message);
+            return StatusCode(StatusCodes.Status500InternalServerError, message);
         }
     }
 }

@@ -9,7 +9,23 @@
         <ResourceDictionary>
             <Color x:Key="Primary">#5237B3</Color>
             <Color x:Key="Secondary">#F5F5F5</Color>
-            <Style TargetType="Button">
+            <Style TargetType="Label">
+                <Setter Property="TextColor" Value="Black" />
+            </Style>
+            <Style TargetType="Entry">
+                <Setter Property="TextColor" Value="Black" />
+            </Style>
+
+            <Style x:Key="ButtonIsDisabled" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="#C3C3C3" />
+                <Setter Property="IsEnabled" Value="False" />
+            </Style>
+            <Style x:Key="ButtonIsEnabled" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
+                <Setter Property="TextColor" Value="#FFFFFF" />
+                <Setter Property="IsEnabled" Value="True" />
+            </Style>
+            <!--<Style TargetType="Button">
                 <Setter Property="TextColor" Value="White"></Setter>
                 <Setter Property="VisualStateManager.VisualStateGroups">
                     <VisualStateGroupList>
@@ -27,7 +43,7 @@
                         </VisualStateGroup>
                     </VisualStateGroupList>
                 </Setter>
-            </Style>
+            </Style>-->
         </ResourceDictionary>        
     </Application.Resources>
 </Application>

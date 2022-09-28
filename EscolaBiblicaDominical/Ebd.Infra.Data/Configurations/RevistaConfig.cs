@@ -24,9 +24,14 @@ namespace Ebd.Infra.Data.Configurations
                 .HasMaxLength(60)
                 .IsRequired();
 
+            builder.Property(c => c.TurmaId)
+                .IsRequired();
+            builder.HasOne(x => x.Turma);
+
             builder.HasMany(c => c.Licoes)
                 .WithOne(e => e.Revista)
-                .IsRequired();
+                .OnDelete(DeleteBehavior.NoAction)
+                .HasForeignKey(x => x.RevistaId);
 
             builder.HasIndex(i => new { i.Ano, i.Trimestre });
 

@@ -7,7 +7,7 @@ using Xamarin.Forms;
 
 namespace Ebd.Mobile.Services.Implementations.Logger
 {
-    internal sealed class LoggerService : ILoggerService
+    public class LoggerService : ILoggerService
     {
         public static readonly ILoggerService Current = DependencyService.Get<ILoggerService>();
 

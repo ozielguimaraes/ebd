@@ -35,6 +35,11 @@ namespace Ebd.Infra.Data.Repositories
             return await DbSet.FirstOrDefaultAsync(x => x.LicaoId == id);
         }
 
+        public async Task<ICollection<Licao>> ObterPorRevista(int revistaId)
+        {
+            return await DbSet.Where(x => x.RevistaId == revistaId).ToListAsync();
+        }
+
         public async Task<ICollection<Licao>> Pesquisar(string pesquisa)
         {
             return await DbSet.Where(x => x.Titulo.Contains(pesquisa)).ToListAsync();

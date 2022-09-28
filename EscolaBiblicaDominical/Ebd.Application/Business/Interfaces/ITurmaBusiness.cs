@@ -1,4 +1,4 @@
-﻿using Ebd.Application.Responses;
+﻿using Ebd.Application.Responses.Turma;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

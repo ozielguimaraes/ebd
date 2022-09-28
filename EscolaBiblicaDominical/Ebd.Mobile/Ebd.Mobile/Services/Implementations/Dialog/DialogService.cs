@@ -1,5 +1,5 @@
 ﻿using Acr.UserDialogs;
-using Ebd.Mobile.Services.Implementations.Log;
+using Ebd.Mobile.Services.Implementations.Diagnostic;
 using Ebd.Mobile.Services.Interfaces;
 using System;
 using System.Threading.Tasks;

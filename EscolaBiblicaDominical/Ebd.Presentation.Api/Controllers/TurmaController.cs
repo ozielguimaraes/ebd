@@ -1,5 +1,5 @@
 ﻿using Ebd.Application.Business.Interfaces;
-using Ebd.Application.Responses;
+using Ebd.Application.Responses.Turma;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -35,7 +35,7 @@ namespace Ebd.Presentation.Api.Controllers
             catch (Exception ex)
             {
                 Logger.LogError(ex, "Erro ao obter todas turmas");
-                return InternalServerError(ex);
+                return InternalServerError(ex, "Erro ao obter todas turmas");
             }
         }
     }

@@ -10,5 +10,6 @@ namespace Ebd.Domain.Core.Interfaces.Repositories
         Task Atualizar(Licao licao);
         Task<Licao> ObterPorId(int id);
         Task<ICollection<Licao>> Pesquisar(string pesquisa);
+        Task<ICollection<Licao>> ObterPorRevista(int revistaId);
     }
 }

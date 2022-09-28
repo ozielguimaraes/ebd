@@ -1,8 +1,6 @@
 ﻿using Ebd.Domain.Core.Entities;
 using Ebd.Domain.Core.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Ebd.Infra.Data.Repositories
@@ -35,14 +33,14 @@ namespace Ebd.Infra.Data.Repositories
             return await DbSet.FindAsync(id);
         }
 
-        public async Task<Revista> ObterPorPeriodo(int ano, int trimestre)
+        public async Task<Revista> ObterPorPeriodo(int turmaId, int ano, int trimestre)
         {
-            return await DbSet.FirstOrDefaultAsync(x => x.Ano == ano && x.Trimestre == trimestre);
+            return await DbSet.FirstOrDefaultAsync(x => x.TurmaId == turmaId && x.Ano == ano && x.Trimestre == trimestre);
         }
 
-        public async Task<ICollection<Revista>> ObterTodas()
+        public async Task<bool> ExistePorPeriodo(int turmaId, int ano, int trimestre)
         {
-            return await DbSet.ToListAsync();
+            return await DbSet.AnyAsync(x => x.TurmaId == turmaId && x.Ano == ano && x.Trimestre == trimestre);
         }
     }
 }
