@@ -1,10 +1,7 @@
-﻿using Ebd.Mobile.Services.Interfaces;
-using Ebd.Mobile.Views;
-using Ebd.Mobile.Views.Aluno;
+﻿using Ebd.Mobile.Views.Aluno;
 using Ebd.Mobile.Views.Chamada;
 using MvvmHelpers.Commands;
 using System.Threading.Tasks;
-using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace Ebd.Mobile.ViewModels
@@ -16,17 +13,15 @@ namespace Ebd.Mobile.ViewModels
         //    GoToAlunoPageCommand = new Command(async () => await ExecuteGoToAlunoPageCommand());
         //}
 
-        private readonly AsyncCommand _goToAlunoPageCommand;
+        private AsyncCommand _goToAlunoPageCommand;
         public AsyncCommand GoToAlunoPageCommand
-            => _goToAlunoPageCommand
-            ?? new AsyncCommand(
+            => _goToAlunoPageCommand ??= new AsyncCommand(
                 execute: ExecuteGoToAlunoPageCommand,
                 onException: CommandOnException);
 
-        private readonly AsyncCommand _goToEscolherTurmaPageCommand;
+        private AsyncCommand _goToEscolherTurmaPageCommand;
         public AsyncCommand GoToEscolherTurmaPageCommand
-            => _goToEscolherTurmaPageCommand
-            ?? new AsyncCommand(
+            => _goToEscolherTurmaPageCommand ??= new AsyncCommand(
                 execute: ExecuteGoToEscolherTurmaPageCommand,
                 onException: CommandOnException);
 
