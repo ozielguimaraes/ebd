@@ -1,4 +1,5 @@
 ﻿using Ebd.Mobile.Constants;
+using Ebd.Mobile.Extensions;
 using Ebd.Mobile.Services.Exceptions;
 using Ebd.Mobile.Services.Implementations.Logger;
 using Ebd.Mobile.Services.Interfaces;
@@ -134,7 +135,7 @@ namespace Ebd.Mobile.Services.Implementations.Base
 
             try
             {
-                if (!responseMessage.IsSuccessStatusCode)
+                if (responseMessage.IsSuccessStatusCode.Not())
                     ExceptionFromHttpStatusCode(responseMessage, responseContent);
 
                 if (string.IsNullOrWhiteSpace(responseContent))

@@ -60,6 +60,7 @@ namespace Ebd.Mobile
             DependencyService.Register<AboutViewModel>();
             DependencyService.Register<EfetuarChamadaViewModel>();
             DependencyService.Register<EscolherTurmaViewModel>();
+            DependencyService.Register<NovoAlunoViewModel>();
         }
 
         protected override void OnStart()

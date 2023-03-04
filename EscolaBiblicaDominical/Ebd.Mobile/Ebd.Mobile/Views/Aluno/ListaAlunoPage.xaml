@@ -5,7 +5,6 @@
              xmlns:response="clr-namespace:Ebd.Mobile.Services.Responses.Aluno" 
              xmlns:converters="clr-namespace:Ebd.Mobile.Converters"
              x:Class="Ebd.Mobile.Views.Aluno.ListaAlunoPage"
-             BackgroundColor="#F5f5f5"
              Title="{Binding Title}"
              x:DataType="vm:ListaAlunoViewModel">
     <ContentPage.Resources>
@@ -14,45 +13,62 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
-        <ScrollView Margin="8">
-            <StackLayout>
-                <Label Text="Turma" />
-                <Picker Title="Selecione uma turma"
-                        TitleColor="{StaticResource Primary}"
-                        ItemsSource="{Binding Turmas}"
-                        SelectedItem="{Binding TurmaSelecionada}"
-                        ItemDisplayBinding="{Binding FaixaIdadeNome}"/>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <ScrollView Margin="8">
+                <StackLayout>
+                    <Label Text="Turma" />
+                    <Picker Title="Selecione uma turma"
+                            TitleColor="{StaticResource Primary}"
+                            ItemsSource="{Binding Turmas}"
+                            SelectedItem="{Binding TurmaSelecionada}"
+                            ItemDisplayBinding="{Binding FaixaIdadeNome}"/>
 
-                <CollectionView ItemsSource="{Binding Alunos}"
-                                Margin="0,16,0,0">
-                    <CollectionView.EmptyView>
-                        <Label Text="Nenhum aluno encontrado para a turma."
-                               FontSize="Subtitle"
-                               HorizontalTextAlignment="Center" />
-                    </CollectionView.EmptyView>
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate x:DataType="response:AlunoResponse">
-                            <Frame Padding="0" 
-                                   CornerRadius="8"
-                                   HasShadow="False">
-                                <StackLayout 
-                                    Orientation="Horizontal" 
-                                    Margin="10,8">
-                                    <FlexLayout 
-                                        HeightRequest="70"
-                                        HorizontalOptions="StartAndExpand"
-                                        Direction="Column"
-                                        JustifyContent="SpaceAround">
-                                        <Label Text="{Binding Nome}" FontSize="Medium" FontAttributes="Bold" />
-                                        <Label Text="10 pontos" FontSize="Subtitle" />
-                                    </FlexLayout>
-                                    <Image Source="icon_feed.png" />
-                                </StackLayout>
-                            </Frame>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
-            </StackLayout>
-        </ScrollView>
+                    <CollectionView ItemsSource="{Binding Alunos}"
+                                    Margin="0,16,0,0">
+                        <CollectionView.EmptyView>
+                            <Label Text="Nenhum aluno encontrado para a turma."
+                                   FontSize="Subtitle"
+                                   HorizontalTextAlignment="Center" />
+                        </CollectionView.EmptyView>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="response:AlunoResponse">
+                                <Frame Padding="0" 
+                                       CornerRadius="8"
+                                       HasShadow="False">
+                                    <StackLayout 
+                                        Orientation="Horizontal" 
+                                        Margin="10,8">
+                                        <FlexLayout 
+                                            HeightRequest="70"
+                                            HorizontalOptions="StartAndExpand"
+                                            Direction="Column"
+                                            JustifyContent="SpaceAround">
+                                            <Label Text="{Binding Nome}" FontSize="Medium" FontAttributes="Bold" />
+                                            <Label Text="10 pontos" FontSize="Subtitle" />
+                                        </FlexLayout>
+                                        <Image Source="icon_feed.png" />
+                                    </StackLayout>
+                                </Frame>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </StackLayout>
+            </ScrollView>
+            
+            <Button Text="+  Novo"
+                    FontAttributes="Bold" 
+                    BackgroundColor="{StaticResource Primary}" 
+                    CornerRadius="35"
+                    TextColor="{StaticResource Secondary}"
+                    HorizontalOptions="End" 
+                    WidthRequest="110"
+                    HeightRequest="60"
+                    Margin="0,0,20,22"
+                    VerticalOptions="End"
+                    Command="{Binding NewStudentCommand}" />
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

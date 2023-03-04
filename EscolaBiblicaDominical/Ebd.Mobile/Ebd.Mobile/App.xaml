@@ -25,6 +25,9 @@
                 <Setter Property="TextColor" Value="#FFFFFF" />
                 <Setter Property="IsEnabled" Value="True" />
             </Style>
+            <Style TargetType="ContentPage" ApplyToDerivedTypes="True">
+                <Setter Property="BackgroundColor" Value="#F5f5f5" />
+            </Style>
             <!--<Style TargetType="Button">
                 <Setter Property="TextColor" Value="White"></Setter>
                 <Setter Property="VisualStateManager.VisualStateGroups">

@@ -1,8 +1,5 @@
 ﻿using Ebd.Mobile.Services.Interfaces;
 using Ebd.Mobile.Views;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Xamarin.Forms;
 
 namespace Ebd.Mobile.ViewModels
