@@ -53,7 +53,7 @@ namespace Ebd.Presentation.Api.Controllers
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex, "Erro ao adicionar lição");
+                Logger.LogError(ex, "Erro ao adicionar lição.");
                 return InternalServerError(ex, "Erro ao adicionar lição");
             }
         }

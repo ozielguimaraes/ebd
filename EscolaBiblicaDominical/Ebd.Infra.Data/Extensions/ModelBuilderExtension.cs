@@ -30,24 +30,9 @@ namespace Ebd.Infra.Data.Extensions
         {
             var turmas = new List<Turma>
             {
-                new Turma
-                {
-                    TurmaId = 1, Nome = "Mensageiros da Fé",
-                    IdadeMinima = 11,
-                    IdadeMaxima = 12
-                },
-                new Turma
-                {
-                    TurmaId = 2, Nome = "Adolescentes Vencedores",
-                    IdadeMinima = 13,
-                    IdadeMaxima = 14
-                },
-                new Turma
-                {
-                    TurmaId = 3, Nome = "Campeões da Fé",
-                    IdadeMinima = 15,
-                    IdadeMaxima = 17
-                }
+                new Turma(turmaId: 1, nome: "Mensageiros da Fé", idadeMinima: 11,idadeMaxima: 12),
+                new Turma(turmaId: 2, nome: "Adolescentes Vencedores", idadeMinima: 13,idadeMaxima: 14),
+                new Turma(turmaId: 3, nome: "Campeões da Fé", idadeMinima: 15,idadeMaxima: 17)
             };
 
             builder.Entity<Turma>().HasData(turmas);

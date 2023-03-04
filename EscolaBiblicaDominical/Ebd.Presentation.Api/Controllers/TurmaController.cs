@@ -1,4 +1,5 @@
 ﻿using Ebd.Application.Business.Interfaces;
+using Ebd.Application.Requests.Turma;
 using Ebd.Application.Responses.Turma;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Http;
@@ -19,6 +20,25 @@ namespace Ebd.Presentation.Api.Controllers
         public TurmaController(ILogger<BaseController> logger, ITurmaBusiness turmaBusiness) : base(logger)
         {
             _turmaBusiness = turmaBusiness;
+        }
+
+        [Route("")]
+        [HttpPost]
+        [ProducesResponseType(typeof(TurmaResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<ValidationFailure>), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(Exception), StatusCodes.Status500InternalServerError)]
+
+        public async Task<IActionResult> Post([FromBody] AdicionarTurmaRequest request)
+        {
+            try
+            {
+                return ResultWhenAdding(await _turmaBusiness.AdicionarAsync(request));
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "Erro ao adicionar turma");
+                return InternalServerError(ex, "Erro ao adicionar turma");
+            }
         }
 
         [Route("")]
