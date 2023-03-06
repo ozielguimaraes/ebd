@@ -31,9 +31,9 @@ namespace Ebd.Mobile.Services.Implementations
         public BairroService(INetworkService networkService) : base(networkService) { }
 
         public async Task<BaseResponse<IEnumerable<BairroResponse>>> ObterTodosAsync()
-            => await GetAndRetry<BairroResponse>(PathToService, retryCount: DefaultRetryCount, OnRetry);
+            => await GetAndRetry<IEnumerable<BairroResponse>>(PathToService, retryCount: DefaultRetryCount, OnRetry);
 
         public async Task<BaseResponse<IEnumerable<BairroResponse>>> PesquisarAsync(string pesquisa)
-            => await GetAndRetry<BairroResponse>($"{PathToService}/{pesquisa}", retryCount: DefaultRetryCount, OnRetry);
+            => await GetAndRetry<IEnumerable<BairroResponse>>($"{PathToService}/{pesquisa}", retryCount: DefaultRetryCount, OnRetry);
     }
 }
