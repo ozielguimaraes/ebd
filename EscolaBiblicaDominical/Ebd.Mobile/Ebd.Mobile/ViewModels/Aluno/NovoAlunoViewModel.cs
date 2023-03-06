@@ -1,10 +1,13 @@
 ﻿using Ebd.Mobile.Extensions;
 using Ebd.Mobile.Services.Implementations;
 using Ebd.Mobile.Services.Interfaces;
+using Ebd.Mobile.Services.Requests.Contato;
+using Ebd.Mobile.Services.Requests.Endereco;
 using Ebd.Mobile.Services.Responses.Turma;
 using MvvmHelpers;
 using MvvmHelpers.Commands;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -88,7 +91,7 @@ namespace Ebd.Mobile.ViewModels.Aluno
             }
         }
 
-        private DateTime? dataNascimento;
+        private DateTime? dataNascimento = DateTime.Now.AddYears(-17);
         public DateTime? DataNascimento
         {
             get => dataNascimento;
@@ -176,6 +179,17 @@ namespace Ebd.Mobile.ViewModels.Aluno
             }
         }
 
+        private string cep;
+        public string Cep
+        {
+            get => cep;
+            set
+            {
+                SetProperty(ref cep, value);
+                CheckFormIsValid();
+            }
+        }
+
         private string numero;
         public string Numero
         {
@@ -223,18 +237,31 @@ namespace Ebd.Mobile.ViewModels.Aluno
                 if (IsBusy) return;
 
                 //TODO validar
-
-                await _alunoService.SalvarAsync(new Services.Requests.Aluno.AlterarAlunoRequest
+                CheckFormIsValid();
+                if (IsValid)
                 {
-                    NascidoEm = DataNascimento.Value,
-                    Nome = Nome,
-                    WhatsappIgualCelular = true,
-                    AlunoId = AlunoId,
-                    TurmaId = TurmaSelecionada.TurmaId
-                });
-
-                //TODO SALVAR
-                await Task.Delay(100);
+                    var response = await _alunoService.SalvarAsync(new Services.Requests.Aluno.AlterarAlunoRequest
+                    {
+                        NascidoEm = DataNascimento.Value,
+                        Nome = Nome,
+                        WhatsappIgualCelular = true,
+                        AlunoId = AlunoId,
+                        TurmaId = TurmaSelecionada.TurmaId,
+                        Contatos = new List<NovoContatoRequest>
+                        {
+                            new NovoContatoRequest(Celular, Services.Requests.Aluno.TipoContatoRequest.Celular),
+                            new NovoContatoRequest(Email, Services.Requests.Aluno.TipoContatoRequest.Email)
+                        },
+                        Enderecos = new List<NovoEnderecoRequest>
+                        {
+                            new NovoEnderecoRequest(Logradouro, Numero, cep: Cep, 1)//TODO Change bairro Id
+                        }
+                    });
+                }
+                else
+                {
+                    await DialogService.DisplayAlert("Oops", "Algum campo não foi preenchido incorretamente");
+                }
             }
             catch (Exception ex)
             {
@@ -256,7 +283,7 @@ namespace Ebd.Mobile.ViewModels.Aluno
 
         private void SetTurmaSelecionada(string content)
         {
-            if (content is not null)
+            if (string.IsNullOrEmpty(content).Not())
             {
                 TurmaSelecionada = JsonSerializer.Deserialize<TurmaResponse>(content);
                 DataNascimento = DateTime.Now.AddYears(-TurmaSelecionada.IdadeMaxima + 1);

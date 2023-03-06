@@ -7,12 +7,12 @@ namespace Ebd.Mobile.Views.Aluno
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class NovoAlunoPage : ContentPage
     {
-        NovoAlunoViewModel ViewModel { get => (NovoAlunoViewModel)BindingContext; }
+        NovoAlunoViewModel ViewModel;
 
         public NovoAlunoPage()
         {
             InitializeComponent();
-            BindingContext = ViewModel ?? DependencyService.Get<NovoAlunoViewModel>();
+            BindingContext = ViewModel ??= DependencyService.Get<NovoAlunoViewModel>();
         }
 
         protected override async void OnAppearing()

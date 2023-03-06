@@ -1,200 +1,277 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:vm="clr-namespace:Ebd.Mobile.ViewModels.Aluno" 
+             xmlns:vm="clr-namespace:Ebd.Mobile.ViewModels.Aluno"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              x:Class="Ebd.Mobile.Views.Aluno.NovoAlunoPage"
              Title="{Binding Title}"
              x:DataType="vm:NovoAlunoViewModel">
-    <ContentPage.Content>
-        <ScrollView>
-            <StackLayout Margin="16,16,16,0">
-                <Label Margin="0,10,0,0">
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <Span Text="Turma" />
-                            <Span Text=" " />
-                            <Span Text="*" TextColor="Red" />
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
-                <Picker Title="Selecione uma turma"
-                            TitleColor="{StaticResource Primary}"
+    <ScrollView>
+        <StackLayout>
+            <Label Margin="0,10,0,0">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Turma" />
+                        <Span Text=" " />
+                        <Span Text="*" TextColor="Red" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <Picker Title="Selecione uma turma"
+                            TitleColor="{StaticResource PrimaryColor}"
                             ItemsSource="{Binding Turmas}"
                             SelectedItem="{Binding TurmaSelecionada}"
                             ItemDisplayBinding="{Binding FaixaIdadeNome}" />
 
-                <Label Margin="0,10,0,0">
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <Span Text="Nome" />
-                            <Span Text=" " />
-                            <Span Text="*" TextColor="Red" />
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
-                <Entry Text="{Binding Nome}"
+            <Label Margin="0,10,0,0">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Nome" />
+                        <Span Text=" " />
+                        <Span Text="*" TextColor="Red" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <Entry Text="{Binding Nome}"
+                       Placeholder="Informe o nome completo"
                    MaxLength="40"
-                   ReturnType="Next" />
+                   ReturnType="Next">
+                <Entry.Behaviors>
+                    <xct:MultiValidationBehavior InvalidStyle="{StaticResource InvalidEntryStyle}">
+                        <xct:TextValidationBehavior MinimumLength="12" MaximumLength="40" />
+                        <xct:CharactersValidationBehavior CharacterType="Letter" Flags="ValidateOnValueChanging" />
+                    </xct:MultiValidationBehavior>
+                </Entry.Behaviors>
+            </Entry>
 
-                <Label Margin="0,10,0,0">
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <Span Text="Data de nascimento" />
-                            <Span Text=" " />
-                            <Span Text="*" TextColor="Red" />
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
-                <DatePicker Date="{Binding DataNascimento}" />
+            <Label Margin="0,10,0,0">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Data de nascimento" />
+                        <Span Text=" " />
+                        <Span Text="*" TextColor="Red" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <DatePicker Date="{Binding DataNascimento}" />
 
-                <Label Margin="0,10,0,0">
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <Span Text="Celular" />
-                            <Span Text=" " />
-                            <Span Text="*" TextColor="Red" />
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
-                <Entry Text="{Binding Celular}"
+            <Label Margin="0,10,0,0">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Celular" />
+                        <Span Text=" " />
+                        <Span Text="*" TextColor="Red" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <Entry Text="{Binding Celular}"
                    Placeholder="(34) 99691-9292"
                    Keyboard="Telephone"
                    MaxLength="15"
-                   ReturnType="Next" />
+                   ReturnType="Next">
+                <Entry.Behaviors>
+                    <xct:MaskedBehavior Mask="(XX) XXXXX-XXXX" />
+                    <xct:CharactersValidationBehavior CharacterType="Digit" MinimumLength="15" />
+                </Entry.Behaviors>
+            </Entry>
 
-                <Label Margin="0,10,0,0">
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <Span Text="Email" />
-                            <Span Text=" " />
-                            <Span Text="*" TextColor="Red" />
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
-                <Entry Text="{Binding Email}"
+            <Label Margin="0,10,0,0">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Email" />
+                        <Span Text=" " />
+                        <Span Text="*" TextColor="Red" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <Entry Text="{Binding Email}"
                    Keyboard="Email" 
                    MaxLength="50"
-                   ReturnType="Next" />
+                   ReturnType="Next">
+                <Entry.Behaviors>
+                    <xct:EmailValidationBehavior
+                            DecorationFlags="Trim"
+                            Flags="ValidateOnValueChanging"
+                            InvalidStyle="{StaticResource InvalidEntryStyle}" />
+                </Entry.Behaviors>
+            </Entry>
 
-                <Label Margin="0,10,0,0">
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <Span Text="Nome da mãe" />
-                            <Span Text=" " />
-                            <Span Text="*" TextColor="Red" />
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
-                <Entry Text="{Binding NomeMae}" 
+            <Label Margin="0,10,0,0">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Nome da mãe" />
+                        <Span Text=" " />
+                        <Span Text="*" TextColor="Red" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <Entry Text="{Binding NomeMae}" 
                    MaxLength="40"
-                   ReturnType="Next" />
+                   ReturnType="Next">
+                <Entry.Behaviors>
+                    <xct:MultiValidationBehavior InvalidStyle="{StaticResource InvalidEntryStyle}">
+                        <xct:TextValidationBehavior MinimumLength="12" MaximumLength="40" Flags="ValidateOnValueChanging" />
+                        <xct:CharactersValidationBehavior CharacterType="Letter" Flags="ValidateOnValueChanging" />
+                    </xct:MultiValidationBehavior>
+                </Entry.Behaviors>
+            </Entry>
 
-                <Label Margin="0,10,0,0">
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <Span Text="Celular da mãe" />
-                            <Span Text=" " />
-                            <Span Text="*" TextColor="Red" />
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
-                <Entry Text="{Binding CelularMae}"
+            <Label Margin="0,10,0,0">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Celular da mãe" />
+                        <Span Text=" " />
+                        <Span Text="*" TextColor="Red" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <Entry Text="{Binding CelularMae}"
                    Placeholder="(34) 99691-9292"
                    Keyboard="Telephone"
                    MaxLength="15"
-                   ReturnType="Next" />
+                   ReturnType="Next">
+                <Entry.Behaviors>
+                    <xct:MaskedBehavior Mask="(XX) XXXXX-XXXX" />
+                </Entry.Behaviors>
+            </Entry>
 
-                <Label Margin="0,10,0,0">
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <Span Text="Nome do pai" />
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
-                <Entry Text="{Binding NomePai}"
+            <Label Margin="0,10,0,0">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Nome do pai" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <Entry Text="{Binding NomePai}"
                    MaxLength="40"
-                   ReturnType="Next" />
+                   ReturnType="Next">
+                <Entry.Behaviors>
+                    <xct:MultiValidationBehavior InvalidStyle="{StaticResource InvalidEntryStyle}">
+                        <xct:TextValidationBehavior MinimumLength="12" MaximumLength="40" Flags="ValidateOnValueChanging" />
+                        <xct:CharactersValidationBehavior CharacterType="Letter" Flags="ValidateOnValueChanging" />
+                    </xct:MultiValidationBehavior>
+                </Entry.Behaviors>
+            </Entry>
 
-                <Label Margin="0,10,0,0">
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <Span Text="Nome do pai" />
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
-                <Entry Text="{Binding CelularPai}"
+            <Label Margin="0,10,0,0">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Celular do pai" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <Entry Text="{Binding CelularPai}"
                    Placeholder="(34) 99691-9292"
                    Keyboard="Telephone"
                    MaxLength="15"
-                   ReturnType="Next" />
+                   ReturnType="Next">
+                <Entry.Behaviors>
+                    <xct:MaskedBehavior Mask="(XX) XXXXX-XXXX" />
+                </Entry.Behaviors>
+            </Entry>
 
-                <BoxView HeightRequest="1"
+            <BoxView HeightRequest="1"
                      Color="Black"
                      Margin="0,10,0,0" />
-                <Label Text="Informações de endereço"
+            <Label Text="Informações de endereço"
                        FontAttributes="Bold"
                        FontSize="Subtitle" />
 
-                <Label Margin="0,10,0,0">
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <Span Text="Rua/avenida" />
-                            <Span Text=" " />
-                            <Span Text="*" TextColor="Red" />
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
-                <Entry Text="{Binding Logradouro}"
+            <Label Margin="0,10,0,0">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="CEP" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <Entry Text="{Binding Cep}"
+                       Keyboard="Numeric"
+                       ReturnType="Next">
+                <Entry.Behaviors>
+                    <xct:MaskedBehavior Mask="XX XXX-XXX" />
+                    <xct:MultiValidationBehavior InvalidStyle="{StaticResource InvalidEntryStyle}">
+                        <xct:TextValidationBehavior MaximumLength="10" MinimumLength="10" Flags="ValidateOnValueChanging" />
+                        <xct:CharactersValidationBehavior CharacterType="Digit" />
+                    </xct:MultiValidationBehavior>
+                </Entry.Behaviors>
+            </Entry>
+
+            <Label Margin="0,10,0,0">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Rua/avenida" />
+                        <Span Text=" " />
+                        <Span Text="*" TextColor="Red" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <Entry Text="{Binding Logradouro}"
                    MaxLength="40"
-                   ReturnType="Next" />
+                   ReturnType="Next">
+                <Entry.Behaviors>
+                    <xct:TextValidationBehavior MinimumLength="10" MaximumLength="40" Flags="ValidateOnValueChanging" InvalidStyle="{StaticResource InvalidEntryStyle}" />
+                </Entry.Behaviors>
+            </Entry>
 
-                <Label Margin="0,10,0,0">
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <Span Text="Número" />
-                            <Span Text=" " />
-                            <Span Text="*" TextColor="Red" />
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
-                <Entry Text="{Binding Numero}"
+            <Label Margin="0,10,0,0">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Número" />
+                        <Span Text=" " />
+                        <Span Text="*" TextColor="Red" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <Entry Text="{Binding Numero}"
                    MaxLength="6"
-                   ReturnType="Next" />
+                   ReturnType="Next">
+                <Entry.Behaviors>
+                    <xct:TextValidationBehavior MinimumLength="1" MaximumLength="8" Flags="ValidateOnValueChanging" InvalidStyle="{StaticResource InvalidEntryStyle}" />
+                </Entry.Behaviors>
+            </Entry>
 
-                <Label Margin="0,10,0,0">
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <Span Text="Bairro" />
-                            <Span Text=" " />
-                            <Span Text="*" TextColor="Red" />
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
-                <Entry Text="{Binding Bairro}"
+            <Label Margin="0,10,0,0">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Bairro" />
+                        <Span Text=" " />
+                        <Span Text="*" TextColor="Red" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <Entry Text="{Binding Bairro}"
                    MaxLength="25"
-                   ReturnType="Next" />
+                   ReturnType="Next">
+                <Entry.Behaviors>
+                    <xct:TextValidationBehavior MinimumLength="6" MaximumLength="35" InvalidStyle="{StaticResource InvalidEntryStyle}" />
+                </Entry.Behaviors>
+            </Entry>
 
-                <Label Margin="0,10,0,0">
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <Span Text="Complemento" />
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
-                <Entry Text="{Binding Complemento}"
+            <Label Margin="0,10,0,0">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Complemento" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <Entry Text="{Binding Complemento}"
                    MaxLength="25"
-                   ReturnType="Send" />
+                   ReturnType="Send">
+                <Entry.Behaviors>
+                    <xct:TextValidationBehavior MinimumLength="6" MaximumLength="30" Flags="ValidateOnValueChanging" InvalidStyle="{StaticResource InvalidEntryStyle}" />
+                </Entry.Behaviors>
+            </Entry>
 
-                <Button Text="Salvar"
+            <Button Text="Salvar"
                     Style="{StaticResource ButtonIsDisabled}"
-                    Command="{Binding SalvarCommand}">
-                    <Button.Triggers>
-                        <DataTrigger TargetType="Button" Binding="{Binding IsValid}" Value="true">
-                            <Setter Property="Style" Value="{StaticResource ButtonIsEnabled}" />
-                        </DataTrigger>
-                    </Button.Triggers>
-                </Button>
-            </StackLayout>
-        </ScrollView>
-    </ContentPage.Content>
+                    Command="{Binding SalvarCommand}"
+                    Margin="0,0,0,10">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button" Binding="{Binding IsValid}" Value="true">
+                        <Setter Property="Style" Value="{StaticResource ButtonIsEnabled}" />
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
+        </StackLayout>
+    </ScrollView>
 </ContentPage>

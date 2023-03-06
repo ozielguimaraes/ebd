@@ -82,7 +82,6 @@ namespace Ebd.Mobile.ViewModels.Aluno
                 => _newStudentCommand
                 ??= new AsyncCommand(
                     execute: NewStudentCommandExecute,
-                    canExecute: CanExecute,
                     onException: CommandOnException);
 
         public override async Task Initialize(object args)
@@ -152,7 +151,7 @@ namespace Ebd.Mobile.ViewModels.Aluno
         {
             if (IsBusy) return;
 
-            await Shell.Current.GoToAsync($"{PageConstant.Aluno.Novo}?Turma={JsonSerializer.Serialize(TurmaSelecionada)}");
+            await Shell.Current.GoToAsync($"{PageConstant.Aluno.Novo}?Turma={(TurmaSelecionada is null ? null : JsonSerializer.Serialize(TurmaSelecionada))}");
         }
 
         private async Task ExecuteCarregarListaAlunosCommand(bool force)

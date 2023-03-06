@@ -18,7 +18,7 @@ namespace Ebd.Mobile
         {
             InitializeComponent();
             RegisterDependencies();
-            ConfigureFirebaseRefreshToken();
+            //ConfigureFirebaseRefreshToken();
             MainPage = new AppShell();
         }
 

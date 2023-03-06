@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Ebd.Mobile.Services.Requests.Contato;
+using Ebd.Mobile.Services.Requests.Endereco;
+using System;
+using System.Collections.Generic;
 
 namespace Ebd.Mobile.Services.Requests.Aluno
 {
@@ -6,8 +9,6 @@ namespace Ebd.Mobile.Services.Requests.Aluno
     {
         public int? AlunoId { get; set; }
         public int TurmaId { get; set; }
-        //public DateTime DataNascimento { get; set; }
-        //public string Nome { get; set; }
         //public string Celular { get; set; }
         //public string Email { get; set; }
         //public string NomeMae { get; set; }
@@ -24,8 +25,8 @@ namespace Ebd.Mobile.Services.Requests.Aluno
         public bool WhatsappIgualCelular { get; set; } = true;
         public DateTime NascidoEm { get; set; }
 
-        //public ICollection<EnderecoRequest> Enderecos { get; set; }
-        //public ICollection<ContatoRequest> Contatos { get; set; }
+        public ICollection<NovoEnderecoRequest> Enderecos { get; set; }
+        public ICollection<NovoContatoRequest> Contatos { get; set; }
 
         //public PessoaRequest Responsavel { get; set; }
     }

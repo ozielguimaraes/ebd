@@ -17,7 +17,7 @@
         <StackLayout Margin="8">
             <Label Text="Turma" />
             <Picker Title="Selecione uma turma"
-                        TitleColor="{StaticResource Primary}"
+                        TitleColor="{StaticResource PrimaryColor}"
                         ItemsSource="{Binding Turmas}"
                         SelectedItem="{Binding TurmaSelecionada}"
                         ItemDisplayBinding="{Binding FaixaIdadeNome}"/>
@@ -41,7 +41,7 @@
             <StackLayout IsVisible="{Binding RevistaSelecionada, Converter={StaticResource IsNotNull}}">
                 <Label Text="Lição" />
                 <Picker Title="Selecione uma lição"
-                        TitleColor="{StaticResource Primary}"
+                        TitleColor="{StaticResource PrimaryColor}"
                         ItemsSource="{Binding Licoes}"
                         SelectedItem="{Binding LicaoSelecionada}"
                         ItemDisplayBinding="{Binding Titulo}"/>

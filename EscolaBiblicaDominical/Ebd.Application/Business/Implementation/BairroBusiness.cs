@@ -22,5 +22,12 @@ namespace Ebd.Application.Business.Implementation
 
             return BairroMapper.FromEntityToResponse(result);
         }
+
+        public async Task<IEnumerable<BairroResponse>> PesquisarAsync(string pesquisa)
+        {
+            var result = await _bairroRepository.PesquisarAsync(pesquisa);
+
+            return BairroMapper.FromEntityToResponse(result);
+        }
     }
 }

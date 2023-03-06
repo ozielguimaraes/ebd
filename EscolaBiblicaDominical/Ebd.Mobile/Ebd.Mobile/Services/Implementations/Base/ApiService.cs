@@ -90,7 +90,7 @@ namespace Ebd.Mobile.Services.Implementations.Base
         {
             return Task.Factory.StartNew(() =>
             {
-                LoggerService.Current.LogWarning($"Retry - Attempt #{retryCount} to get classes.");
+                LoggerService.Current.LogWarning($"Retry - Attempt #{retryCount}.");
             });
         }
 

@@ -1,16 +1,9 @@
 ﻿using Android.App;
-using Android.Content;
 using Android.OS;
 using Android.Runtime;
-using Android.Views;
-using Android.Widget;
-using Ebd.Mobile.Services.Interfaces;
+using Ebd.Mobile.Services.Implementations.Logger;
 using Plugin.FirebasePushNotification;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Ebd.Mobile.Services.Implementations.Logger;
 
 namespace Ebd.Mobile.Droid
 {
@@ -39,9 +32,9 @@ namespace Ebd.Mobile.Droid
 
             //If debug you should reset the token each time.
 #if DEBUG
-            FirebasePushNotificationManager.Initialize(this, true);
+            //FirebasePushNotificationManager.Initialize(this, true);
 #else
-            FirebasePushNotificationManager.Initialize(this, false);
+            //FirebasePushNotificationManager.Initialize(this, false);
 #endif
 
             //Handle notification when app is closed here

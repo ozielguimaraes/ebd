@@ -7,5 +7,6 @@ namespace Ebd.Application.Business.Interfaces
     public interface IBairroBusiness
     {
         Task<IEnumerable<BairroResponse>> ObterTodosAsync();
+        Task<IEnumerable<BairroResponse>> PesquisarAsync(string pesquisa);
     }
 }
