@@ -19,7 +19,7 @@ namespace Ebd.Application.Mappers
                     Contatos = ContatoMapper.FromRequestToEntity(request.Contatos)?.ToList(),
                     Enderecos = EnderecoMapper.FromRequestToEntity(request.Enderecos)?.ToList(),
                 },
-                Responsavel = PessoaMapper.FromRequestToEntity(request.Responsavel),
+                Responsaveis = PessoaResponsavelMapper.FromRequestToEntity(request.Responsaveis),
                 TurmaId = request.TurmaId
             };
 
@@ -30,12 +30,12 @@ namespace Ebd.Application.Mappers
         {
             if (entity is null) return null;
 
-             return new DetalhesAlunoResponse(
-                 alunoId: entity.AlunoId,
-                 pessoa: PessoaMapper.FromEntityToResponse(entity.Pessoa),
-                 responsavel: PessoaMapper.FromEntityToResponse(entity.Responsavel),
-                 turma: TurmaMapper.FromEntityToResponse(entity.Turma)
-                 );
+            return new DetalhesAlunoResponse(
+                alunoId: entity.AlunoId,
+                pessoa: PessoaMapper.FromEntityToResponse(entity.Pessoa),
+                turma: TurmaMapper.FromEntityToResponse(entity.Turma),
+                responsaveis: PessoaResponsavelMapper.FromEntityToResponse(entity.Responsaveis)
+                );
         }
 
         public static IEnumerable<ListaAlunoResponse> FromEntityToResponse(ICollection<Aluno> entities)

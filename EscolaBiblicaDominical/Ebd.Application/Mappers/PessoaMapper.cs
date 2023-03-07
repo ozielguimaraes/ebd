@@ -1,6 +1,7 @@
 ﻿using Ebd.Application.Requests.Pessoa;
 using Ebd.Application.Responses.Pessoa;
 using Ebd.Domain.Core.Entities;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Ebd.Application.Mappers
@@ -16,6 +17,18 @@ namespace Ebd.Application.Mappers
                 enderecos: EnderecoMapper.FromEntityToResponse(entity.Enderecos),
                 contatos: ContatoMapper.FromEntityToResponse(entity.Contatos)
                 );
+
+        public static List<Pessoa> FromRequestToEntity(IEnumerable<PessoaRequest> items)
+        {
+            var result = new List<Pessoa>();
+
+            foreach (var item in items)
+            {
+                result.Add(FromRequestToEntity(item));
+            }
+
+            return result;
+        }
 
         public static Pessoa FromRequestToEntity(PessoaRequest request) =>
             request is null ? null : new Pessoa

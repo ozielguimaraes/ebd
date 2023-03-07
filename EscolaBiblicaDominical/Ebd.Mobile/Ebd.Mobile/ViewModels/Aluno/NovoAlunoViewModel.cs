@@ -1,6 +1,7 @@
 ﻿using Ebd.Mobile.Extensions;
 using Ebd.Mobile.Services.Implementations;
 using Ebd.Mobile.Services.Interfaces;
+using Ebd.Mobile.Services.Requests.Aluno;
 using Ebd.Mobile.Services.Requests.Contato;
 using Ebd.Mobile.Services.Requests.Endereco;
 using Ebd.Mobile.Services.Responses.Turma;
@@ -253,22 +254,23 @@ namespace Ebd.Mobile.ViewModels.Aluno
                 CheckFormIsValid();
                 if (IsValid)
                 {
-                    var response = await _alunoService.SalvarAsync(new Services.Requests.Aluno.AlterarAlunoRequest
+                    var response = await _alunoService.SalvarAsync(new AlterarAlunoRequest
                     {
                         NascidoEm = DataNascimento.Value,
                         Nome = Nome,
                         WhatsappIgualCelular = true,
                         AlunoId = AlunoId,
                         TurmaId = TurmaSelecionada.TurmaId,
-                        Contatos = new List<NovoContatoRequest>
+                        Contatos = new List<ContatoRequest>
                         {
-                            new NovoContatoRequest(Celular, Services.Requests.Aluno.TipoContatoRequest.Celular),
-                            new NovoContatoRequest(Email, Services.Requests.Aluno.TipoContatoRequest.Email)
+                            new ContatoRequest(Celular, TipoContatoRequest.Celular),
+                            new ContatoRequest(Email, TipoContatoRequest.Email)
                         },
-                        Enderecos = new List<NovoEnderecoRequest>
+                        Enderecos = new List<EnderecoRequest>
                         {
-                            new NovoEnderecoRequest(Logradouro, Numero, cep: Cep, 1)//TODO Change bairro Id
-                        }
+                            new EnderecoRequest(Logradouro, Numero, cep: Cep, 1) // TODO Change bairro Id
+                        },
+                        Responsaveis = new PessoaRequest(NomeMae, new ContatoRequest(CelularMae, TipoContatoRequest.Celular)),
                     });
                 }
                 else
@@ -290,8 +292,9 @@ namespace Ebd.Mobile.ViewModels.Aluno
                 && string.IsNullOrWhiteSpace(Numero).Not()
                 && string.IsNullOrWhiteSpace(Bairro).Not()
                 && string.IsNullOrWhiteSpace(NomeMae).Not()
-                && string.IsNullOrWhiteSpace(CelularMae).Not()
-                && string.IsNullOrWhiteSpace(Celular).Not();
+                && string.IsNullOrWhiteSpace(CelularMae).Not() && CelularMae.Length == 15
+                && string.IsNullOrWhiteSpace(Celular).Not() && Celular.Length == 15
+                && (CelularPai is null || CelularPai.Length == 15);
         }
 
         private void SetTurmaSelecionada(string content)

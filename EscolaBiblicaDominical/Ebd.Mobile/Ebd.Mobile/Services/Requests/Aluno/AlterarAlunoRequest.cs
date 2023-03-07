@@ -20,14 +20,13 @@ namespace Ebd.Mobile.Services.Requests.Aluno
         //public string Bairro { get; set; }
         //public string Complemento { get; set; }
 
-
         public string Nome { get; set; }
         public bool WhatsappIgualCelular { get; set; } = true;
         public DateTime NascidoEm { get; set; }
 
-        public ICollection<NovoEnderecoRequest> Enderecos { get; set; }
-        public ICollection<NovoContatoRequest> Contatos { get; set; }
+        public ICollection<EnderecoRequest> Enderecos { get; set; }
+        public ICollection<ContatoRequest> Contatos { get; set; }
 
-        //public PessoaRequest Responsavel { get; set; }
+        public ICollection<ResponsavelAlunoRequest> Responsaveis { get; set; }
     }
 }

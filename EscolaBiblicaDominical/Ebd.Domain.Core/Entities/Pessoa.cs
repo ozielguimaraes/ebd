@@ -11,6 +11,7 @@ namespace Ebd.Domain.Core.Entities
         public DateTime NascidoEm { get; set; }
 
         public ICollection<Endereco> Enderecos { get; set; }
+        public ICollection<ResponsavelAluno> Responsaveis { get; set; }
         public ICollection<Contato> Contatos { get; set; }
     }
 }

@@ -15,7 +15,7 @@ namespace Ebd.Application.Requests.Aluno
         public ICollection<EnderecoRequest> Enderecos { get; set; }
         public ICollection<ContatoRequest> Contatos { get; set; }
 
-        public PessoaRequest Responsavel { get; set; }
+        public ICollection<ResponsavelAlunoRequest> Responsaveis { get; set; }
 
         public int TurmaId { get; set; }
     }

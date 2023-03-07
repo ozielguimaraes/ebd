@@ -1,8 +1,8 @@
 ﻿namespace Ebd.Mobile.Services.Requests.Endereco
 {
-    public class NovoEnderecoRequest
+    public class EnderecoRequest
     {
-        public NovoEnderecoRequest(string logradouro, string numero, string cep, int bairroId)
+        public EnderecoRequest(string logradouro, string numero, string cep, int bairroId)
         {
             Logradouro = logradouro;
             Numero = numero;
@@ -11,6 +11,7 @@
             Classificacao = ClassificacaoEnderecoRequest.Principal;
         }
 
+        public int EnderecoId { get; set; }
         public ClassificacaoEnderecoRequest Classificacao { get; set; }
         public string Logradouro { get; private set; }
         public string Numero { get; private set; }

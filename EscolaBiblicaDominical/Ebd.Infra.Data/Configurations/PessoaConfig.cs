@@ -32,6 +32,10 @@ namespace Ebd.Infra.Data.Configurations
                 .WithOne(o => o.Pessoa)
                 .IsRequired();
 
+            builder.HasMany(x => x.Responsaveis)
+                .WithOne(x => x.Responsavel)
+                .HasForeignKey(x => x.ResponsavelId);
+
             builder.HasIndex(i => i.Nome);
 
             builder.ToTable("Pessoa");

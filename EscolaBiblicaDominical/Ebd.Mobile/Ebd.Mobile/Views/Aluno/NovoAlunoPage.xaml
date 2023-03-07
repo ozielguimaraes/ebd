@@ -71,7 +71,10 @@
                    ReturnType="Next">
                 <Entry.Behaviors>
                     <xct:MaskedBehavior Mask="(XX) XXXXX-XXXX" />
-                    <xct:CharactersValidationBehavior CharacterType="Digit" MinimumLength="15" />
+                    <xct:MultiValidationBehavior InvalidStyle="{StaticResource InvalidEntryStyle}">
+                        <xct:TextValidationBehavior MinimumLength="15" MaximumLength="15" Flags="ValidateOnValueChanging" />
+                        <xct:CharactersValidationBehavior CharacterType="Digit" />
+                    </xct:MultiValidationBehavior>
                 </Entry.Behaviors>
             </Entry>
 
@@ -132,6 +135,10 @@
                    ReturnType="Next">
                 <Entry.Behaviors>
                     <xct:MaskedBehavior Mask="(XX) XXXXX-XXXX" />
+                    <xct:MultiValidationBehavior InvalidStyle="{StaticResource InvalidEntryStyle}">
+                        <xct:TextValidationBehavior MinimumLength="15" MaximumLength="15" Flags="ValidateOnValueChanging" />
+                        <xct:CharactersValidationBehavior CharacterType="Digit" />
+                    </xct:MultiValidationBehavior>
                 </Entry.Behaviors>
             </Entry>
 
@@ -167,6 +174,10 @@
                    ReturnType="Next">
                 <Entry.Behaviors>
                     <xct:MaskedBehavior Mask="(XX) XXXXX-XXXX" />
+                    <xct:MultiValidationBehavior InvalidStyle="{StaticResource InvalidEntryStyle}">
+                        <xct:TextValidationBehavior MinimumLength="14" MaximumLength="15" Flags="ValidateOnValueChanging" />
+                        <xct:CharactersValidationBehavior CharacterType="Digit" />
+                    </xct:MultiValidationBehavior>
                 </Entry.Behaviors>
             </Entry>
 
@@ -189,9 +200,10 @@
                    ReturnType="Next">
                 <Entry.Behaviors>
                     <xct:EventToCommandBehavior EventName="Completed" Command="{Binding CepCompletedCommand}" />
+                    <xct:UserStoppedTypingBehavior MinimumLengthThreshold="9" Command="{Binding CepCompletedCommand}" />
                     <xct:MaskedBehavior Mask="XX XXX-XXX" />
                     <xct:MultiValidationBehavior InvalidStyle="{StaticResource InvalidEntryStyle}">
-                        <xct:TextValidationBehavior MaximumLength="10" MinimumLength="10" Flags="ValidateOnValueChanging" />
+                        <xct:TextValidationBehavior MinimumLength="10" MaximumLength="10" Flags="ValidateOnValueChanging" />
                         <xct:CharactersValidationBehavior CharacterType="Digit" />
                     </xct:MultiValidationBehavior>
                 </Entry.Behaviors>
