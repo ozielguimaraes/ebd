@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -19,10 +20,15 @@ namespace Ebd.Mobile.ViewModels.Aluno
     [QueryProperty(nameof(Turma), nameof(Turma))]
     public class NovoAlunoViewModel : BaseViewModel
     {
-        private static readonly Lazy<IAlunoService> alunoServiceLazy = new(() => new AlunoService(DependencyService.Get<INetworkService>()));
+        private static readonly INetworkService _networkService = DependencyService.Get<INetworkService>();
+
+        private static readonly Lazy<IAlunoService> alunoServiceLazy = new(() => new AlunoService(_networkService));
         private readonly IAlunoService _alunoService = alunoServiceLazy.Value;
 
-        private static readonly Lazy<ITurmaService> turmaServiceLazy = new(() => new TurmaService(DependencyService.Get<INetworkService>()));
+        private static readonly Lazy<ICepService> cepServiceLazy = new(() => new CepService(_networkService));
+        private readonly ICepService _cepService = cepServiceLazy.Value;
+
+        private static readonly Lazy<ITurmaService> turmaServiceLazy = new(() => new TurmaService(_networkService));
         private readonly ITurmaService _turmaService = turmaServiceLazy.Value;
 
         public NovoAlunoViewModel()
@@ -67,6 +73,13 @@ namespace Ebd.Mobile.ViewModels.Aluno
                 ??= new AsyncCommand(
                     execute: SalvarCommandExecute,
                     canExecute: CanExecute,
+                    onException: CommandOnException);
+
+        private ICommand _cepCompletedCommand;
+        public ICommand CepCompletedCommand
+                => _cepCompletedCommand
+                ??= new AsyncCommand(
+                    execute: CepCompletedCommandExecute,
                     onException: CommandOnException);
 
         private int? alunoId;
@@ -287,6 +300,29 @@ namespace Ebd.Mobile.ViewModels.Aluno
             {
                 TurmaSelecionada = JsonSerializer.Deserialize<TurmaResponse>(content);
                 DataNascimento = DateTime.Now.AddYears(-TurmaSelecionada.IdadeMaxima + 1);
+            }
+        }
+
+        private async Task CepCompletedCommandExecute()
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(Cep).Not() && Cep.Length == 10)
+                {
+                    var endereco = await _cepService.ObterAsync(Cep);
+                    if (endereco.IsSuccess)
+                    {
+                        Complemento = endereco.Data.Complemento;
+                        Logradouro = endereco.Data.Logradouro;
+                        Bairro = endereco.Data.Bairro;
+                    }
+                    else Debug.WriteLine("Was not possible to get cep information");
+                }
+                else Debug.WriteLine("CEP is not valid");
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
             }
         }
 

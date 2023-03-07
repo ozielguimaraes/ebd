@@ -185,9 +185,10 @@
                 </Label.FormattedText>
             </Label>
             <Entry Text="{Binding Cep}"
-                       Keyboard="Numeric"
-                       ReturnType="Next">
+                   Keyboard="Numeric"
+                   ReturnType="Next">
                 <Entry.Behaviors>
+                    <xct:EventToCommandBehavior EventName="Completed" Command="{Binding CepCompletedCommand}" />
                     <xct:MaskedBehavior Mask="XX XXX-XXX" />
                     <xct:MultiValidationBehavior InvalidStyle="{StaticResource InvalidEntryStyle}">
                         <xct:TextValidationBehavior MaximumLength="10" MinimumLength="10" Flags="ValidateOnValueChanging" />

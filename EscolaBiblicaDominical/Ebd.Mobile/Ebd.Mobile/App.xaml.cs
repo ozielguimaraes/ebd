@@ -45,6 +45,8 @@ namespace Ebd.Mobile
 
             DependencyService.Register<IAlunoService, AlunoService>();
             DependencyService.Register<IAvaliacaoService, AvaliacaoService>();
+            DependencyService.Register<IBairroService, BairroService>();
+            DependencyService.Register<ICepService, CepService>();
             DependencyService.Register<IChamadaService, ChamadaService>();
             DependencyService.Register<ITurmaService, TurmaService>();
             DependencyService.Register<IRevistaService, RevistaService>();
