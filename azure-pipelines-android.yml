@@ -47,6 +47,17 @@ steps:
     apksignerArguments: --out $(outputDirectory)/ebd.release.apk
     zipalign: true
 
+- task: CopyFiles@2
+  inputs:
+    sourceFolder: '$(outputDirectory)'
+    contents: '**/*.apk'
+    targetFolder: '$(Build.ArtifactStagingDirectory)/build/'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+
 # - task: AndroidSigning@2
 #   displayName: Signing android apk
 #   inputs:
