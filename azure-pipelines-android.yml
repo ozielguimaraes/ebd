@@ -50,7 +50,7 @@ steps:
 - task: CopyFiles@2
   inputs:
     sourceFolder: '$(outputDirectory)'
-    contents: '**/*.apk'
+    contents: '**/*.release.apk'
     targetFolder: '$(Build.ArtifactStagingDirectory)/build/'
 
 - task: PublishBuildArtifacts@1
