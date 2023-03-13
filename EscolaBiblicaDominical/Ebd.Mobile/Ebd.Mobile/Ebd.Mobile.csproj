@@ -42,4 +42,8 @@
   <ItemGroup>
     <Folder Include="Views\NewFolder\" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Ebd.CrossCutting.Common\Ebd.CrossCutting.Common.csproj" />
+  </ItemGroup>
 </Project>

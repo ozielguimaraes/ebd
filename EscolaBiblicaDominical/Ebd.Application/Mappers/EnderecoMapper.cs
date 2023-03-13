@@ -1,5 +1,4 @@
 ﻿using Ebd.Application.Requests.Endereco;
-using Ebd.Application.Responses;
 using Ebd.Application.Responses.Endereco;
 using Ebd.Domain.Core.Entities;
 using System.Collections.Generic;
@@ -18,7 +17,7 @@ namespace Ebd.Application.Mappers
                     EnderecoId = item.EnderecoId,
                     Numero = item.Numero,
                     Logradouro = item.Logradouro,
-                    Classificacao = ClassificacaoMapper.FromRequestToEntity(item.Classificacao)
+                    Classificacao = item.Classificacao
                 };
         }
 
@@ -28,7 +27,7 @@ namespace Ebd.Application.Mappers
 
             return new DetalhesEnderecoResponse(
                 enderecoId: entity.EnderecoId,
-                classificacao: (ClassificacaoEnderecoResponse)entity.Classificacao,
+                classificacao: entity.Classificacao,
                logradouro: entity.Logradouro,
                numero: entity.Numero,
                cep: entity.Cep,

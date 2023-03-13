@@ -1,4 +1,6 @@
-﻿namespace Ebd.Mobile.Services.Requests.Endereco
+﻿using Ebd.CrossCutting.Enumerators;
+
+namespace Ebd.Mobile.Services.Requests.Endereco
 {
     public class EnderecoRequest
     {
@@ -8,11 +10,11 @@
             Numero = numero;
             Cep = cep;
             BairroId = bairroId;
-            Classificacao = ClassificacaoEnderecoRequest.Principal;
+            Classificacao = ClassificacaoEndereco.Principal;
         }
 
         public int EnderecoId { get; set; }
-        public ClassificacaoEnderecoRequest Classificacao { get; set; }
+        public ClassificacaoEndereco Classificacao { get; set; }
         public string Logradouro { get; private set; }
         public string Numero { get; private set; }
         public string Cep { get; private set; }

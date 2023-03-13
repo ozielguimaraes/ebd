@@ -1,6 +1,7 @@
 ﻿using Ebd.Application.Requests.Aluno;
 using FluentValidation;
 using System;
+using System.Linq;
 
 namespace Ebd.Application.Validations.Aluno
 {
@@ -27,8 +28,8 @@ namespace Ebd.Application.Validations.Aluno
             RuleFor(c => c.TurmaId)
                 .GreaterThan(0).WithMessage("Campo Turma é obrigatório");
 
-            RuleFor(c => c.Responsavel)
-                .Must(x => x is not null).When(x => x.NascidoEm.Date < DateTime.Today.Date).WithMessage("Responsável deve ser maior de idade");
+            RuleFor(c => c.Responsaveis)
+                .Must(x => x.Any()).When(x => x.NascidoEm.Date < DateTime.Today.Date).WithMessage("Responsável deve ser maior de idade");//TODO Calcular idade
         }
     }
 }

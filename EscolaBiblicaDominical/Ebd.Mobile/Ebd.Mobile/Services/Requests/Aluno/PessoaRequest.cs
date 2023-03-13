@@ -12,6 +12,7 @@ namespace Ebd.Mobile.Services.Requests.Aluno
             Nome = nome;
             Contatos = new List<ContatoRequest> { contato };
             NascidoEm = DateTime.Now.AddYears(-30);
+            WhatsappIgualCelular = true;
         }
 
         public string Nome { get; set; }

@@ -1,17 +1,17 @@
-﻿using Ebd.Mobile.Services.Requests.Aluno;
+﻿using Ebd.CrossCutting.Enumerators;
 
 namespace Ebd.Mobile.Services.Requests.Contato
 {
     public class ContatoRequest
     {
-        public ContatoRequest(string valor, TipoContatoRequest tipo)
+        public ContatoRequest(string valor, TipoContato tipo)
         {
             Valor = valor;
             Tipo = tipo;
-            Classificacao = ClassificacaoContatoRequest.Principal;
+            Classificacao = ClassificacaoContato.Principal;
         }
 
-        public ContatoRequest(string valor, TipoContatoRequest tipo, ClassificacaoContatoRequest classificacao)
+        public ContatoRequest(string valor, TipoContato tipo, ClassificacaoContato classificacao)
         {
             Valor = valor;
             Tipo = tipo;
@@ -20,7 +20,7 @@ namespace Ebd.Mobile.Services.Requests.Contato
 
         public int ContatoId { get; set; }
         public string Valor { get; private set; }
-        public TipoContatoRequest Tipo { get; private set; }
-        public ClassificacaoContatoRequest Classificacao { get; private set; }
+        public TipoContato Tipo { get; private set; }
+        public ClassificacaoContato Classificacao { get; private set; }
     }
 }

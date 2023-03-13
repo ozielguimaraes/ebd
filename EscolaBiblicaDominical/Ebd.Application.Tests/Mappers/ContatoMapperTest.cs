@@ -1,6 +1,6 @@
 using Ebd.Application.Requests.Contato;
+using Ebd.CrossCutting.Enumerators;
 using Ebd.Domain.Core.Entities;
-using Ebd.Domain.Core.Entities.Enumerators;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
@@ -19,15 +19,15 @@ namespace Ebd.Application.Mappers.Tests
                 new ContatoRequest
                 {
                     ContatoId = 2,
-                    Classificacao = ClassificacaoContatoRequest.Principal,
-                    Tipo = TipoContatoRequest.Celular,
+                    Classificacao = ClassificacaoContato.Principal,
+                    Tipo = TipoContato.Celular,
                     Valor  = "(69) 12345-6789"
                 },
                 new ContatoRequest
                 {
                     ContatoId = 5,
-                    Classificacao = ClassificacaoContatoRequest.CasaAvos,
-                    Tipo = TipoContatoRequest.Email,
+                    Classificacao = ClassificacaoContato.CasaAvos,
+                    Tipo = TipoContato.Email,
                     Valor  = "(00) 98765-1234"
                 }
             });

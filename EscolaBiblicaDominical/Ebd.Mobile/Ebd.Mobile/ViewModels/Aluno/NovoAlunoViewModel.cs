@@ -1,4 +1,5 @@
-﻿using Ebd.Mobile.Extensions;
+﻿using Ebd.CrossCutting.Enumerators;
+using Ebd.Mobile.Extensions;
 using Ebd.Mobile.Services.Implementations;
 using Ebd.Mobile.Services.Interfaces;
 using Ebd.Mobile.Services.Requests.Aluno;
@@ -92,6 +93,20 @@ namespace Ebd.Mobile.ViewModels.Aluno
                 SetProperty(ref alunoId, value);
                 CheckFormIsValid();
             }
+        }
+
+        private int? responsavelId;
+        public int? ResponsavelId
+        {
+            get => responsavelId;
+            set => SetProperty(ref responsavelId, value);
+        }
+
+        private int? pessoaResponsavelId;
+        public int? PessoaResponsavelId
+        {
+            get => pessoaResponsavelId;
+            set => SetProperty(ref pessoaResponsavelId, value);
         }
 
         private string nome;
@@ -254,7 +269,10 @@ namespace Ebd.Mobile.ViewModels.Aluno
                 CheckFormIsValid();
                 if (IsValid)
                 {
-                    var response = await _alunoService.SalvarAsync(new AlterarAlunoRequest
+                    var mae = new PessoaRequest(NomeMae, new ContatoRequest(CelularMae, TipoContato.Celular));
+                    var pai = new PessoaRequest(NomePai, new ContatoRequest(CelularPai, TipoContato.Celular));
+
+                    var alunoRequest = new AlterarAlunoRequest
                     {
                         NascidoEm = DataNascimento.Value,
                         Nome = Nome,
@@ -263,15 +281,20 @@ namespace Ebd.Mobile.ViewModels.Aluno
                         TurmaId = TurmaSelecionada.TurmaId,
                         Contatos = new List<ContatoRequest>
                         {
-                            new ContatoRequest(Celular, TipoContatoRequest.Celular),
-                            new ContatoRequest(Email, TipoContatoRequest.Email)
+                            new ContatoRequest(Celular, TipoContato.Celular),
+                            new ContatoRequest(Email, TipoContato.Email)
                         },
                         Enderecos = new List<EnderecoRequest>
                         {
                             new EnderecoRequest(Logradouro, Numero, cep: Cep, 1) // TODO Change bairro Id
                         },
-                        Responsaveis = new PessoaRequest(NomeMae, new ContatoRequest(CelularMae, TipoContatoRequest.Celular)),
-                    });
+                        Responsaveis = new List<ResponsavelAlunoRequest>
+                        {
+                            new ResponsavelAlunoRequest(PessoaResponsavelId.OrZero(), ResponsavelId.OrZero(), mae, alunoId: AlunoId.OrZero(), TipoResponsavel.Mae),
+                            new ResponsavelAlunoRequest(PessoaResponsavelId.OrZero(), ResponsavelId.OrZero(), pai, alunoId: AlunoId.OrZero(), TipoResponsavel.Pai)
+                        }
+                    };
+                    var response = await _alunoService.SalvarAsync(alunoRequest);
                 }
                 else
                 {

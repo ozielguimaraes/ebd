@@ -33,17 +33,12 @@ namespace Ebd.Infra.Data.Migrations
                     b.Property<int>("PessoaId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ResponsavelId")
-                        .HasColumnType("int");
-
                     b.Property<int>("TurmaId")
                         .HasColumnType("int");
 
                     b.HasKey("AlunoId");
 
                     b.HasIndex("PessoaId");
-
-                    b.HasIndex("ResponsavelId");
 
                     b.HasIndex("TurmaId");
 
@@ -290,6 +285,37 @@ namespace Ebd.Infra.Data.Migrations
                     b.ToTable("Professor", (string)null);
                 });
 
+            modelBuilder.Entity("Ebd.Domain.Core.Entities.ResponsavelAluno", b =>
+                {
+                    b.Property<int>("ResponsavelAlunoId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ResponsavelAlunoId"), 1L, 1);
+
+                    b.Property<int>("AlunoId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("AlunoId1")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ResponsavelId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TipoResponsavel")
+                        .HasColumnType("int");
+
+                    b.HasKey("ResponsavelAlunoId");
+
+                    b.HasIndex("AlunoId");
+
+                    b.HasIndex("AlunoId1");
+
+                    b.HasIndex("ResponsavelId");
+
+                    b.ToTable("ResponsavelAluno", (string)null);
+                });
+
             modelBuilder.Entity("Ebd.Domain.Core.Entities.Revista", b =>
                 {
                     b.Property<int>("RevistaId")
@@ -356,10 +382,6 @@ namespace Ebd.Infra.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Ebd.Domain.Core.Entities.Pessoa", "Responsavel")
-                        .WithMany()
-                        .HasForeignKey("ResponsavelId");
-
                     b.HasOne("Ebd.Domain.Core.Entities.Turma", "Turma")
                         .WithMany()
                         .HasForeignKey("TurmaId")
@@ -367,8 +389,6 @@ namespace Ebd.Infra.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Pessoa");
-
-                    b.Navigation("Responsavel");
 
                     b.Navigation("Turma");
                 });
@@ -479,6 +499,29 @@ namespace Ebd.Infra.Data.Migrations
                     b.Navigation("Turma");
                 });
 
+            modelBuilder.Entity("Ebd.Domain.Core.Entities.ResponsavelAluno", b =>
+                {
+                    b.HasOne("Ebd.Domain.Core.Entities.Aluno", "Aluno")
+                        .WithMany()
+                        .HasForeignKey("AlunoId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Ebd.Domain.Core.Entities.Aluno", null)
+                        .WithMany("Responsaveis")
+                        .HasForeignKey("AlunoId1");
+
+                    b.HasOne("Ebd.Domain.Core.Entities.Pessoa", "Responsavel")
+                        .WithMany()
+                        .HasForeignKey("ResponsavelId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Aluno");
+
+                    b.Navigation("Responsavel");
+                });
+
             modelBuilder.Entity("Ebd.Domain.Core.Entities.Revista", b =>
                 {
                     b.HasOne("Ebd.Domain.Core.Entities.Turma", "Turma")
@@ -493,6 +536,8 @@ namespace Ebd.Infra.Data.Migrations
             modelBuilder.Entity("Ebd.Domain.Core.Entities.Aluno", b =>
                 {
                     b.Navigation("AvaliacoesAluno");
+
+                    b.Navigation("Responsaveis");
                 });
 
             modelBuilder.Entity("Ebd.Domain.Core.Entities.Avaliacao", b =>

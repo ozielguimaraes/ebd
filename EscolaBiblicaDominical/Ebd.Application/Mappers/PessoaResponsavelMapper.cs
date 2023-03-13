@@ -25,12 +25,13 @@ namespace Ebd.Application.Mappers
                 AlunoId = request.AlunoId,
                 ResponsavelId = request.PessoaId,
                 Responsavel = PessoaMapper.FromRequestToEntity(request.Pessoa),
-                PessoaResponsavelId = request.PessoaResponsavelId
+                ResponsavelAlunoId = request.PessoaResponsavelId,
+                TipoResponsavel = request.TipoResponsavel
             };
 
         public static ResponsavelAlunoResponse FromEntityToResponse(ResponsavelAluno entity) =>
             entity is null ? null : new ResponsavelAlunoResponse(
-                pessoaResponsavelId: entity.PessoaResponsavelId,
+                pessoaResponsavelId: entity.ResponsavelAlunoId,
                 alunoId: entity.AlunoId,
                 responsavelId: entity.ResponsavelId,
                 responsavel: PessoaMapper.FromEntityToResponse(entity.Responsavel)
