@@ -2,9 +2,17 @@
 # Build and test ASP.NET Core projects targeting .NET Core.
 # Add steps that run tests, create a NuGet package, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+pr:
+  branches:
+    include:
+      - master
+      - develop
+      - feature/*
 
 trigger:
 - api
+- develop
+- release*
 
 pool:
   vmImage: ubuntu-latest
@@ -13,54 +21,78 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-- task: UseDotNet@2
-  displayName: 'Install .NET Core sdk 6.x'
-  inputs:
-    packageType: 'sdk'
-    version: 6.x
+- bash: |
+    echo Debugging
+    echo "reason $(Build.Reason)"
+    echo "source $(System.PullRequest.SourceBranch)"
+    echo "target $(System.PullRequest.TargetBranch)"
+  displayName: Debugging
 
-- task: DotNetCoreCLI@2
-  displayName: 'Restore'
-  inputs:
-    command: 'restore'
-    projects: |
-      **/Ebd.Domain.Core.csproj
-      **/Ebd.Infra.Data.csproj
-      **/Ebd.CrossCutting.IoC.csproj
-      **/Ebd.Application.csproj
-    feedsToUse: 'select'
+- script: |
+    echo Debugging
+    echo "reason $(variables['Build.Reason'])"
+    echo "source $(variables['System.PullRequest.SourceBranch'])"
+    echo "target $(variables['System.PullRequest.TargetBranch'])"
+  displayName: Debugging
 
-- task: DotNetCoreCLI@2
-  displayName: 'Build'
-  inputs:
-    command: 'build'
-    projects: |
-      **/Ebd.Domain.Core.csproj
-      **/Ebd.Infra.Data.csproj
-      **/Ebd.CrossCutting.IoC.csproj
-      **/Ebd.Application.csproj
-    arguments: '-o $(Build.ArtifactStagingDirectory)'
+- script: |
+    echo Should bump version
+  displayName: Checking a PR- INcrement minor
+  condition: eq(variables['System.PullRequest.SourceBranch'], 'refs/heads/develop')
 
-- task: DotNetCoreCLI@2
-  displayName: 'Publish files'
-  inputs:
-    command: 'publish'
-    projects: '**/Ebd.Presentation.Api.csproj'
-    publishWebProjects: true
-    arguments: '-o $(Build.ArtifactStagingDirectory)'
+- script: |
+    echo Should bump version
+  displayName: Checking a PR- INcrement pacth
+  condition: eq(variables['System.PullRequest.SourceBranch'], 'refs/heads/release')
 
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish Build Artifacts $(Build.ArtifactStagingDirectory)'
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'drop'
-    publishLocation: 'Container'
+# - task: UseDotNet@2
+#   displayName: 'Install .NET Core sdk 6.x'
+#   inputs:
+#     packageType: 'sdk'
+#     version: 6.x
 
-- task: AzureRmWebAppDeployment@4
-  inputs:
-    ConnectionType: 'AzureRM'
-    azureSubscription: 'GTech(b42a60f5-3c02-4a26-851c-36d2273fb56a)'
-    appType: 'webAppLinux'
-    WebAppName: 'EscolaBiblicaDominical'
-    packageForLinux: '$(Build.ArtifactStagingDirectory)/**/*.zip'
-    StartupCommand: 'dotnet Ebd.Presentation.Api.dll'
+# - task: DotNetCoreCLI@2
+#   displayName: 'Restore'
+#   inputs:
+#     command: 'restore'
+#     projects: |
+#       **/Ebd.Domain.Core.csproj
+#       **/Ebd.Infra.Data.csproj
+#       **/Ebd.CrossCutting.IoC.csproj
+#       **/Ebd.Application.csproj
+#     feedsToUse: 'select'
+
+# - task: DotNetCoreCLI@2
+#   displayName: 'Build'
+#   inputs:
+#     command: 'build'
+#     projects: |
+#       **/Ebd.Domain.Core.csproj
+#       **/Ebd.Infra.Data.csproj
+#       **/Ebd.CrossCutting.IoC.csproj
+#       **/Ebd.Application.csproj
+#     arguments: '-o $(Build.ArtifactStagingDirectory)'
+
+# - task: DotNetCoreCLI@2
+#   displayName: 'Publish files'
+#   inputs:
+#     command: 'publish'
+#     projects: '**/Ebd.Presentation.Api.csproj'
+#     publishWebProjects: true
+#     arguments: '-o $(Build.ArtifactStagingDirectory)'
+
+# - task: PublishBuildArtifacts@1
+#   displayName: 'Publish Build Artifacts $(Build.ArtifactStagingDirectory)'
+#   inputs:
+#     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+#     ArtifactName: 'drop'
+#     publishLocation: 'Container'
+
+# - task: AzureRmWebAppDeployment@4
+#   inputs:
+#     ConnectionType: 'AzureRM'
+#     azureSubscription: 'GTech(b42a60f5-3c02-4a26-851c-36d2273fb56a)'
+#     appType: 'webAppLinux'
+#     WebAppName: 'EscolaBiblicaDominical'
+#     packageForLinux: '$(Build.ArtifactStagingDirectory)/**/*.zip'
+#     StartupCommand: 'dotnet Ebd.Presentation.Api.dll'
