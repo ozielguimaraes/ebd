@@ -23,9 +23,9 @@ variables:
 steps:
 - script: |
     echo Debugging
-    echo source $(variables['Build.Reason'])
-    echo source $(variables['System.PullRequest.SourceBranch'])
-    echo source $(variables['System.PullRequest.TargetBranch'])
+    echo "reason $(variables['Build.Reason'])"
+    echo "source $(variables['System.PullRequest.SourceBranch'])"
+    echo "target $(variables['System.PullRequest.TargetBranch'])"
   displayName: Debugging
 
 - script: |
