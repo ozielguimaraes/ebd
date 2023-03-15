@@ -21,6 +21,13 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
+- bash: |
+    echo Debugging
+    echo "reason $(Build.Reason)"
+    echo "source $(System.PullRequest.SourceBranch)"
+    echo "target $(System.PullRequest.TargetBranch)"
+  displayName: Debugging
+
 - script: |
     echo Debugging
     echo "reason $(variables['Build.Reason'])"
