@@ -2,9 +2,17 @@
 # Build and test ASP.NET Core projects targeting .NET Core.
 # Add steps that run tests, create a NuGet package, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+pr:
+  branches:
+    include:
+      - master
+      - develop
+      - feature/*
 
 trigger:
 - api
+- develop
+- release*
 
 pool:
   vmImage: ubuntu-latest
@@ -13,6 +21,23 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
+- script: |
+    echo Debugging
+    echo source $(System.PullRequest.SourceBranch)
+    echo target $(System.PullRequest.TargetBranch)
+    echo reason $(Build.Reason)
+  displayName: Debugging
+
+- script: |
+    echo Should bump version
+  displayName: Checking a PR- INcrement minor
+  condition: eq(Build.SourceBranch, 'refs/heads/develop')
+
+- script: |
+    echo Should bump version
+  displayName: Checking a PR- INcrement pacth
+  condition: eq(Build.SourceBranch, 'refs/heads/release')
+
 - task: UseDotNet@2
   displayName: 'Install .NET Core sdk 6.x'
   inputs:
