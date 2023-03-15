@@ -23,20 +23,20 @@ variables:
 steps:
 - script: |
     echo Debugging
-    echo source $(System.PullRequest.SourceBranch)
-    echo target $(System.PullRequest.TargetBranch)
-    echo reason $(Build.Reason)
+    echo source $(variables['Build.Reason'])
+    echo source $(variables['System.PullRequest.SourceBranch'])
+    echo source $(variables['System.PullRequest.TargetBranch'])
   displayName: Debugging
 
 - script: |
     echo Should bump version
   displayName: Checking a PR- INcrement minor
-  condition: eq(Build.SourceBranch, 'refs/heads/develop')
+  condition: eq(variables['System.PullRequest.SourceBranch'], 'refs/heads/develop')
 
 - script: |
     echo Should bump version
   displayName: Checking a PR- INcrement pacth
-  condition: eq(Build.SourceBranch, 'refs/heads/release')
+  condition: eq(variables['System.PullRequest.SourceBranch'], 'refs/heads/release')
 
 - task: UseDotNet@2
   displayName: 'Install .NET Core sdk 6.x'
