@@ -50,4 +50,3 @@ Como disse, toda ajuda é bem vinda, pode [enviar uma contribuição][BuyBook] t
    [.NET5]: <https://docs.microsoft.com/en-us/dotnet/core/dotnet-five>
    [EFCore5]: <https://docs.microsoft.com/en-us/ef/core/what-is-new/ef-core-5.0/whatsnew>
    [BuyBook]: <https://www.buymeacoffee.com/ozielguimaraes>
-
