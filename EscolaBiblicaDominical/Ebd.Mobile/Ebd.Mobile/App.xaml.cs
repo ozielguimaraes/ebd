@@ -18,7 +18,7 @@ namespace Ebd.Mobile
         {
             InitializeComponent();
             RegisterDependencies();
-            ConfigureFirebaseRefreshToken();
+            //ConfigureFirebaseRefreshToken();
             MainPage = new AppShell();
         }
 
@@ -45,6 +45,8 @@ namespace Ebd.Mobile
 
             DependencyService.Register<IAlunoService, AlunoService>();
             DependencyService.Register<IAvaliacaoService, AvaliacaoService>();
+            DependencyService.Register<IBairroService, BairroService>();
+            DependencyService.Register<ICepService, CepService>();
             DependencyService.Register<IChamadaService, ChamadaService>();
             DependencyService.Register<ITurmaService, TurmaService>();
             DependencyService.Register<IRevistaService, RevistaService>();
@@ -60,6 +62,7 @@ namespace Ebd.Mobile
             DependencyService.Register<AboutViewModel>();
             DependencyService.Register<EfetuarChamadaViewModel>();
             DependencyService.Register<EscolherTurmaViewModel>();
+            DependencyService.Register<NovoAlunoViewModel>();
         }
 
         protected override void OnStart()

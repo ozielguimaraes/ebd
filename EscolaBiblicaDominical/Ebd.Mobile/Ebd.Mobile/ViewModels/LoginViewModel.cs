@@ -1,14 +1,14 @@
 ﻿using Ebd.Mobile.Services.Interfaces;
 using Ebd.Mobile.Views;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace Ebd.Mobile.ViewModels
 {
     public class LoginViewModel : BaseViewModel
     {
+        private readonly IBairroService _bairroService;
+
         public Command LoginCommand { get; }
 
         public LoginViewModel(IDiagnosticService diagnosticService, IDialogService dialogService, ILoggerService logger)// : base(diagnosticService, dialogService, logger)
@@ -21,6 +21,14 @@ namespace Ebd.Mobile.ViewModels
             //Application.Current.MainPage = new AppShell();
             // Prefixing with `//` switches to a different navigation stack instead of pushing to the active one
             await Shell.Current.GoToAsync($"{nameof(HomePage)}");
+        }
+
+        private async Task SyncData()
+        {
+            Task.Factory.StartNew(() =>
+            {
+
+            });
         }
     }
 }

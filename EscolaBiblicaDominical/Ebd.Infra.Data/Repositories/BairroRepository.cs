@@ -2,6 +2,7 @@
 using Ebd.Domain.Core.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Ebd.Infra.Data.Repositories
@@ -37,6 +38,11 @@ namespace Ebd.Infra.Data.Repositories
         public async Task<ICollection<Bairro>> ObterTodos()
         {
             return await DbSet.ToListAsync();
+        }
+
+        public async Task<ICollection<Bairro>> PesquisarAsync(string pesquisa)
+        {
+            return await DbSet.Where(x => x.Nome.Contains(pesquisa)).ToListAsync();
         }
     }
 }

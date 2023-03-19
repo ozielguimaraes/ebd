@@ -5,7 +5,7 @@
              xmlns:viewmodels="clr-namespace:Ebd.Mobile.ViewModels"
              x:Class="Ebd.Mobile.Views.HomePage"
              Title="Início"
-             BackgroundColor="{StaticResource Primary}"
+             BackgroundColor="{StaticResource PrimaryColor}"
              x:DataType="viewmodels:HomeViewModel">
     <ContentPage.Content>
         <StackLayout>

@@ -16,9 +16,23 @@ namespace Ebd.Application.Business.Implementation
             _bairroRepository = bairroRepository;
         }
 
+        public async Task<BairroResponse> ObterPorIdAsync(int id)
+        {
+            var result = await _bairroRepository.ObterPorId(id);
+
+            return BairroMapper.FromEntityToResponse(result);
+        }
+
         public async Task<IEnumerable<BairroResponse>> ObterTodosAsync()
         {
             var result = await _bairroRepository.ObterTodos();
+
+            return BairroMapper.FromEntityToResponse(result);
+        }
+
+        public async Task<IEnumerable<BairroResponse>> PesquisarAsync(string pesquisa)
+        {
+            var result = await _bairroRepository.PesquisarAsync(pesquisa);
 
             return BairroMapper.FromEntityToResponse(result);
         }

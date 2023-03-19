@@ -9,8 +9,7 @@ namespace Ebd.Domain.Core.Entities
         public int PessoaId { get; set; }
         public Pessoa Pessoa { get; set; }
 
-        public int? ResponsavelId { get; set; }
-        public Pessoa Responsavel { get; set; }
+        public IEnumerable<ResponsavelAluno> Responsaveis { get; set; }
 
         public int TurmaId { get; set; }
         public Turma Turma { get; set; }

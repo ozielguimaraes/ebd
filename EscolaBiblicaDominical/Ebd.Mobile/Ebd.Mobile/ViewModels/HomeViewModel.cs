@@ -1,10 +1,7 @@
-﻿using Ebd.Mobile.Services.Interfaces;
-using Ebd.Mobile.Views;
-using Ebd.Mobile.Views.Aluno;
+﻿using Ebd.Mobile.Constants;
 using Ebd.Mobile.Views.Chamada;
 using MvvmHelpers.Commands;
 using System.Threading.Tasks;
-using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace Ebd.Mobile.ViewModels
@@ -32,7 +29,7 @@ namespace Ebd.Mobile.ViewModels
 
         private async Task ExecuteGoToAlunoPageCommand()
         {
-            await Shell.Current.GoToAsync($"{nameof(ListaAlunoPage)}");
+            await Shell.Current.GoToAsync(PageConstant.Aluno.Lista);
         }
 
         private async Task ExecuteGoToEscolherTurmaPageCommand()

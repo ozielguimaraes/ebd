@@ -20,6 +20,10 @@ namespace Ebd.Infra.Data.Configurations
             builder.Property(x => x.PessoaId)
                 .IsRequired();
 
+            //builder.HasMany(x => x.Responsaveis)
+            //    .WithOne()
+            //    .HasForeignKey(x => x.AlunoId);
+
             builder.ToTable("Aluno");
         }
     }

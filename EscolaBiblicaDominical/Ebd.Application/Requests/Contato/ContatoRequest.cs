@@ -1,10 +1,12 @@
-﻿namespace Ebd.Application.Requests.Contato
+﻿using Ebd.CrossCutting.Enumerators;
+
+namespace Ebd.Application.Requests.Contato
 {
     public class ContatoRequest
     {
         public int ContatoId { get; set; }
         public string Valor { get; set; }
-        public TipoContatoRequest Tipo { get; set; }
-        public ClassificacaoContatoRequest Classificacao { get; set; }
+        public TipoContato Tipo { get; set; }
+        public ClassificacaoContato Classificacao { get; set; }
     }
 }

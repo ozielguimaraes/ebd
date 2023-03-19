@@ -1,4 +1,5 @@
-﻿using Ebd.Mobile.Models;
+﻿using Ebd.Mobile.Constants;
+using Ebd.Mobile.Models;
 using Ebd.Mobile.Services.Implementations;
 using Ebd.Mobile.Services.Interfaces;
 using Ebd.Mobile.Services.Requests.Chamada;
@@ -7,12 +8,10 @@ using Ebd.Mobile.Services.Responses.Aluno;
 using Ebd.Mobile.Services.Responses.Avaliacao;
 using Ebd.Mobile.Services.Responses.Chamada;
 using Ebd.Mobile.Services.Responses.Turma;
-using Ebd.Mobile.Views.Aluno;
 using MvvmHelpers;
 using MvvmHelpers.Commands;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -301,7 +300,7 @@ namespace Ebd.Mobile.ViewModels.Chamada
 
         private async Task FinalizarChamada()
         {
-            await Shell.Current.GoToAsync($"{nameof(ListaAlunoPage)}?Turma={JsonSerializer.Serialize(TurmaSelecionada)}&Alunos={JsonSerializer.Serialize(AlunosParaEfetuarChamada.Select(x => x.Aluno))}");
+            await Shell.Current.GoToAsync($"{PageConstant.Aluno.Lista}?Turma={JsonSerializer.Serialize(TurmaSelecionada)}&Alunos={JsonSerializer.Serialize(AlunosParaEfetuarChamada.Select(x => x.Aluno))}");
         }
 
         private async Task<BaseResponse<ChamadaResponse>> EfetuarChamadaAsync()

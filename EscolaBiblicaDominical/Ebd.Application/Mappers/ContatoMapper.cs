@@ -1,10 +1,7 @@
 ﻿using Ebd.Application.Requests.Contato;
-using Ebd.Application.Responses;
 using Ebd.Application.Responses.Contato;
 using Ebd.Domain.Core.Entities;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Ebd.Application.Mappers
 {
@@ -18,8 +15,8 @@ namespace Ebd.Application.Mappers
                 yield return new Contato
                 {
                     ContatoId = item.ContatoId,
-                    Classificacao = ClassificacaoMapper.FromRequestToEntity(item.Classificacao),
-                    Tipo = TipoContatoMapper.FromRequestToEntity(item.Tipo),
+                    Classificacao = item.Classificacao,
+                    Tipo = item.Tipo,
                     Valor = item.Valor,
                 };
         }
@@ -30,8 +27,8 @@ namespace Ebd.Application.Mappers
                 yield return new DetalhesContatoResponse(
                     contatoId: item.ContatoId,
                     valor: item.Valor,
-                    tipo: (TipoContatoResponse)item.Tipo,
-                    classificacao: (ClassificacaoContatoResponse)item.Classificacao
+                    tipo: item.Tipo,
+                    classificacao: item.Classificacao
                     );
         }
     }

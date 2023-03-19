@@ -1,4 +1,4 @@
-﻿namespace Ebd.Domain.Core.Entities.Enumerators
+﻿namespace Ebd.CrossCutting.Enumerators
 {
     public enum TipoContato
     {

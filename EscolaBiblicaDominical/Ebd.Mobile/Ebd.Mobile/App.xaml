@@ -1,29 +1,77 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Application xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Ebd.Mobile.App">
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:droid="clr-namespace:Xamarin.CommunityToolkit.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.CommunityToolkit"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             x:Class="Ebd.Mobile.App"
+             mc:Ignorable="d">
     <!--
         Define global resources and styles here, that apply to all pages in your app.
     -->
     <Application.Resources>
         <ResourceDictionary>
-            <Color x:Key="Primary">#5237B3</Color>
-            <Color x:Key="Secondary">#F5F5F5</Color>
+            <!--  Values  -->
+            <Thickness x:Key="ContentPadding">20, 0</Thickness>
+
+            <!--  Colors  -->
+            <Color x:Key="AppBackgroundColor">#FAFAFA</Color>
+            <Color x:Key="PrimaryColor">#1976D2</Color>
+            <Color x:Key="SecondaryColor">#F5F5F5</Color>
+
+            <Color x:Key="StatusbarColor">#1976D2</Color>
+            <Color x:Key="NavBarColor">#1976D2</Color>
+            <Color x:Key="NavigationBarTextColor">#5D5D5D</Color>
+
+            <Color x:Key="NormalButtonBackgroundColor">#1976D2</Color>
+            <Color x:Key="NormalButtonTextColor">#FFFFFF</Color>
+            
             <Style TargetType="Label">
                 <Setter Property="TextColor" Value="Black" />
             </Style>
-            <Style TargetType="Entry">
-                <Setter Property="TextColor" Value="Black" />
+            <Style x:Key="InvalidEntryStyle" TargetType="Entry">
+                <Setter Property="TextColor" Value="Red" />
             </Style>
-
             <Style x:Key="ButtonIsDisabled" TargetType="Button">
                 <Setter Property="BackgroundColor" Value="#C3C3C3" />
                 <Setter Property="IsEnabled" Value="False" />
             </Style>
             <Style x:Key="ButtonIsEnabled" TargetType="Button">
-                <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
+                <Setter Property="BackgroundColor" Value="{StaticResource PrimaryColor}" />
                 <Setter Property="TextColor" Value="#FFFFFF" />
                 <Setter Property="IsEnabled" Value="True" />
+            </Style>
+            <!--  Implicit styles  -->
+            <Style TargetType="Entry" ApplyToDerivedTypes="True">
+                <Setter Property="FontSize" Value="Small" />
+                <Setter Property="TextColor" Value="Black" />
+            </Style>
+            <Style TargetType="Picker" ApplyToDerivedTypes="True">
+                <Setter Property="FontSize" Value="Small" />
+                <Setter Property="TextColor" Value="Black" />
+            </Style>
+            <Style TargetType="Button" ApplyToDerivedTypes="True">
+                <Setter Property="FontSize" Value="Caption" />
+                <Setter Property="BackgroundColor" Value="{StaticResource NormalButtonBackgroundColor}" />
+                <Setter Property="TextColor" Value="{StaticResource NormalButtonTextColor}" />
+                <Setter Property="CornerRadius" Value="5" />
+            </Style>
+
+            <Style ApplyToDerivedTypes="True" TargetType="NavigationPage">
+                <Setter Property="BarBackgroundColor" Value="{StaticResource PrimaryColor}" />
+                <Setter Property="BarTextColor" Value="{StaticResource NavigationBarTextColor}" />
+            </Style>
+
+            <Style ApplyToDerivedTypes="True" TargetType="ContentPage">
+                <Setter Property="BackgroundColor" Value="{StaticResource AppBackgroundColor}" />
+                <Setter Property="ios:Page.UseSafeArea" Value="False" />
+                <Setter Property="NavigationPage.BackButtonTitle" Value="" />
+                <Setter Property="xct:StatusBarEffect.Color" Value="{StaticResource StatusbarColor}" />
+                <Setter Property="xct:StatusBarEffect.Style" Value="DarkContent" />
+                <Setter Property="droid:NavigationBarEffect.Color" Value="{StaticResource NavBarColor}" />
+                <Setter Property="droid:NavigationBarEffect.Style" Value="LightContent" />
             </Style>
             <!--<Style TargetType="Button">
                 <Setter Property="TextColor" Value="White"></Setter>
@@ -32,7 +80,7 @@
                         <VisualStateGroup x:Name="CommonStates">
                             <VisualState x:Name="Normal">
                                 <VisualState.Setters>
-                                    <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
+                                    <Setter Property="BackgroundColor" Value="{StaticResource PrimaryColor}" />
                                 </VisualState.Setters>
                             </VisualState>
                             <VisualState x:Name="Disabled">

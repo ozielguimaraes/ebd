@@ -10,5 +10,6 @@ namespace Ebd.Domain.Core.Interfaces.Repositories
         Task Atualizar(Bairro bairro);
         Task<Bairro> ObterPorId(int id);
         Task<ICollection<Bairro>> ObterTodos();
+        Task<ICollection<Bairro>> PesquisarAsync(string pesquisa);
     }
 }

@@ -1,4 +1,4 @@
-﻿using Ebd.Domain.Core.Entities.Enumerators;
+﻿using Ebd.CrossCutting.Enumerators;
 
 namespace Ebd.Domain.Core.Entities
 {

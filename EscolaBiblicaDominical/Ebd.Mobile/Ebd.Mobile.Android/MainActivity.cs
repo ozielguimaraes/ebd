@@ -1,8 +1,8 @@
-﻿using Android.App;
+﻿using Acr.UserDialogs;
+using Android.App;
 using Android.Content.PM;
-using Android.Runtime;
 using Android.OS;
-using Acr.UserDialogs;
+using Android.Runtime;
 using Plugin.FirebasePushNotification;
 
 namespace Ebd.Mobile.Droid

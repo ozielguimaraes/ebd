@@ -1,16 +1,16 @@
-﻿using System.Threading.Tasks;
-using System.Collections.ObjectModel;
-using Ebd.Mobile.Services.Responses.Aluno;
-using Ebd.Mobile.Services.Interfaces;
-using System;
-using Xamarin.Essentials;
-using MvvmHelpers.Commands;
-using System.Collections.Generic;
+﻿using Ebd.Mobile.Constants;
 using Ebd.Mobile.Services.Implementations;
-using Xamarin.Forms;
+using Ebd.Mobile.Services.Interfaces;
+using Ebd.Mobile.Services.Responses.Aluno;
 using Ebd.Mobile.Services.Responses.Turma;
-using System.Text.Json;
 using MvvmHelpers;
+using MvvmHelpers.Commands;
+using System;
+using System.Collections.Generic;
+using System.Text.Json;
+using System.Threading.Tasks;
+using Xamarin.Essentials;
+using Xamarin.Forms;
 
 namespace Ebd.Mobile.ViewModels.Aluno
 {
@@ -70,12 +70,19 @@ namespace Ebd.Mobile.ViewModels.Aluno
             }
         }
 
-        private readonly AsyncCommand<bool> _carregarListaAlunosCommand;
+        private AsyncCommand<bool> _carregarListaAlunosCommand;
         public AsyncCommand<bool> CarregarListaAlunosCommand
             => _carregarListaAlunosCommand
-            ?? new AsyncCommand<bool>(
+            ??= new AsyncCommand<bool>(
                 execute: ExecuteCarregarListaAlunosCommand,
                 onException: CommandOnException);
+
+        private AsyncCommand _newStudentCommand;
+        public AsyncCommand NewStudentCommand
+                => _newStudentCommand
+                ??= new AsyncCommand(
+                    execute: NewStudentCommandExecute,
+                    onException: CommandOnException);
 
         public override async Task Initialize(object args)
         {
@@ -138,6 +145,13 @@ namespace Ebd.Mobile.ViewModels.Aluno
 
                 IsBusy = false;
             }
+        }
+
+        private async Task NewStudentCommandExecute()
+        {
+            if (IsBusy) return;
+
+            await Shell.Current.GoToAsync($"{PageConstant.Aluno.Novo}?Turma={(TurmaSelecionada is null ? null : JsonSerializer.Serialize(TurmaSelecionada))}");
         }
 
         private async Task ExecuteCarregarListaAlunosCommand(bool force)

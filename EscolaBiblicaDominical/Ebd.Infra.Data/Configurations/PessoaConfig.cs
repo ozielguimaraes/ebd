@@ -15,8 +15,8 @@ namespace Ebd.Infra.Data.Configurations
             builder.Property(x => x.PessoaId).ValueGeneratedOnAdd();
 
             builder.Property(x => x.Nome)
-                .HasMaxLength(50)
-                .IsRequired();
+            .HasMaxLength(50)
+            .IsRequired();
 
             builder.Property(x => x.WhatsappIgualCelular)
                 .IsRequired();
@@ -31,6 +31,10 @@ namespace Ebd.Infra.Data.Configurations
             builder.HasMany(x => x.Enderecos)
                 .WithOne(o => o.Pessoa)
                 .IsRequired();
+
+            //builder.HasMany(x => x.Responsaveis)
+            //    .WithOne(x => x.Responsavel)
+            //    .HasForeignKey(x => x.ResponsavelId);
 
             builder.HasIndex(i => i.Nome);
 

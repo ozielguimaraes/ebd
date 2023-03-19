@@ -34,8 +34,9 @@ namespace Ebd.Infra.Data.Repositories
                 .Include(x => x.Turma)
                 .Include(x => x.Pessoa).ThenInclude(c => c.Enderecos)
                 .Include(x => x.Pessoa).ThenInclude(c => c.Contatos)
-                .Include(x => x.Responsavel).ThenInclude(c => c.Enderecos)
-                .Include(x => x.Responsavel).ThenInclude(c => c.Contatos)
+                .Include(x => x.Responsaveis).ThenInclude(c => c.Responsavel)
+                .Include(x => x.Responsaveis).ThenInclude(c => c.Responsavel.Enderecos)
+                .Include(x => x.Responsaveis).ThenInclude(c => c.Responsavel.Contatos)
                 .FirstOrDefaultAsync(f => f.AlunoId == id);
         }
 
@@ -50,7 +51,7 @@ namespace Ebd.Infra.Data.Repositories
         public async Task<ICollection<Aluno>> Pesquisar(string pesquisa)
         {
             return await DbSet
-                .Where(x => x.Pessoa.Nome.Contains(pesquisa) || x.Responsavel.Nome.Contains(pesquisa))
+                .Where(x => x.Pessoa.Nome.Contains(pesquisa) || x.Responsaveis.Any(r => r.Responsavel.Nome.Contains(pesquisa)))
                 .ToListAsync();
         }
     }
