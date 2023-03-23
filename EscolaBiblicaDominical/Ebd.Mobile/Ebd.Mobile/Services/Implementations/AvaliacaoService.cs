@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Ebd.Mobile.Services.Implementations
 {
-    public class AvaliacaoService : ApiService, IAvaliacaoService
+    public class AvaliacaoService : BaseService, IAvaliacaoService
     {
         private const string PathToService = "avaliacao";
 
-        public AvaliacaoService(INetworkService networkService) : base(networkService) { }
+        public AvaliacaoService(ILoggerService loggerService, INetworkService networkService) : base(loggerService, networkService) { }
 
         public async Task<BaseResponse<IEnumerable<AvaliacaoResponse>>> ObterTodasAsync()
             => await GetAndRetry<IEnumerable<AvaliacaoResponse>>(PathToService, retryCount: DefaultRetryCount, OnRetry);

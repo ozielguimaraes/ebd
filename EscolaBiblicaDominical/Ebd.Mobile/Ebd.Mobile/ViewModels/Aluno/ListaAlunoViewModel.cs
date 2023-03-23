@@ -1,5 +1,4 @@
 ﻿using Ebd.Mobile.Constants;
-using Ebd.Mobile.Services.Implementations;
 using Ebd.Mobile.Services.Interfaces;
 using Ebd.Mobile.Services.Responses.Aluno;
 using Ebd.Mobile.Services.Responses.Turma;
@@ -18,15 +17,14 @@ namespace Ebd.Mobile.ViewModels.Aluno
     [QueryProperty(nameof(Alunos), nameof(Alunos))]
     public class ListaAlunoViewModel : BaseViewModel
     {
-        private static readonly Lazy<IAlunoService> alunoServiceLazy = new(() => new AlunoService(DependencyService.Get<INetworkService>()));
-        private readonly IAlunoService _alunoService = alunoServiceLazy.Value;
+        private readonly IAlunoService _alunoService;
+        private readonly ITurmaService _turmaService;
 
-        private static readonly Lazy<ITurmaService> turmaServiceLazy = new(() => new TurmaService(DependencyService.Get<INetworkService>()));
-        private readonly ITurmaService _turmaService = turmaServiceLazy.Value;
-
-        public ListaAlunoViewModel()
+        public ListaAlunoViewModel(ITurmaService turmaService, IDiagnosticService diagnosticService, IDialogService dialogService, ILoggerService loggerService, IAlunoService alunoService) : base(diagnosticService, dialogService, loggerService)
         {
             Title = "Alunos";
+            _turmaService = turmaService;
+            _alunoService = alunoService;
         }
 
         public ObservableRangeCollection<AlunoResponse> Alunos { get; private set; } = new ObservableRangeCollection<AlunoResponse>();

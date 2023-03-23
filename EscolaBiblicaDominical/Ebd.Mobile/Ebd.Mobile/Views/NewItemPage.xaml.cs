@@ -1,5 +1,6 @@
 ﻿using Ebd.Mobile.Models;
 using Ebd.Mobile.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
 using Xamarin.Forms;
 
 namespace Ebd.Mobile.Views
@@ -11,7 +12,7 @@ namespace Ebd.Mobile.Views
         public NewItemPage()
         {
             InitializeComponent();
-            BindingContext ??= DependencyService.Get<NewItemViewModel>();
+            BindingContext ??= Startup.ServiceProvider.GetService<NewItemViewModel>();
         }
     }
 }

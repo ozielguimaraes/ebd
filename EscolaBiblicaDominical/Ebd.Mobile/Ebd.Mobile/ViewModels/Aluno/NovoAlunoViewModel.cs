@@ -1,6 +1,5 @@
 ﻿using Ebd.CrossCutting.Enumerators;
 using Ebd.Mobile.Extensions;
-using Ebd.Mobile.Services.Implementations;
 using Ebd.Mobile.Services.Interfaces;
 using Ebd.Mobile.Services.Requests.Aluno;
 using Ebd.Mobile.Services.Requests.Contato;
@@ -25,23 +24,18 @@ namespace Ebd.Mobile.ViewModels.Aluno
     [QueryProperty(nameof(Turma), nameof(Turma))]
     public class NovoAlunoViewModel : BaseViewModel
     {
-        private static readonly INetworkService _networkService = DependencyService.Get<INetworkService>();
+        private readonly IAlunoService _alunoService;
+        private readonly IBairroService _bairroService;
+        private readonly ICepService _cepService;
+        private readonly ITurmaService _turmaService;
 
-        private static readonly Lazy<IAlunoService> alunoServiceLazy = new(() => new AlunoService(_networkService));
-        private readonly IAlunoService _alunoService = alunoServiceLazy.Value;
-
-        private static readonly Lazy<IBairroService> bairroServiceLazy = new(() => new BairroService(_networkService));
-        private readonly IBairroService _bairroService = bairroServiceLazy.Value;
-
-        private static readonly Lazy<ICepService> cepServiceLazy = new(() => new CepService(_networkService));
-        private readonly ICepService _cepService = cepServiceLazy.Value;
-
-        private static readonly Lazy<ITurmaService> turmaServiceLazy = new(() => new TurmaService(_networkService));
-        private readonly ITurmaService _turmaService = turmaServiceLazy.Value;
-
-        public NovoAlunoViewModel()
+        public NovoAlunoViewModel(ITurmaService turmaService, IAlunoService alunoService, IBairroService bairroService, ICepService cepService, IDiagnosticService diagnosticService, IDialogService dialogService, ILoggerService loggerService) : base(diagnosticService, dialogService, loggerService)
         {
+            _turmaService = turmaService;
             Title = "Adicionar aluno";
+            _alunoService = alunoService;
+            _bairroService = bairroService;
+            _cepService = cepService;
         }
 
         private string turma;

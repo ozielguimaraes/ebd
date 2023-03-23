@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Ebd.Mobile.Services.Implementations
 {
-    public class ChamadaService : ApiService, IChamadaService
+    public class ChamadaService : BaseService, IChamadaService
     {
         private const string PathToService = "chamada";
 
-        public ChamadaService(INetworkService networkService) : base(networkService) { }
+        public ChamadaService(ILoggerService loggerService, INetworkService networkService) : base(loggerService, networkService) { }
 
         public async Task<BaseResponse<ChamadaResponse>> EfetuarChamadaAsync(ChamadaRequest request)
         {

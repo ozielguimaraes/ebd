@@ -1,8 +1,6 @@
-﻿using Ebd.Mobile.Models;
-using Ebd.Mobile.Services.Interfaces;
+﻿using Ebd.Mobile.Services.Interfaces;
 using System;
 using System.Diagnostics;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace Ebd.Mobile.ViewModels
@@ -14,7 +12,7 @@ namespace Ebd.Mobile.ViewModels
         private string text;
         private string description;
 
-        public ItemDetailViewModel(IDiagnosticService diagnosticService, IDialogService dialogService, ILoggerService logger)// : base(diagnosticService, dialogService, logger)
+        public ItemDetailViewModel(IDiagnosticService diagnosticService, IDialogService dialogService, ILoggerService logger) : base(diagnosticService, dialogService, logger)
         {
         }
 
@@ -49,10 +47,10 @@ namespace Ebd.Mobile.ViewModels
         {
             try
             {
-                var item = await DataStore.GetItemAsync(itemId);
-                Id = item.Id;
-                Text = item.Text;
-                Description = item.Description;
+                //var item = await DataStore.GetItemAsync(itemId);
+                //Id = item.Id;
+                //Text = item.Text;
+                //Description = item.Description;
             }
             catch (Exception)
             {

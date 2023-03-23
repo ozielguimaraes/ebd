@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace Ebd.Mobile.Services.Implementations
 {
-    public class AlunoService : ApiService, IAlunoService
+    public class AlunoService : BaseService, IAlunoService
     {
         private const string PathToService = "aluno";
 
-        public AlunoService(INetworkService networkService) : base(networkService)
+        public AlunoService(ILoggerService loggerService, INetworkService networkService) : base(loggerService, networkService)
         {
         }
 

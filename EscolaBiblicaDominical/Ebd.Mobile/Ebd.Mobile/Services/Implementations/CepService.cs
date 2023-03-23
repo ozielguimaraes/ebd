@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Ebd.Mobile.Services.Implementations
 {
-    public class CepService : ApiService, ICepService
+    public class CepService : BaseService, ICepService
     {
-        public CepService(INetworkService networkService) : base(networkService) { }
+        public CepService(ILoggerService loggerService, INetworkService networkService) : base(loggerService, networkService) { }
 
         public async Task<BaseResponse<CepResponse>> ObterAsync(string cep)
             => await GetAndRetry<CepResponse>($"https://viacep.com.br/ws/{cep.DigitsOnly()}/json", retryCount: DefaultRetryCount, OnRetry);

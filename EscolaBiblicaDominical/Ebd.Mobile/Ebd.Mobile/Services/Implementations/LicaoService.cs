@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace Ebd.Mobile.Services.Implementations
 {
-    public class LicaoService : ApiService, ILicaoService
+    public class LicaoService : BaseService, ILicaoService
     {
         private const string PathToService = "licao";
 
-        public LicaoService(INetworkService networkService) : base(networkService) { }
+        public LicaoService(ILoggerService loggerService, INetworkService networkService) : base(loggerService, networkService) { }
 
         public async Task<BaseResponse<LicaoResponse>> AdicionarAsync(AdicionarLicaoRequest request)
             => await PostAndRetry<AdicionarLicaoRequest, LicaoResponse>(PathToService, request, OnRetry);

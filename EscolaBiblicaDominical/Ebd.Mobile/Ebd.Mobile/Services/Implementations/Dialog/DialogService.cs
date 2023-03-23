@@ -1,5 +1,4 @@
 ﻿using Acr.UserDialogs;
-using Ebd.Mobile.Services.Implementations.Diagnostic;
 using Ebd.Mobile.Services.Interfaces;
 using System;
 using System.Threading.Tasks;
@@ -9,7 +8,12 @@ namespace Ebd.Mobile.Services.Implementations.Dialog
 {
     internal sealed class DialogService : IDialogService
     {
-        public static IDialogService Current => DependencyService.Get<IDialogService>();
+        private readonly IDiagnosticService _diagnosticService;
+
+        public DialogService(IDiagnosticService diagnosticService)
+        {
+            _diagnosticService = diagnosticService;
+        }
 
         public Task DisplayAlert(string title, string message)
             => Application.Current.MainPage.DisplayAlert(title, message, "Ok");
@@ -26,7 +30,7 @@ namespace Ebd.Mobile.Services.Implementations.Dialog
                 TaskCanceledException taskCanceledException => Application.Current.MainPage.DisplayAlert("Operação cancelada", "Operação cancelada pelo usuário", "Ok"),
                 _ => Task.Factory.StartNew(() =>
                 {
-                    DiagnosticService.Current.TrackError(ex);
+                    _diagnosticService.TrackError(ex);
 
                     return Application.Current.MainPage.DisplayAlert("Ah não", ex.Message, "Ok");
                 })

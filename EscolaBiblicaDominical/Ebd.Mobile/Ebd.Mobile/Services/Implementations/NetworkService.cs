@@ -1,5 +1,4 @@
-﻿using Ebd.Mobile.Services.Implementations.Logger;
-using Ebd.Mobile.Services.Interfaces;
+﻿using Ebd.Mobile.Services.Interfaces;
 using Polly;
 using System;
 using System.Threading.Tasks;
@@ -9,6 +8,13 @@ namespace Ebd.Mobile.Services.Implementations
 {
     public class NetworkService : INetworkService
     {
+        private readonly ILoggerService _loggerService;
+
+        public NetworkService(ILoggerService loggerService)
+        {
+            _loggerService = loggerService;
+        }
+
         public async Task<bool> HasInternetConnection()
         => await Task.FromResult(Connectivity.NetworkAccess == NetworkAccess.Internet);
 
@@ -50,7 +56,7 @@ namespace Ebd.Mobile.Services.Implementations
             {
                 return Task.Factory.StartNew(() =>
                 {
-                    LoggerService.Current.LogWarning($"Retry #{i} due to exception '{(e.InnerException ?? e).Message}'");
+                    _loggerService.LogWarning($"Retry #{i} due to exception '{(e.InnerException ?? e).Message}'");
                 });
             });
 
@@ -63,7 +69,7 @@ namespace Ebd.Mobile.Services.Implementations
             {
                 return Task.Factory.StartNew(() =>
                 {
-                    LoggerService.Current.LogWarning($"Retrying in {t:g} due to exception '{(e.InnerException ?? e).Message}'");
+                    _loggerService.LogWarning($"Retrying in {t:g} due to exception '{(e.InnerException ?? e).Message}'");
                 });
             });
 

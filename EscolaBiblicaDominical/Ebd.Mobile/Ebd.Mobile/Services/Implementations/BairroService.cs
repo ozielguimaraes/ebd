@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Ebd.Mobile.Services.Implementations
 {
-    public class BairroService : ApiService, IBairroService
+    public class BairroService : BaseService, IBairroService
     {
         private const string PathToService = "bairro";
 
-        public BairroService(INetworkService networkService) : base(networkService) { }
+        public BairroService(ILoggerService loggerService, INetworkService networkService) : base(loggerService, networkService) { }
 
         public async Task<BaseResponse<IEnumerable<BairroResponse>>> ObterTodosAsync()
             => await GetAndRetry<IEnumerable<BairroResponse>>(PathToService, retryCount: DefaultRetryCount, OnRetry);

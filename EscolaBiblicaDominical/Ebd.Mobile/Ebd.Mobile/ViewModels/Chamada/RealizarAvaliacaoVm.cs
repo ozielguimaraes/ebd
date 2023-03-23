@@ -1,10 +1,11 @@
-﻿using Ebd.Mobile.Services.Responses.Avaliacao;
+﻿using Ebd.Mobile.Services.Interfaces;
+using Ebd.Mobile.Services.Responses.Avaliacao;
 
 namespace Ebd.Mobile.ViewModels.Chamada
 {
     public class RealizarAvaliacaoVm : BaseViewModel
     {
-        public RealizarAvaliacaoVm(AvaliacaoResponse avaliacaoResponse)
+        public RealizarAvaliacaoVm(AvaliacaoResponse avaliacaoResponse, IDiagnosticService diagnosticService, IDialogService dialogService, ILoggerService loggerService) : base(diagnosticService, dialogService, loggerService)
         {
             AvaliacaoId = avaliacaoResponse.AvaliacaoId;
             Nome = avaliacaoResponse.Nome;

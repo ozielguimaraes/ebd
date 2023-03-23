@@ -1,7 +1,6 @@
 ﻿using Ebd.Mobile.Constants;
 using Ebd.Mobile.Extensions;
 using Ebd.Mobile.Services.Exceptions;
-using Ebd.Mobile.Services.Implementations.Logger;
 using Ebd.Mobile.Services.Interfaces;
 using Ebd.Mobile.Services.Responses;
 using System;
@@ -23,10 +22,11 @@ namespace Ebd.Mobile.Services.Implementations.Base
         private const string ApplicationJson = "application/json";
         private readonly JsonSerializerOptions _jsonSerializerOptions;
         private readonly INetworkService _networkService;
+        private readonly ILoggerService _loggerService;
         internal const int DefaultRetryCount = 1;
         protected readonly HttpClient HttpClient;
 
-        public ApiService(INetworkService networkService)
+        public ApiService(INetworkService networkService, ILoggerService loggerService)
         {
             HttpClient = new HttpClient
             {
@@ -41,11 +41,12 @@ namespace Ebd.Mobile.Services.Implementations.Base
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
             };
             _networkService = networkService;
+            _loggerService = loggerService;
         }
 
         public async Task<BaseResponse<T>> GetAndRetry<T>(string requestUri, int retryCount, Func<Exception, int, Task> onRetry = null, string accessToken = null) where T : class
         {
-            if (!await _networkService.HasInternetConnection())
+            if ((await _networkService.HasInternetConnection()).Not())
                 return new BaseResponse<T>(new NoInternetConnectionException());
 
             TryAddAuthorization(accessToken);
@@ -56,7 +57,7 @@ namespace Ebd.Mobile.Services.Implementations.Base
         public async Task<EmptyResponse> PostAndRetry<TRequest>(string requestUri, TRequest request, Func<Exception, int, Task> onRetry = null, string accessToken = null)
             where TRequest : class
         {
-            if (!await _networkService.HasInternetConnection())
+            if ((await _networkService.HasInternetConnection()).Not())
                 return new EmptyResponse(new NoInternetConnectionException());
 
             TryAddAuthorization(accessToken);
@@ -68,7 +69,7 @@ namespace Ebd.Mobile.Services.Implementations.Base
             where TRequest : class
             where TResponse : class
         {
-            if (!await _networkService.HasInternetConnection())
+            if ((await _networkService.HasInternetConnection()).Not())
                 return new BaseResponse<TResponse>(new NoInternetConnectionException());
 
             TryAddAuthorization(accessToken);
@@ -78,7 +79,7 @@ namespace Ebd.Mobile.Services.Implementations.Base
 
         public async Task<BaseResponse<T>> GetAndRetry<T>(string requestUri, Func<int, TimeSpan> sleepDurationProvider, int retryCount, Func<Exception, TimeSpan, Task> onWaitAndRetry = null, string accessToken = null) where T : class
         {
-            if (!await _networkService.HasInternetConnection())
+            if ((await _networkService.HasInternetConnection()).Not())
                 return new BaseResponse<T>(new NoInternetConnectionException());
 
             TryAddAuthorization(accessToken);
@@ -90,7 +91,7 @@ namespace Ebd.Mobile.Services.Implementations.Base
         {
             return Task.Factory.StartNew(() =>
             {
-                LoggerService.Current.LogWarning($"Retry - Attempt #{retryCount}.");
+                _loggerService.LogWarning($"Retry - Attempt #{retryCount}.");
             });
         }
 
@@ -110,7 +111,7 @@ namespace Ebd.Mobile.Services.Implementations.Base
             }
             catch (Exception ex)
             {
-                LoggerService.Current.LogError("Erro ao processar request", ex,
+                _loggerService.LogError("Erro ao processar request", ex,
                     new Dictionary<string, object> {
                         { "requestUri", requestUri },
                         { "responseMessage", responseMessage },
@@ -145,7 +146,7 @@ namespace Ebd.Mobile.Services.Implementations.Base
             }
             catch (Exception ex)
             {
-                LoggerService.Current.LogError("Erro ao processar request", ex,
+                _loggerService.LogError("Erro ao processar request", ex,
                     new Dictionary<string, object> {
                         { "requestUri", requestUri },
                         { "requestBody", JsonSerializer.Serialize(request) },
@@ -176,7 +177,7 @@ namespace Ebd.Mobile.Services.Implementations.Base
             }
             catch (Exception ex)
             {
-                LoggerService.Current.LogError("Erro ao processar request", ex,
+                _loggerService.LogError("Erro ao processar request", ex,
                     new Dictionary<string, object> {
                         { "requestUri", requestUri },
                         { "requestBody", JsonSerializer.Serialize(request) },

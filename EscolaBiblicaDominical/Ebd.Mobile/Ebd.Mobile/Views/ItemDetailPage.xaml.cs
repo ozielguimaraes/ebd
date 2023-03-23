@@ -1,5 +1,5 @@
 ﻿using Ebd.Mobile.ViewModels;
-using System.ComponentModel;
+using Microsoft.Extensions.DependencyInjection;
 using Xamarin.Forms;
 
 namespace Ebd.Mobile.Views
@@ -9,7 +9,7 @@ namespace Ebd.Mobile.Views
         public ItemDetailPage()
         {
             InitializeComponent();
-            BindingContext ??= DependencyService.Get<ItemDetailViewModel>();
+            BindingContext ??= Startup.ServiceProvider.GetService<ItemDetailViewModel>();
         }
     }
 }

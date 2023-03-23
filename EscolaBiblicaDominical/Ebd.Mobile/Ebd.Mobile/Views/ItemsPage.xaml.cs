@@ -1,4 +1,5 @@
 ﻿using Ebd.Mobile.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
 using Xamarin.Forms;
 
 namespace Ebd.Mobile.Views
@@ -11,7 +12,7 @@ namespace Ebd.Mobile.Views
         {
             InitializeComponent();
 
-            BindingContext ??= DependencyService.Get<ItemsViewModel>();
+            BindingContext ??= Startup.ServiceProvider.GetService<ItemsViewModel>();
         }
 
         protected override void OnAppearing()

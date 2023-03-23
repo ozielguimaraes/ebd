@@ -1,4 +1,5 @@
 ﻿using Ebd.Mobile.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
 using Xamarin.Forms;
 
 namespace Ebd.Mobile.Views
@@ -8,7 +9,7 @@ namespace Ebd.Mobile.Views
         public AboutPage()
         {
             InitializeComponent();
-            BindingContext = DependencyService.Get<AboutViewModel>();
+            BindingContext = Startup.ServiceProvider.GetService<AboutViewModel>();
         }
     }
 }

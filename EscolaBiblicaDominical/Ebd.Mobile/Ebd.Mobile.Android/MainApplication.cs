@@ -40,9 +40,10 @@ namespace Ebd.Mobile.Droid
             //Handle notification when app is closed here
             CrossFirebasePushNotification.Current.OnNotificationReceived += (s, p) =>
             {
-                LoggerService.Current.LogInformation($"data count: {p.Data.Count}");
-                LoggerService.Current.LogInformation($"title: {p.Data["title"]}");
-                LoggerService.Current.LogInformation($"body: {p.Data["body"]}");
+                var loggerService = new LoggerService();
+                loggerService.LogInformation($"data count: {p.Data.Count}");
+                loggerService.LogInformation($"title: {p.Data["title"]}");
+                loggerService.LogInformation($"body: {p.Data["body"]}");
             };
         }
     }

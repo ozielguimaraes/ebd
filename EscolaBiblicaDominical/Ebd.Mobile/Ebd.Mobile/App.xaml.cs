@@ -1,12 +1,5 @@
-﻿using Ebd.Mobile.Services;
-using Ebd.Mobile.Services.Implementations;
-using Ebd.Mobile.Services.Implementations.Diagnostic;
-using Ebd.Mobile.Services.Implementations.Dialog;
-using Ebd.Mobile.Services.Implementations.Logger;
-using Ebd.Mobile.Services.Interfaces;
-using Ebd.Mobile.ViewModels;
-using Ebd.Mobile.ViewModels.Aluno;
-using Ebd.Mobile.ViewModels.Chamada;
+﻿using Ebd.Mobile.Services.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
 using Plugin.FirebasePushNotification;
 using Xamarin.Forms;
 
@@ -14,12 +7,15 @@ namespace Ebd.Mobile
 {
     public partial class App : Application
     {
+        private readonly ILoggerService loggerService;
+
         public App()
         {
             InitializeComponent();
-            RegisterDependencies();
+            Startup.Init();
             //ConfigureFirebaseRefreshToken();
             MainPage = new AppShell();
+            loggerService = Startup.ServiceProvider.GetService<ILoggerService>();
         }
 
         private void ConfigureFirebaseRefreshToken()
@@ -30,39 +26,8 @@ namespace Ebd.Mobile
 
         private void OnFirebaseTokenRefresh(object source, FirebasePushNotificationTokenEventArgs args)
         {
-            LoggerService.Current.LogInformation($"Firebase newToken: {args.Token}");
+            loggerService.LogInformation($"Firebase newToken: {args.Token}");
             //PushNotificationService.Current.SendRegistrationToServer(token: args.Token);
-        }
-
-        private static void RegisterDependencies()
-        {
-            DependencyService.Register<MockDataStore>();
-            //Services
-            DependencyService.Register<ILoggerService, LoggerService>();
-            DependencyService.Register<IDiagnosticService, DiagnosticService>();
-            DependencyService.Register<IDialogService, DialogService>();
-            DependencyService.Register<INetworkService, NetworkService>();
-
-            DependencyService.Register<IAlunoService, AlunoService>();
-            DependencyService.Register<IAvaliacaoService, AvaliacaoService>();
-            DependencyService.Register<IBairroService, BairroService>();
-            DependencyService.Register<ICepService, CepService>();
-            DependencyService.Register<IChamadaService, ChamadaService>();
-            DependencyService.Register<ITurmaService, TurmaService>();
-            DependencyService.Register<IRevistaService, RevistaService>();
-            DependencyService.Register<ILicaoService, LicaoService>();
-
-            //ViewModels
-            DependencyService.Register<HomeViewModel>();
-            DependencyService.Register<ListaAlunoViewModel>();
-            DependencyService.Register<ItemsViewModel>();
-            DependencyService.Register<LoginViewModel>();
-            DependencyService.Register<NewItemViewModel>();
-            DependencyService.Register<ItemDetailViewModel>();
-            DependencyService.Register<AboutViewModel>();
-            DependencyService.Register<EfetuarChamadaViewModel>();
-            DependencyService.Register<EscolherTurmaViewModel>();
-            DependencyService.Register<NovoAlunoViewModel>();
         }
 
         protected override void OnStart()

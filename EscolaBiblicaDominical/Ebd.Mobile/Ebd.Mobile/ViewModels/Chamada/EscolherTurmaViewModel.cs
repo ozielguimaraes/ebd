@@ -1,5 +1,4 @@
 ﻿using Ebd.Mobile.Extensions;
-using Ebd.Mobile.Services.Implementations;
 using Ebd.Mobile.Services.Interfaces;
 using Ebd.Mobile.Services.Responses;
 using Ebd.Mobile.Services.Responses.Aluno;
@@ -21,21 +20,18 @@ namespace Ebd.Mobile.ViewModels.Chamada
 {
     internal class EscolherTurmaViewModel : BaseViewModel
     {
-        private static readonly Lazy<IAlunoService> alunoServiceLazy = new(() => new AlunoService(DependencyService.Get<INetworkService>()));
-        private readonly IAlunoService _alunoService = alunoServiceLazy.Value;
+        private readonly IAlunoService _alunoService;
+        private readonly IRevistaService _revistaService;
+        private readonly ITurmaService _turmaService;
+        private readonly ILicaoService _licaoService;
 
-        private static readonly Lazy<ITurmaService> turmaServiceLazy = new(() => new TurmaService(DependencyService.Get<INetworkService>()));
-        private readonly ITurmaService _turmaService = turmaServiceLazy.Value;
-
-        private static readonly Lazy<IRevistaService> revistaServiceLazy = new(() => new RevistaService(DependencyService.Get<INetworkService>()));
-        private readonly IRevistaService _revistaService = revistaServiceLazy.Value;
-
-        private static readonly Lazy<ILicaoService> licaoServiceLazy = new(() => new LicaoService(DependencyService.Get<INetworkService>()));
-        private readonly ILicaoService _licaoService = licaoServiceLazy.Value;
-
-        public EscolherTurmaViewModel()
+        public EscolherTurmaViewModel(IAlunoService alunoService, IRevistaService revistaService, ITurmaService turmaService, ILicaoService licaoService, IDiagnosticService diagnosticService, IDialogService dialogService, ILoggerService loggerService) : base(diagnosticService, dialogService, loggerService)
         {
             Title = "Escolher turma";
+            _turmaService = turmaService;
+            _alunoService = alunoService;
+            _revistaService = revistaService;
+            _licaoService = licaoService;
         }
 
         private TurmaResponse turmaSelecionada;

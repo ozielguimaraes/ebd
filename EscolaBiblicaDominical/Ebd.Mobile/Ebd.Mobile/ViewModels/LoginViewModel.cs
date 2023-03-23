@@ -11,7 +11,7 @@ namespace Ebd.Mobile.ViewModels
 
         public Command LoginCommand { get; }
 
-        public LoginViewModel(IDiagnosticService diagnosticService, IDialogService dialogService, ILoggerService logger)// : base(diagnosticService, dialogService, logger)
+        public LoginViewModel(IDiagnosticService diagnosticService, IDialogService dialogService, ILoggerService loggerService) : base(diagnosticService, dialogService, loggerService)
         {
             LoginCommand = new Command(OnLoginClicked);
         }

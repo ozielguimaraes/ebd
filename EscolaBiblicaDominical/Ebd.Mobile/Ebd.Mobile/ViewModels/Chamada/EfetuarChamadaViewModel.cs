@@ -1,6 +1,5 @@
 ﻿using Ebd.Mobile.Constants;
 using Ebd.Mobile.Models;
-using Ebd.Mobile.Services.Implementations;
 using Ebd.Mobile.Services.Interfaces;
 using Ebd.Mobile.Services.Requests.Chamada;
 using Ebd.Mobile.Services.Responses;
@@ -26,23 +25,18 @@ namespace Ebd.Mobile.ViewModels.Chamada
     internal class EfetuarChamadaViewModel : BaseViewModel
     {
         private const int IdAvaliacaoPresenca = 1;
-        private static readonly Lazy<IAlunoService> alunoServiceLazy = new(() => new AlunoService(DependencyService.Get<INetworkService>()));
-        private readonly IAlunoService _alunoService = alunoServiceLazy.Value;
+        private readonly IAlunoService _alunoService;
+        private readonly IAvaliacaoService _avaliacaoService;
+        private readonly IChamadaService _chamadaService;
 
-        private static readonly Lazy<ITurmaService> turmaServiceLazy = new(() => new TurmaService(DependencyService.Get<INetworkService>()));
-        private readonly ITurmaService _turmaService = turmaServiceLazy.Value;
-
-        private static readonly Lazy<IAvaliacaoService> avaliacaoServiceLazy = new(() => new AvaliacaoService(DependencyService.Get<INetworkService>()));
-        private readonly IAvaliacaoService _avaliacaoService = avaliacaoServiceLazy.Value;
-
-        private static readonly Lazy<IChamadaService> chamadaServiceLazy = new(() => new ChamadaService(DependencyService.Get<INetworkService>()));
-        private readonly IChamadaService _chamadaService = chamadaServiceLazy.Value;
-
-        public EfetuarChamadaViewModel()
+        public EfetuarChamadaViewModel(IAlunoService alunoService, IAvaliacaoService avaliacaoService, IChamadaService chamadaService, IDialogService dialogService, IDiagnosticService diagnosticService, ILoggerService loggerService) : base(diagnosticService, dialogService, loggerService)
         {
             Title = "Efetuar chamada";
 
             Avaliacoes = new ObservableRangeCollection<RealizarAvaliacao>();
+            _alunoService = alunoService;
+            _avaliacaoService = avaliacaoService;
+            _chamadaService = chamadaService;
         }
 
         public int LicaoId { get; set; }

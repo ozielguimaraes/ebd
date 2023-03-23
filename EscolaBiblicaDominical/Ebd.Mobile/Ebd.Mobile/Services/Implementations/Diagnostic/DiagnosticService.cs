@@ -1,14 +1,11 @@
 ﻿using Ebd.Mobile.Services.Interfaces;
 using System;
 using System.Collections.Generic;
-using Xamarin.Forms;
 
 namespace Ebd.Mobile.Services.Implementations.Diagnostic
 {
     internal sealed class DiagnosticService : IDiagnosticService
     {
-        public static IDiagnosticService Current => DependencyService.Get<IDiagnosticService>();
-
         public void TrackError(Exception exception)
         {
             //TODO Implement track events

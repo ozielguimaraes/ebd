@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Ebd.Mobile.Services.Implementations
 {
-    public class RevistaService : ApiService, IRevistaService
+    public class RevistaService : BaseService, IRevistaService
     {
         private const string PathToService = "revista";
 
-        public RevistaService(INetworkService networkService) : base(networkService) { }
+        public RevistaService(ILoggerService loggerService, INetworkService networkService) : base(loggerService, networkService) { }
 
         public async Task<BaseResponse<RevistaResponse>> AdicionarAsync(AdicionarRevistaRequest request)
             => await PostAndRetry<AdicionarRevistaRequest, RevistaResponse>(PathToService, request, OnRetry);

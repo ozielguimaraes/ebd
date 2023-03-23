@@ -3,14 +3,11 @@ using Ebd.Mobile.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using Xamarin.Forms;
 
 namespace Ebd.Mobile.Services.Implementations.Logger
 {
     public class LoggerService : ILoggerService
     {
-        public static readonly ILoggerService Current = DependencyService.Get<ILoggerService>();
-
         public void LogError(string message)
         {
             WriteLog(LogType.Error, message);

@@ -12,7 +12,7 @@ namespace Ebd.Mobile.Views.Aluno
         public NovoAlunoPage()
         {
             InitializeComponent();
-            BindingContext = ViewModel ??= DependencyService.Get<NovoAlunoViewModel>();
+            BindingContext = ViewModel ??= Startup.ServiceProvider.GetService<NovoAlunoViewModel>();
         }
 
         protected override async void OnAppearing()

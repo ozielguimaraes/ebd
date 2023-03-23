@@ -8,11 +8,11 @@ namespace Ebd.Mobile.Views.Chamada
     public partial class EscolherTurmaPage : ContentPage
     {
         EscolherTurmaViewModel ViewModel { get => (EscolherTurmaViewModel)BindingContext; }
-        
+
         public EscolherTurmaPage()
         {
             InitializeComponent();
-            BindingContext = DependencyService.Get<EscolherTurmaViewModel>();
+            BindingContext = Startup.ServiceProvider.GetService<EscolherTurmaViewModel>();
         }
 
         protected override async void OnAppearing()
