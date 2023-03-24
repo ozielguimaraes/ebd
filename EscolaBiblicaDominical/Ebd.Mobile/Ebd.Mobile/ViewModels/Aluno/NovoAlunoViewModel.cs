@@ -316,6 +316,14 @@ namespace Ebd.Mobile.ViewModels.Aluno
                         }
                     };
                     var response = await _alunoService.SalvarAsync(alunoRequest);
+                    if (response.IsSuccess)
+                    {
+                        await DialogService.DisplayAlert("Heheeee", "Aluno adicionado com sucesso");
+                    }
+                    else
+                    {
+                        await DialogService.DisplayAlert("Oops", "Não foi possível adicionar o aluno");
+                    }
                 }
                 else
                 {
