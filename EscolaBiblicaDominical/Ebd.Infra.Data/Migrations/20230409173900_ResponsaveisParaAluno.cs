@@ -4,7 +4,7 @@
 
 namespace Ebd.Infra.Data.Migrations
 {
-    public partial class ResponsavelAluno : Migration
+    public partial class ResponsaveisParaAluno : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -28,45 +28,35 @@ namespace Ebd.Infra.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TipoResponsavel = table.Column<int>(type: "int", nullable: false),
                     ResponsavelId = table.Column<int>(type: "int", nullable: false),
-                    AlunoId = table.Column<int>(type: "int", nullable: false),
-                    AlunoId1 = table.Column<int>(type: "int", nullable: true)
+                    ResponsavelPessoaId = table.Column<int>(type: "int", nullable: false),
+                    AlunoId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ResponsavelAluno", x => x.ResponsavelAlunoId);
                     table.ForeignKey(
-                        name: "FK_ResponsavelAluno_Aluno_AlunoId",
-                        column: x => x.AlunoId,
+                        name: "FK_ResponsavelAluno_Aluno_ResponsavelId",
+                        column: x => x.ResponsavelId,
                         principalTable: "Aluno",
                         principalColumn: "AlunoId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ResponsavelAluno_Aluno_AlunoId1",
-                        column: x => x.AlunoId1,
-                        principalTable: "Aluno",
-                        principalColumn: "AlunoId");
-                    table.ForeignKey(
-                        name: "FK_ResponsavelAluno_Pessoa_ResponsavelId",
-                        column: x => x.ResponsavelId,
+                        name: "FK_ResponsavelAluno_Pessoa_ResponsavelPessoaId",
+                        column: x => x.ResponsavelPessoaId,
                         principalTable: "Pessoa",
                         principalColumn: "PessoaId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ResponsavelAluno_AlunoId",
-                table: "ResponsavelAluno",
-                column: "AlunoId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ResponsavelAluno_AlunoId1",
-                table: "ResponsavelAluno",
-                column: "AlunoId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ResponsavelAluno_ResponsavelId",
                 table: "ResponsavelAluno",
                 column: "ResponsavelId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ResponsavelAluno_ResponsavelPessoaId",
+                table: "ResponsavelAluno",
+                column: "ResponsavelPessoaId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

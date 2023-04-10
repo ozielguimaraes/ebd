@@ -296,10 +296,10 @@ namespace Ebd.Infra.Data.Migrations
                     b.Property<int>("AlunoId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("AlunoId1")
+                    b.Property<int>("ResponsavelId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ResponsavelId")
+                    b.Property<int>("ResponsavelPessoaId")
                         .HasColumnType("int");
 
                     b.Property<int>("TipoResponsavel")
@@ -307,11 +307,9 @@ namespace Ebd.Infra.Data.Migrations
 
                     b.HasKey("ResponsavelAlunoId");
 
-                    b.HasIndex("AlunoId");
-
-                    b.HasIndex("AlunoId1");
-
                     b.HasIndex("ResponsavelId");
+
+                    b.HasIndex("ResponsavelPessoaId");
 
                     b.ToTable("ResponsavelAluno", (string)null);
                 });
@@ -502,19 +500,15 @@ namespace Ebd.Infra.Data.Migrations
             modelBuilder.Entity("Ebd.Domain.Core.Entities.ResponsavelAluno", b =>
                 {
                     b.HasOne("Ebd.Domain.Core.Entities.Aluno", "Aluno")
-                        .WithMany()
-                        .HasForeignKey("AlunoId")
+                        .WithMany("Responsaveis")
+                        .HasForeignKey("ResponsavelId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Ebd.Domain.Core.Entities.Aluno", null)
-                        .WithMany("Responsaveis")
-                        .HasForeignKey("AlunoId1");
-
                     b.HasOne("Ebd.Domain.Core.Entities.Pessoa", "Responsavel")
                         .WithMany()
-                        .HasForeignKey("ResponsavelId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasForeignKey("ResponsavelPessoaId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Aluno");

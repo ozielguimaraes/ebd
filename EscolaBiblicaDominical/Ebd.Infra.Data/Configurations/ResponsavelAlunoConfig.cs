@@ -16,17 +16,16 @@ namespace Ebd.Infra.Data.Configurations
 
             builder.Property(x => x.TipoResponsavel).IsRequired();
             builder.Property(x => x.ResponsavelId).IsRequired();
-            builder.Property(x => x.AlunoId).IsRequired();
+            //builder.Property(x => x.AlunoId).IsRequired();
 
-            builder.HasOne(ra => ra.Responsavel)
-                .WithMany()
-                .HasForeignKey(ra => ra.ResponsavelId)
-                .OnDelete(DeleteBehavior.Restrict);
+            builder.HasOne(ra => ra.Responsavel);
+            //.HasForeignKey(ra => ra.ResponsavelId)
+            //.OnDelete(DeleteBehavior.Restrict);
             //.OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(ra => ra.Aluno)
-                .WithMany()
-                .HasForeignKey(ra => ra.AlunoId)
+                .WithMany(ra => ra.Responsaveis)
+                .HasForeignKey(ra => ra.ResponsavelId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.ToTable("ResponsavelAluno");
