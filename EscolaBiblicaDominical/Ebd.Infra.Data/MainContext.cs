@@ -36,16 +36,29 @@ namespace Ebd.Infra.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder builder)
         {
-            builder.UseSqlServer(Configuration.ConnectionString, options =>
+            //builder.UseSqlServer(Configuration.ConnectionString, options =>
+            //{
+            //    if (Configuration.RetryOnFailure.Enable)
+            //        options.EnableRetryOnFailure(
+            //            maxRetryCount: Configuration.RetryOnFailure.RetryCount,
+            //            maxRetryDelay: TimeSpan.FromSeconds(Configuration.RetryOnFailure.MaxTimeOutInSeconds),
+            //            errorNumbersToAdd: null);
+            //})
+            //    .EnableSensitiveDataLogging()
+            //    .UseLoggerFactory(new LoggerFactory());
+            //builder.UseLazyLoadingProxies(false);
+            builder.UseNpgsql(Configuration.ConnectionString, options => 
             {
-                if (Configuration.RetryOnFailure.Enable)
+                if(Configuration.RetryOnFailure.Enable)
+                {
                     options.EnableRetryOnFailure(
-                        maxRetryCount: Configuration.RetryOnFailure.RetryCount,
-                        maxRetryDelay: TimeSpan.FromSeconds(Configuration.RetryOnFailure.MaxTimeOutInSeconds),
-                        errorNumbersToAdd: null);
+                       maxRetryCount: Configuration.RetryOnFailure.RetryCount,
+                       maxRetryDelay: TimeSpan.FromSeconds(Configuration.RetryOnFailure.MaxTimeOutInSeconds),
+                       errorCodesToAdd: null);
+                }
             })
-                .EnableSensitiveDataLogging()
-                .UseLoggerFactory(new LoggerFactory());
+            .EnableSensitiveDataLogging(false)
+            .UseLoggerFactory(new LoggerFactory());
 
             base.OnConfiguring(builder);
         }
@@ -53,7 +66,7 @@ namespace Ebd.Infra.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.ApplyConfigurationsFromAssembly(System.Reflection.Assembly.GetExecutingAssembly());
-
+            
             base.OnModelCreating(builder);
         }
     }

@@ -1,0 +1,15 @@
+﻿{
+  "label": "update database",
+  "command": "dotnet",
+  "type": "process",
+  "args": [
+    "ef",
+    "database",
+    "update",
+    "--project",
+    "${workspaceFolder}/Ebd.Infra.Data/Ebd.Infra.csproj",
+    "--startup-project",
+    "${workspaceFolder}/Ebd.Presentation.Api"
+  ],
+  "problemMatcher": "$tsc"
+}

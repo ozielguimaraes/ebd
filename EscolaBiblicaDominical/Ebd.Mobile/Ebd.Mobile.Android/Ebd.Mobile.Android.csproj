@@ -16,7 +16,6 @@
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
-    <AndroidUseLatestPlatformSdk>false</AndroidUseLatestPlatformSdk>
     <TargetFrameworkVersion>v11.0</TargetFrameworkVersion>
     <AndroidEnableSGenConcurrent>true</AndroidEnableSGenConcurrent>
     <AndroidUseAapt2>true</AndroidUseAapt2>
@@ -103,7 +102,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Ebd.Mobile\Ebd.Mobile.csproj">
-      <Project>{50F88C9E-56CA-4CCA-8B75-048761018AE5}</Project>
+      <Project>{C874A1B5-9235-4F7A-8A92-60702B332495}</Project>
       <Name>Ebd.Mobile</Name>
     </ProjectReference>
   </ItemGroup>

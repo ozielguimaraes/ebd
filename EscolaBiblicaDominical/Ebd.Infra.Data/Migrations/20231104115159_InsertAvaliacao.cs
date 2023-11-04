@@ -4,6 +4,7 @@
 
 namespace Ebd.Infra.Data.Migrations
 {
+    /// <inheritdoc />
     public partial class InsertAvaliacao : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
