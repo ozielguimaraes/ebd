@@ -51,7 +51,7 @@ namespace Ebd.Infra.Data.Repositories
         public async Task<ICollection<Aluno>> Pesquisar(string pesquisa)
         {
             return await DbSet
-                .Where(x => x.Pessoa.Nome.Contains(pesquisa) || x.Responsaveis.Any(r => r.Responsavel.Nome.Contains(pesquisa)))
+                .Where(x => x.Pessoa.Nome.ToUpper().Contains(pesquisa.ToUpper()) || x.Responsaveis.Any(r => r.Responsavel.Nome.ToUpper().Contains(pesquisa.ToUpper())))
                 .ToListAsync();
         }
     }

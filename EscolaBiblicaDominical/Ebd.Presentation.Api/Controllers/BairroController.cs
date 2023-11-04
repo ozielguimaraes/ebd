@@ -44,7 +44,7 @@ namespace Ebd.Presentation.Api.Controllers
         {
             try
             {
-                return ResultWhenSearching(await _bairroBusiness.ObterTodosAsync());
+                return ResultWhenSearching(await _bairroBusiness.ObterPorIdAsync(bairroId));
             }
             catch (Exception ex)
             {

@@ -42,7 +42,7 @@ namespace Ebd.Infra.Data.Repositories
 
         public async Task<ICollection<Bairro>> PesquisarAsync(string pesquisa)
         {
-            return await DbSet.Where(x => x.Nome.Contains(pesquisa)).ToListAsync();
+            return await DbSet.Where(x => x.Nome.ToUpper().Contains(pesquisa.ToUpper())).ToListAsync();
         }
     }
 }
