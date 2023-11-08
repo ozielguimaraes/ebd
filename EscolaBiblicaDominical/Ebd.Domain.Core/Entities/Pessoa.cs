@@ -8,7 +8,7 @@ namespace Ebd.Domain.Core.Entities
         public int PessoaId { get; set; }
         public string Nome { get; set; }
         public bool WhatsappIgualCelular { get; set; }
-        public DateTime NascidoEm { get; set; }
+        public DateOnly NascidoEm { get; set; }
 
         public ICollection<Endereco> Enderecos { get; set; }
         //public ICollection<ResponsavelAluno> Responsaveis { get; set; }

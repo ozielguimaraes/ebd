@@ -7,7 +7,7 @@ namespace Ebd.Application.Responses.Pessoa
 {
     public class PessoaResponse
     {
-        public PessoaResponse(int pessoaId, string nome, bool whatsappIgualCelular, DateTime nascidoEm, IEnumerable<DetalhesEnderecoResponse> enderecos, IEnumerable<DetalhesContatoResponse> contatos)
+        public PessoaResponse(int pessoaId, string nome, bool whatsappIgualCelular, DateOnly nascidoEm, IEnumerable<DetalhesEnderecoResponse> enderecos, IEnumerable<DetalhesContatoResponse> contatos)
         {
             PessoaId = pessoaId;
             Nome = nome;
@@ -20,7 +20,7 @@ namespace Ebd.Application.Responses.Pessoa
         public int PessoaId { get; set; }
         public string Nome { get; set; }
         public bool WhatsappIgualCelular { get; set; }
-        public DateTime NascidoEm { get; set; }
+        public DateOnly NascidoEm { get; set; }
 
         public IEnumerable<DetalhesEnderecoResponse> Enderecos { get; set; }
         public IEnumerable<DetalhesContatoResponse> Contatos { get; set; }
