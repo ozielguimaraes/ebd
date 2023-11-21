@@ -18,7 +18,7 @@ namespace Ebd.Mobile.Views.Aluno
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            await ViewModel.Initialize(null);
+            await ViewModel.Appearing(null);
         }
     }
 }

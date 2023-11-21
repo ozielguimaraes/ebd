@@ -1,4 +1,4 @@
-﻿using Ebd.Mobile.Extensions;
+﻿using Ebd.CrossCutting.Common.Extensions;
 using Ebd.Mobile.Services.Interfaces;
 using Ebd.Mobile.Services.Responses;
 using Ebd.Mobile.Services.Responses.Aluno;
@@ -122,7 +122,7 @@ namespace Ebd.Mobile.ViewModels.Chamada
                 execute: ExecuteIniciarChamadaCommand,
                 onException: CommandOnException);
 
-        public override async Task Initialize(object args)
+        public override async Task Appearing(object args)
         {
             if (IsBusy) return;
             try

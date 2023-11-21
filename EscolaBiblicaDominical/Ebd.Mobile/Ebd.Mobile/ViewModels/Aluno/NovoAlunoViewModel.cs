@@ -400,7 +400,7 @@ namespace Ebd.Mobile.ViewModels.Aluno
             }
         }
 
-        public override async Task Initialize(object args)
+        public override async Task Appearing(object args)
         {
             if (IsBusy) return;
             try

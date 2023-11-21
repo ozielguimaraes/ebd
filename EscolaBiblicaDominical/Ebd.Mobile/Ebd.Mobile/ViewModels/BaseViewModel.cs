@@ -1,4 +1,4 @@
-﻿using Ebd.Mobile.Extensions;
+﻿using Ebd.CrossCutting.Common.Extensions;
 using Ebd.Mobile.Services.Interfaces;
 using System;
 using System.Threading.Tasks;
@@ -27,7 +27,7 @@ namespace Ebd.Mobile.ViewModels
         protected DateTime ObterDataAtual() => DateTimeExtension.ObterDataAtual();
         protected bool CanExecute(object args) => IsNotBusy;
 
-        public virtual Task Initialize(object args)
+        public virtual Task Appearing(object args)
         {
             IsBusy = false;
 

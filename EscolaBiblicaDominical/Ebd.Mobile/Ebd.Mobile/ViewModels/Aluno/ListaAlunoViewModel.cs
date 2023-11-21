@@ -82,7 +82,7 @@ namespace Ebd.Mobile.ViewModels.Aluno
                     execute: NewStudentCommandExecute,
                     onException: CommandOnException);
 
-        public override async Task Initialize(object args)
+        public override async Task Appearing(object args)
         {
             if (IsBusy) return;
             try
