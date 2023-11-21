@@ -95,11 +95,14 @@ namespace Ebd.Mobile.Services.Implementations.Base
             return await _networkService.WaitAndRetry(func, sleepDurationProvider, retryCount, onWaitAndRetry);
         }
 
-        protected virtual Task OnRetry(Exception e, int retryCount)
+        protected virtual Task OnRetry(Exception exception, int retryCount)
         {
             return Task.Factory.StartNew(() =>
             {
                 _loggerService.LogWarning($"Retry - Attempt #{retryCount}.");
+
+                if (exception is not null)
+                    _loggerService.LogError("Erro ao realizar o request", exception);
             });
         }
 
@@ -220,6 +223,11 @@ namespace Ebd.Mobile.Services.Implementations.Base
 #endif
         }
 
+        private static void LogRequestUri(string requestUri)
+        {
+            Debug.WriteLine($"Request Uri: {AppConstant.BaseUrl}{requestUri}");
+        }
+
         private void TryAddAuthorization(string accessToken)
         {
             if (!string.IsNullOrWhiteSpace(accessToken))
@@ -230,7 +238,7 @@ namespace Ebd.Mobile.Services.Implementations.Base
         {
             throw responseMessage.StatusCode switch
             {
-                HttpStatusCode.BadRequest => new InvalidOperationException(JsonSerializer.Deserialize<List<string>>(responseContent).FirstOrDefault()),
+                HttpStatusCode.BadRequest => new InvalidOperationException(JsonSerializer.Deserialize<string>(responseContent)),
                 HttpStatusCode.Unauthorized => new UnauthorizedAccessException(),
                 _ => new InvalidOperationException("Erro desconhecido ao realizar essa operação"),
             };
