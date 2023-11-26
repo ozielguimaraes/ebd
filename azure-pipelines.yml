@@ -7,60 +7,74 @@ trigger:
 - api
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: windows-latest
 
 variables:
   buildConfiguration: 'Release'
+  solution: '**/*.sln'
+  buildPlatform: 'Any CPU'
+  dotnetSdkVersion: '6.x'
+  Parameters.RestoreBuildProjects: '**/Ebd.Presentation.Api.csproj'
 
 steps:
 - task: UseDotNet@2
-  displayName: 'Install .NET Core sdk 6.x'
+  displayName: 'Use .NET Core SDK $(dotnetSdkVersion)'
   inputs:
-    packageType: 'sdk'
-    version: 6.x
+    packageType: sdk
+    version: '$(dotnetSdkVersion)'
+    installationPath: $(Agent.ToolsDirectory)/dotnet  
 
-- task: DotNetCoreCLI@2
-  displayName: 'Restore'
+- task: DotNetCoreCLI@2 # Restore the project
+  displayName: Restore
   inputs:
-    command: 'restore'
-    projects: |
-      **/Ebd.Domain.Core.csproj
-      **/Ebd.Infra.Data.csproj
-      **/Ebd.CrossCutting.IoC.csproj
-      **/Ebd.Application.csproj
-    feedsToUse: 'select'
+    command: restore
+    projects: '$(Parameters.RestoreBuildProjects)'
 
-- task: DotNetCoreCLI@2
-  displayName: 'Build'
+- task: DotNetCoreCLI@2 # Build the project
+  displayName: Build
   inputs:
-    command: 'build'
-    projects: |
-      **/Ebd.Domain.Core.csproj
-      **/Ebd.Infra.Data.csproj
-      **/Ebd.CrossCutting.IoC.csproj
-      **/Ebd.Application.csproj
-    arguments: '-o $(Build.ArtifactStagingDirectory)'
+    projects: '$(Parameters.RestoreBuildProjects)'
+    arguments: '--configuration $(BuildConfiguration) --no-restore'
+    
+# - task: DotNetCoreCLI@2 # This task for test
+#   displayName: Test
+#   inputs:
+#     command: test
+#     projects: '$(Parameters.TestProjects)'
+#     arguments: '--configuration $(BuildConfiguration)'
+#   enabled: false # Not enabled coz the project does not have a test
 
 - task: DotNetCoreCLI@2
   displayName: 'Publish files'
   inputs:
     command: 'publish'
-    projects: '**/Ebd.Presentation.Api.csproj'
-    publishWebProjects: true
-    arguments: '-o $(Build.ArtifactStagingDirectory)'
+    projects: '$(Parameters.RestoreBuildProjects)'
+    publishWebProjects: false
+    zipAfterPublish: true
+    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory) --no-build'
+
+# - task: CopyFiles@2
+#   displayName: 'Copy Files to -> $(Build.ArtifactStagingDirectory)'
+#   inputs:
+#     SourceFolder: '$(Build.SourcesDirectory)'
+#     Contents: '**'
+#     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
 - task: PublishBuildArtifacts@1
-  displayName: 'Publish Build Artifacts $(Build.ArtifactStagingDirectory)'
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'drop'
-    publishLocation: 'Container'
+  displayName: 'Publish Build Artifacts $(Build.BuildNumber) $(Build.ArtifactStagingDirectory)'
+  # inputs:
+    #PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    # ArtifactName: '$(Parameters.ArtifactName)'
+#    ArtifactName: 'drop'
+    # publishLocation: 'Container'
+  condition: succeeded()
 
-- task: AzureRmWebAppDeployment@4
-  inputs:
-    ConnectionType: 'AzureRM'
-    azureSubscription: 'GTech(b42a60f5-3c02-4a26-851c-36d2273fb56a)'
-    appType: 'webAppLinux'
-    WebAppName: 'EscolaBiblicaDominical'
-    packageForLinux: '$(Build.ArtifactStagingDirectory)/**/*.zip'
-    StartupCommand: 'dotnet Ebd.Presentation.Api.dll'
+# THIS IS TO PUBLISH ON AZURE APP SERVICE
+# - task: AzureRmWebAppDeployment@4
+#   inputs:
+#     ConnectionType: 'AzureRM'
+#     azureSubscription: 'GTech(b42a60f5-3c02-4a26-851c-36d2273fb56a)'
+#     appType: 'webAppLinux'
+#     WebAppName: 'EscolaBiblicaDominical'
+#     packageForLinux: '$(Build.ArtifactStagingDirectory)/**/*.zip'
+#     StartupCommand: 'dotnet Ebd.Presentation.Api.dll'
