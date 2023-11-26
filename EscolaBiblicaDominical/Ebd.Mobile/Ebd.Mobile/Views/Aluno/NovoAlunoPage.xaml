@@ -1,12 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:vm="clr-namespace:Ebd.Mobile.ViewModels.Aluno"
-             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-             x:Class="Ebd.Mobile.Views.Aluno.NovoAlunoPage"
-             Title="{Binding Title}"
-             x:DataType="vm:NovoAlunoViewModel">
-    <ScrollView>
+<ContentPage
+    x:Class="Ebd.Mobile.Views.Aluno.NovoAlunoPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:Ebd.Mobile.ViewModels.Aluno"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    Title="{Binding Title}"
+    x:DataType="vm:NovoAlunoViewModel">
+    <ScrollView Margin="16,0">
         <StackLayout>
             <Label Margin="0,10,0,0">
                 <Label.FormattedText>
@@ -17,11 +18,12 @@
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
-            <Picker Title="Selecione uma turma"
-                            TitleColor="{StaticResource PrimaryColor}"
-                            ItemsSource="{Binding Turmas}"
-                            SelectedItem="{Binding TurmaSelecionada}"
-                            ItemDisplayBinding="{Binding FaixaIdadeNome}" />
+            <Picker
+                Title="Selecione uma turma"
+                ItemDisplayBinding="{Binding FaixaIdadeNome}"
+                ItemsSource="{Binding Turmas}"
+                SelectedItem="{Binding TurmaSelecionada}"
+                TitleColor="{StaticResource PrimaryColor}" />
 
             <Label Margin="0,10,0,0">
                 <Label.FormattedText>
@@ -32,13 +34,14 @@
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
-            <Entry Text="{Binding Nome}"
-                       Placeholder="Informe o nome completo"
-                   MaxLength="40"
-                   ReturnType="Next">
+            <Entry
+                MaxLength="40"
+                Placeholder="Informe o nome completo"
+                ReturnType="Next"
+                Text="{Binding Nome}">
                 <Entry.Behaviors>
                     <xct:MultiValidationBehavior InvalidStyle="{StaticResource InvalidEntryStyle}">
-                        <xct:TextValidationBehavior MinimumLength="12" MaximumLength="40" />
+                        <xct:TextValidationBehavior MaximumLength="40" MinimumLength="12" />
                         <xct:CharactersValidationBehavior CharacterType="Letter" Flags="ValidateOnValueChanging" />
                     </xct:MultiValidationBehavior>
                 </Entry.Behaviors>
@@ -64,15 +67,19 @@
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
-            <Entry Text="{Binding Celular}"
-                   Placeholder="(34) 99691-9292"
-                   Keyboard="Telephone"
-                   MaxLength="15"
-                   ReturnType="Next">
+            <Entry
+                Keyboard="Telephone"
+                MaxLength="15"
+                Placeholder="(34) 99691-9292"
+                ReturnType="Next"
+                Text="{Binding Celular}">
                 <Entry.Behaviors>
                     <xct:MaskedBehavior Mask="(XX) XXXXX-XXXX" />
                     <xct:MultiValidationBehavior InvalidStyle="{StaticResource InvalidEntryStyle}">
-                        <xct:TextValidationBehavior MinimumLength="15" MaximumLength="15" Flags="ValidateOnValueChanging" />
+                        <xct:TextValidationBehavior
+                            Flags="ValidateOnValueChanging"
+                            MaximumLength="15"
+                            MinimumLength="15" />
                         <xct:CharactersValidationBehavior CharacterType="Digit" />
                     </xct:MultiValidationBehavior>
                 </Entry.Behaviors>
@@ -87,15 +94,16 @@
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
-            <Entry Text="{Binding Email}"
-                   Keyboard="Email" 
-                   MaxLength="50"
-                   ReturnType="Next">
+            <Entry
+                Keyboard="Email"
+                MaxLength="50"
+                ReturnType="Next"
+                Text="{Binding Email}">
                 <Entry.Behaviors>
                     <xct:EmailValidationBehavior
-                            DecorationFlags="Trim"
-                            Flags="ValidateOnValueChanging"
-                            InvalidStyle="{StaticResource InvalidEntryStyle}" />
+                        DecorationFlags="Trim"
+                        Flags="ValidateOnValueChanging"
+                        InvalidStyle="{StaticResource InvalidEntryStyle}" />
                 </Entry.Behaviors>
             </Entry>
 
@@ -108,12 +116,16 @@
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
-            <Entry Text="{Binding NomeMae}" 
-                   MaxLength="40"
-                   ReturnType="Next">
+            <Entry
+                MaxLength="40"
+                ReturnType="Next"
+                Text="{Binding NomeMae}">
                 <Entry.Behaviors>
                     <xct:MultiValidationBehavior InvalidStyle="{StaticResource InvalidEntryStyle}">
-                        <xct:TextValidationBehavior MinimumLength="12" MaximumLength="40" Flags="ValidateOnValueChanging" />
+                        <xct:TextValidationBehavior
+                            Flags="ValidateOnValueChanging"
+                            MaximumLength="40"
+                            MinimumLength="12" />
                         <xct:CharactersValidationBehavior CharacterType="Letter" Flags="ValidateOnValueChanging" />
                     </xct:MultiValidationBehavior>
                 </Entry.Behaviors>
@@ -128,15 +140,19 @@
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
-            <Entry Text="{Binding CelularMae}"
-                   Placeholder="(34) 99691-9292"
-                   Keyboard="Telephone"
-                   MaxLength="15"
-                   ReturnType="Next">
+            <Entry
+                Keyboard="Telephone"
+                MaxLength="15"
+                Placeholder="(34) 99691-9292"
+                ReturnType="Next"
+                Text="{Binding CelularMae}">
                 <Entry.Behaviors>
                     <xct:MaskedBehavior Mask="(XX) XXXXX-XXXX" />
                     <xct:MultiValidationBehavior InvalidStyle="{StaticResource InvalidEntryStyle}">
-                        <xct:TextValidationBehavior MinimumLength="15" MaximumLength="15" Flags="ValidateOnValueChanging" />
+                        <xct:TextValidationBehavior
+                            Flags="ValidateOnValueChanging"
+                            MaximumLength="15"
+                            MinimumLength="15" />
                         <xct:CharactersValidationBehavior CharacterType="Digit" />
                     </xct:MultiValidationBehavior>
                 </Entry.Behaviors>
@@ -149,12 +165,16 @@
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
-            <Entry Text="{Binding NomePai}"
-                   MaxLength="40"
-                   ReturnType="Next">
+            <Entry
+                MaxLength="40"
+                ReturnType="Next"
+                Text="{Binding NomePai}">
                 <Entry.Behaviors>
                     <xct:MultiValidationBehavior InvalidStyle="{StaticResource InvalidEntryStyle}">
-                        <xct:TextValidationBehavior MinimumLength="12" MaximumLength="40" Flags="ValidateOnValueChanging" />
+                        <xct:TextValidationBehavior
+                            Flags="ValidateOnValueChanging"
+                            MaximumLength="40"
+                            MinimumLength="12" />
                         <xct:CharactersValidationBehavior CharacterType="Letter" Flags="ValidateOnValueChanging" />
                     </xct:MultiValidationBehavior>
                 </Entry.Behaviors>
@@ -167,26 +187,32 @@
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
-            <Entry Text="{Binding CelularPai}"
-                   Placeholder="(34) 99691-9292"
-                   Keyboard="Telephone"
-                   MaxLength="15"
-                   ReturnType="Next">
+            <Entry
+                Keyboard="Telephone"
+                MaxLength="15"
+                Placeholder="(34) 99691-9292"
+                ReturnType="Next"
+                Text="{Binding CelularPai}">
                 <Entry.Behaviors>
                     <xct:MaskedBehavior Mask="(XX) XXXXX-XXXX" />
                     <xct:MultiValidationBehavior InvalidStyle="{StaticResource InvalidEntryStyle}">
-                        <xct:TextValidationBehavior MinimumLength="14" MaximumLength="15" Flags="ValidateOnValueChanging" />
+                        <xct:TextValidationBehavior
+                            Flags="ValidateOnValueChanging"
+                            MaximumLength="15"
+                            MinimumLength="14" />
                         <xct:CharactersValidationBehavior CharacterType="Digit" />
                     </xct:MultiValidationBehavior>
                 </Entry.Behaviors>
             </Entry>
 
-            <BoxView HeightRequest="1"
-                     Color="Black"
-                     Margin="0,10,0,0" />
-            <Label Text="Informações de endereço"
-                       FontAttributes="Bold"
-                       FontSize="Subtitle" />
+            <BoxView
+                Margin="0,10,0,0"
+                HeightRequest="1"
+                Color="Black" />
+            <Label
+                FontAttributes="Bold"
+                FontSize="Subtitle"
+                Text="Informações de endereço" />
 
             <Label Margin="0,10,0,0">
                 <Label.FormattedText>
@@ -195,15 +221,19 @@
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
-            <Entry Text="{Binding Cep}"
-                   Keyboard="Numeric"
-                   ReturnType="Next">
+            <Entry
+                Keyboard="Numeric"
+                ReturnType="Next"
+                Text="{Binding Cep}">
                 <Entry.Behaviors>
-                    <xct:EventToCommandBehavior EventName="Completed" Command="{Binding CepCompletedCommand}" />
-                    <xct:UserStoppedTypingBehavior MinimumLengthThreshold="9" Command="{Binding CepCompletedCommand}" />
+                    <xct:EventToCommandBehavior Command="{Binding CepCompletedCommand}" EventName="Completed" />
+                    <xct:UserStoppedTypingBehavior Command="{Binding CepCompletedCommand}" MinimumLengthThreshold="9" />
                     <xct:MaskedBehavior Mask="XX XXX-XXX" />
                     <xct:MultiValidationBehavior InvalidStyle="{StaticResource InvalidEntryStyle}">
-                        <xct:TextValidationBehavior MinimumLength="10" MaximumLength="10" Flags="ValidateOnValueChanging" />
+                        <xct:TextValidationBehavior
+                            Flags="ValidateOnValueChanging"
+                            MaximumLength="10"
+                            MinimumLength="10" />
                         <xct:CharactersValidationBehavior CharacterType="Digit" />
                     </xct:MultiValidationBehavior>
                 </Entry.Behaviors>
@@ -218,11 +248,16 @@
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
-            <Entry Text="{Binding Logradouro}"
-                   MaxLength="40"
-                   ReturnType="Next">
+            <Entry
+                MaxLength="40"
+                ReturnType="Next"
+                Text="{Binding Logradouro}">
                 <Entry.Behaviors>
-                    <xct:TextValidationBehavior MinimumLength="10" MaximumLength="40" Flags="ValidateOnValueChanging" InvalidStyle="{StaticResource InvalidEntryStyle}" />
+                    <xct:TextValidationBehavior
+                        Flags="ValidateOnValueChanging"
+                        InvalidStyle="{StaticResource InvalidEntryStyle}"
+                        MaximumLength="40"
+                        MinimumLength="10" />
                 </Entry.Behaviors>
             </Entry>
 
@@ -235,11 +270,16 @@
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
-            <Entry Text="{Binding Numero}"
-                   MaxLength="6"
-                   ReturnType="Next">
+            <Entry
+                MaxLength="6"
+                ReturnType="Next"
+                Text="{Binding Numero}">
                 <Entry.Behaviors>
-                    <xct:TextValidationBehavior MinimumLength="1" MaximumLength="8" Flags="ValidateOnValueChanging" InvalidStyle="{StaticResource InvalidEntryStyle}" />
+                    <xct:TextValidationBehavior
+                        Flags="ValidateOnValueChanging"
+                        InvalidStyle="{StaticResource InvalidEntryStyle}"
+                        MaximumLength="8"
+                        MinimumLength="1" />
                 </Entry.Behaviors>
             </Entry>
 
@@ -252,11 +292,15 @@
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
-            <Entry Text="{Binding Bairro}"
-                   MaxLength="25"
-                   ReturnType="Next">
+            <Entry
+                MaxLength="25"
+                ReturnType="Next"
+                Text="{Binding Bairro}">
                 <Entry.Behaviors>
-                    <xct:TextValidationBehavior MinimumLength="6" MaximumLength="35" InvalidStyle="{StaticResource InvalidEntryStyle}" />
+                    <xct:TextValidationBehavior
+                        InvalidStyle="{StaticResource InvalidEntryStyle}"
+                        MaximumLength="35"
+                        MinimumLength="6" />
                 </Entry.Behaviors>
             </Entry>
 
@@ -267,20 +311,31 @@
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
-            <Entry Text="{Binding Complemento}"
-                   MaxLength="25"
-                   ReturnType="Send">
+            <Entry
+                MaxLength="25"
+                ReturnType="Done"
+                Text="{Binding Complemento}">
                 <Entry.Behaviors>
-                    <xct:TextValidationBehavior MinimumLength="6" MaximumLength="30" Flags="ValidateOnValueChanging" InvalidStyle="{StaticResource InvalidEntryStyle}" />
+                    <xct:TextValidationBehavior
+                        Flags="ValidateOnValueChanging"
+                        InvalidStyle="{StaticResource InvalidEntryStyle}"
+                        MaximumLength="30"
+                        MinimumLength="6" />
                 </Entry.Behaviors>
             </Entry>
 
-            <Button Text="Salvar"
-                    Style="{StaticResource ButtonIsDisabled}"
-                    Command="{Binding SalvarCommand}"
-                    Margin="0,0,0,10">
+            <Button
+                Margin="16,0,16,10"
+                CornerRadius="16"
+                Command="{Binding SalvarCommand}"
+                Style="{StaticResource ButtonIsDisabled}"
+                HorizontalOptions="FillAndExpand"
+                Text="Salvar">
                 <Button.Triggers>
-                    <DataTrigger TargetType="Button" Binding="{Binding IsValid}" Value="true">
+                    <DataTrigger
+                        Binding="{Binding IsValid}"
+                        TargetType="Button"
+                        Value="true">
                         <Setter Property="Style" Value="{StaticResource ButtonIsEnabled}" />
                     </DataTrigger>
                 </Button.Triggers>

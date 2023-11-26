@@ -5,6 +5,7 @@ using Ebd.Mobile.Services.Interfaces;
 using Ebd.Mobile.Services.Responses;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -28,11 +29,18 @@ namespace Ebd.Mobile.Services.Implementations.Base
 
         public ApiService(INetworkService networkService, ILoggerService loggerService)
         {
-            HttpClient = new HttpClient
+            HttpClientHandler clientHandler = new()
+            {
+                ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; }
+            };
+
+            HttpClient = new HttpClient(clientHandler)
             {
                 BaseAddress = new Uri(AppConstant.BaseUrl)
             };
+
             HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(ApplicationJson));
+            HttpClient.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36");
 
             _jsonSerializerOptions = new JsonSerializerOptions
             {
@@ -97,12 +105,19 @@ namespace Ebd.Mobile.Services.Implementations.Base
 
         private async Task<BaseResponse<T>> ProcessGetRequest<T>(string requestUri) where T : class
         {
+            Random rnd = new();
+            int randomId = rnd.Next(1000, 9999);
+
+            _loggerService.LogInformation($"Request Uri-{randomId}: [HttpGet] {GetFullUri(requestUri)}");
             using HttpResponseMessage responseMessage = await HttpClient.GetAsync(requestUri);
-            var responseContent = await responseMessage.Content.ReadAsStringAsync();
+            string responseContent = null;
 
             try
             {
-                if (!responseMessage.IsSuccessStatusCode)
+                responseContent = await responseMessage.Content.ReadAsStringAsync();
+                LogUrlAndResponse(requestId: randomId, jsonResponse: responseContent, responseMessage.RequestMessage.Method, requestUri: responseMessage.RequestMessage.RequestUri, statusCode:  responseMessage.StatusCode);
+
+                if (responseMessage.IsSuccessStatusCode.Not())
                     ExceptionFromHttpStatusCode(responseMessage, responseContent);
 
                 if (string.IsNullOrWhiteSpace(responseContent)) return default;
@@ -113,10 +128,7 @@ namespace Ebd.Mobile.Services.Implementations.Base
             {
                 _loggerService.LogError("Erro ao processar request", ex,
                     new Dictionary<string, object> {
-                        { "requestUri", requestUri },
-                        { "responseMessage", responseMessage },
-                        { "responseContent",JsonSerializer.Serialize(responseContent) },
-                        { "isSuccessStatusCode", responseMessage.IsSuccessStatusCode }
+                        { "responseMessage", JsonSerializer.Serialize(responseMessage) }
                     });
 
                 return new BaseResponse<T>(ex);
@@ -127,12 +139,19 @@ namespace Ebd.Mobile.Services.Implementations.Base
             where TResponse : class
             where TRequest : class
         {
+            Random rnd = new Random();
+            int randomId = rnd.Next(1000, 9999);
+            _loggerService.LogInformation($"Request Uri: [HttpPost] {GetFullUri(requestUri)}");
             var contentRequest = JsonSerializer.Serialize(request);
+#if DEBUG
+            Debug.WriteLine($"JSON request: {contentRequest}");
+#endif
             using HttpResponseMessage responseMessage = await HttpClient.PostAsync(
                 requestUri,
                 new StringContent(contentRequest, Encoding.UTF8, ApplicationJson)
                 );
             var responseContent = await responseMessage.Content.ReadAsStringAsync();
+            LogUrlAndResponse(requestId: randomId, jsonResponse: responseContent, responseMessage.RequestMessage.Method, requestUri: responseMessage.RequestMessage.RequestUri, statusCode: responseMessage.StatusCode);
 
             try
             {
@@ -148,11 +167,8 @@ namespace Ebd.Mobile.Services.Implementations.Base
             {
                 _loggerService.LogError("Erro ao processar request", ex,
                     new Dictionary<string, object> {
-                        { "requestUri", requestUri },
-                        { "requestBody", JsonSerializer.Serialize(request) },
-                        { "responseMessage", JsonSerializer.Serialize(responseMessage) },
-                        { "responseContent", responseContent },
-                        { "isSuccessStatusCode", responseMessage.IsSuccessStatusCode }
+                        { "requestBody", contentRequest },
+                        { "responseMessage", JsonSerializer.Serialize(responseMessage) }
                     });
 
                 return new BaseResponse<TResponse>(ex);
@@ -162,11 +178,20 @@ namespace Ebd.Mobile.Services.Implementations.Base
         private async Task<EmptyResponse> ProcessPostRequest<TRequest>(string requestUri, TRequest request)
             where TRequest : class
         {
+            Random rnd = new Random();
+            int id = rnd.Next(1000, 9999);
+            _loggerService.LogInformation($"Request Uri: [HttpPost] {GetFullUri(requestUri)}");
+
+            var contentRequest = JsonSerializer.Serialize(request);
+#if DEBUG
+            Debug.WriteLine($"JSON request: {contentRequest}");
+#endif
             using HttpResponseMessage responseMessage = await HttpClient.PostAsync(
                 requestUri,
-                new StringContent(JsonSerializer.Serialize(request), Encoding.UTF8, ApplicationJson)
+                new StringContent(contentRequest, Encoding.UTF8, ApplicationJson)
                 );
             var responseContent = await responseMessage.Content.ReadAsStringAsync();
+            LogUrlAndResponse(requestId: id, jsonResponse: responseContent, responseMessage.RequestMessage.Method, requestUri: responseMessage.RequestMessage.RequestUri, statusCode: responseMessage.StatusCode);
 
             try
             {
@@ -179,15 +204,20 @@ namespace Ebd.Mobile.Services.Implementations.Base
             {
                 _loggerService.LogError("Erro ao processar request", ex,
                     new Dictionary<string, object> {
-                        { "requestUri", requestUri },
-                        { "requestBody", JsonSerializer.Serialize(request) },
-                        { "responseMessage", JsonSerializer.Serialize(responseMessage) },
-                        { "responseContent", responseContent },
-                        { "isSuccessStatusCode", responseMessage.IsSuccessStatusCode }
+                        { "requestBody", contentRequest },
+                        { "responseMessage", JsonSerializer.Serialize(responseMessage) }
                     });
 
                 return new EmptyResponse(ex);
             }
+        }
+
+        private void LogUrlAndResponse(int requestId, string jsonResponse, HttpMethod httpMethod, Uri requestUri, HttpStatusCode statusCode)
+        {
+#if DEBUG
+            Debug.WriteLine($"Response Uri-{requestId}: [{httpMethod}] {requestUri} - {statusCode}");
+            Debug.WriteLine($"JSON Response: {jsonResponse}");
+#endif
         }
 
         private void TryAddAuthorization(string accessToken)
@@ -205,5 +235,7 @@ namespace Ebd.Mobile.Services.Implementations.Base
                 _ => new InvalidOperationException("Erro desconhecido ao realizar essa operação"),
             };
         }
+
+        private string GetFullUri(string uri) => $"{AppConstant.BaseUrl}/{uri}";
     }
 }
