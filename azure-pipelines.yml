@@ -13,7 +13,7 @@ variables:
   buildConfiguration: 'Release'
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
-  dotnetSdkVersion: '6.x'
+  dotnetSdkVersion: '7.x'
   Parameters.RestoreBuildProjects: '**/Ebd.Presentation.Api.csproj'
 
 steps:
