@@ -6,6 +6,7 @@ using Ebd.Application.Responses.Turma;
 using Ebd.Domain.Core.Entities;
 using Ebd.Domain.Core.Interfaces.Repositories;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Ebd.Application.Business.Implementation
@@ -33,7 +34,7 @@ namespace Ebd.Application.Business.Implementation
         {
             var result = await _turmaRepository.ObterTodas();
 
-            return TurmaMapper.FromEntityToResponse(result);
+            return TurmaMapper.FromEntityToResponse(result.OrderBy(item => item.IdadeMinima));
         }
     }
 }
