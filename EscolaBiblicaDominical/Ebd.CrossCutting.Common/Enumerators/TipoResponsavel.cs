@@ -2,11 +2,12 @@
 {
     public enum TipoResponsavel
     {
-        Mae,
-        Pai,
-        Tia,
-        Tio,
-        Grandfather,
-        Grandmother
+        Other = 0,
+		Mae = 1,
+        Pai = 2,
+        Tia = 3,
+        Tio = 4,
+        Grandfather = 5,
+        Grandmother = 6
     }
 }

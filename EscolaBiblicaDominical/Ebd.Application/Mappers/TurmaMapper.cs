@@ -13,7 +13,7 @@ namespace Ebd.Application.Mappers
                 idadeMinima: entity.IdadeMinima
                 );
 
-        public static IEnumerable<TurmaResponse> FromEntityToResponse(ICollection<Turma> entities)
+        public static IEnumerable<TurmaResponse> FromEntityToResponse(IEnumerable<Turma> entities)
         {
             foreach (var item in entities)
                 yield return FromEntityToResponse(item);
