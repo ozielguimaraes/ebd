@@ -17,11 +17,11 @@
             <Thickness x:Key="ContentPadding">20, 0</Thickness>
 
             <!--  Colors  -->
-            <Color x:Key="AppBackgroundColor">#FAFAFA</Color>
+            <Color x:Key="AppBackgroundColor">#F5F5F5</Color>
             <Color x:Key="PrimaryColor">#1976D2</Color>
             <Color x:Key="SecondaryColor">#F5F5F5</Color>
 
-            <Color x:Key="StatusbarColor">#1976D2</Color>
+            <Color x:Key="StatusbarColor">#123456</Color>
             <Color x:Key="NavBarColor">#1976D2</Color>
             <Color x:Key="NavigationBarTextColor">#5D5D5D</Color>
 

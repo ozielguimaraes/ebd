@@ -6,6 +6,7 @@
     xmlns:vm="clr-namespace:Ebd.Mobile.ViewModels.Aluno"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     Title="{Binding Title}"
+    BackgroundColor="{StaticResource AppBackgroundColor}"
     x:DataType="vm:NovoAlunoViewModel">
     <ScrollView Margin="16,0">
         <StackLayout>
@@ -154,6 +155,8 @@
                             MaximumLength="15"
                             MinimumLength="15" />
                         <xct:CharactersValidationBehavior CharacterType="Digit" />
+                        <xct:TextValidationBehavior MinimumLength="15" MaximumLength="15" Flags="ValidateOnValueChanging" />
+                        <xct:CharactersValidationBehavior RegexPattern="^\(\d{2}\) \d{5}-\d{4}$" />
                     </xct:MultiValidationBehavior>
                 </Entry.Behaviors>
             </Entry>
@@ -311,10 +314,9 @@
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
-            <Entry
-                MaxLength="25"
-                ReturnType="Done"
-                Text="{Binding Complemento}">
+            <Entry Text="{Binding Complemento}"
+                   MaxLength="25"
+                   ReturnType="Done">
                 <Entry.Behaviors>
                     <xct:TextValidationBehavior
                         Flags="ValidateOnValueChanging"

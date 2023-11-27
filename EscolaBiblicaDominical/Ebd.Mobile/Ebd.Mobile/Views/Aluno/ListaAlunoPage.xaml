@@ -6,6 +6,7 @@
              xmlns:converters="clr-namespace:Ebd.Mobile.Converters"
              x:Class="Ebd.Mobile.Views.Aluno.ListaAlunoPage"
              Title="{Binding Title}"
+             BackgroundColor="{StaticResource AppBackgroundColor}"
              x:DataType="vm:ListaAlunoViewModel">
     <ContentPage.Resources>
         <ResourceDictionary>
