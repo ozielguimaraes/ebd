@@ -9,10 +9,12 @@ namespace Ebd.Application.Converters
         public override DateOnly Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             string dateString = reader.GetString();
+
             if (DateTimeOffset.TryParse(dateString, out DateTimeOffset dateTimeOffset))
-            {
                 return DateOnly.FromDateTime(dateTimeOffset.DateTime);
-            }
+
+            if (DateOnly.TryParse(dateString, out DateOnly dateOnly))
+                return dateOnly;
 
             throw new JsonException("Invalid date format");
         }
@@ -22,4 +24,5 @@ namespace Ebd.Application.Converters
             writer.WriteStringValue(value.ToString());
         }
     }
+
 }

@@ -244,8 +244,8 @@ namespace Ebd.Infra.Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("PessoaId"));
 
-                    b.Property<DateTime>("NascidoEm")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateOnly>("NascidoEm")
+                        .HasColumnType("date");
 
                     b.Property<string>("Nome")
                         .IsRequired()

@@ -58,12 +58,7 @@ namespace Ebd.Mobile.ViewModels.Aluno
             {
                 var turmaSelecionadaAnteriormente = turmaSelecionada;
                 SetProperty(ref turmaSelecionada, value);
-
-                if (turmaSelecionada is not null && turmaSelecionada.Equals(turmaSelecionadaAnteriormente).Not())
-                {
-                    Debug.WriteLine("test");
-                    //MainThread.BeginInvokeOnMainThread(() => CarregarListaAlunosCommand.ExecuteAsync(true).ConfigureAwait(true)); ;
-                }
+                TurmaAlterada(turmaSelecionadaAnteriormente);
             }
         }
 
@@ -148,7 +143,7 @@ namespace Ebd.Mobile.ViewModels.Aluno
             get => email;
             set
             {
-                SetProperty(ref email, value);
+                SetProperty(ref email, value?.ToLower());
                 CheckFormIsValid();
             }
         }
@@ -159,7 +154,7 @@ namespace Ebd.Mobile.ViewModels.Aluno
             get => nomeMae;
             set
             {
-                SetProperty(ref nomeMae, value);
+                SetProperty(ref nomeMae, value?.ToTitleCase());
                 CheckFormIsValid();
             }
         }
@@ -181,7 +176,7 @@ namespace Ebd.Mobile.ViewModels.Aluno
             get => nomePai;
             set
             {
-                SetProperty(ref nomePai, value);
+                SetProperty(ref nomePai, value?.ToTitleCase());
                 CheckFormIsValid();
             }
         }
@@ -277,10 +272,6 @@ namespace Ebd.Mobile.ViewModels.Aluno
                 if (IsValid)
                 {
                     var enderecoAluno = new EnderecoRequest(Logradouro, Numero, cep: Cep, BairroId);
-                    var responsavelMae = new PessoaRequest(NomeMae, new ContatoRequest(CelularMae, TipoContato.Celular))
-                    {
-                        Enderecos = new List<EnderecoRequest> { enderecoAluno }
-                    };
 
                     var responsaveis = new List<PessoaResponsavelRequest>
                         {
@@ -308,7 +299,7 @@ namespace Ebd.Mobile.ViewModels.Aluno
                     var alunoRequest = new AlterarAlunoRequest
                     {
                         NascidoEm = DataNascimento.Value,
-                        Nome = Nome,
+                        Nome = Nome.ToTitleCase(),
                         WhatsappIgualCelular = true,
                         AlunoId = AlunoId,
                         TurmaId = TurmaSelecionada.TurmaId,
@@ -319,6 +310,7 @@ namespace Ebd.Mobile.ViewModels.Aluno
                         },
                         Enderecos = new List<EnderecoRequest> { enderecoAluno },
                         Responsaveis = responsaveis
+                        Responsaveis = ObterResponsaveis(enderecoAluno)
                     };
                     var response = await _alunoService.SalvarAsync(alunoRequest);
                     if (response.IsSuccess)
@@ -341,6 +333,39 @@ namespace Ebd.Mobile.ViewModels.Aluno
                 throw;
             }
         }
+
+        private List<PessoaResponsavelRequest> ObterResponsaveis(EnderecoRequest enderecoAluno)
+        {
+            var responsaveis = new List<PessoaResponsavelRequest>();
+
+            var responsavelMae = new PessoaRequest(NomeMae.ToTitleCase(), new ContatoRequest(CelularMae, TipoContato.Celular))
+            {
+                Enderecos = new List<EnderecoRequest> { enderecoAluno }
+            };
+            responsaveis.Add(new PessoaResponsavelRequest(
+                               pessoaResponsavelId: PessoaResponsavelId.OrZero(),
+                               responsavelId: ResponsavelId.OrZero(),
+                               responsavelMae,
+                               alunoId: AlunoId.OrZero(),
+                               tipoResponsavel: TipoResponsavel.Mae));
+
+            if (NomePai is not null)
+            {
+                var responsavelPai = new PessoaRequest(NomePai.ToTitleCase(), new ContatoRequest(CelularPai, TipoContato.Celular))
+                {
+                    Enderecos = new List<EnderecoRequest> { enderecoAluno }
+                };
+                responsaveis.Add(new PessoaResponsavelRequest(
+               pessoaResponsavelId: PessoaResponsavelId.OrZero(),
+               responsavelId: ResponsavelId.OrZero(),
+               responsavelPai,
+               alunoId: AlunoId.OrZero(),
+               tipoResponsavel: TipoResponsavel.Pai));
+            }
+
+            return responsaveis;
+        }
+
         private void CheckFormIsValid()
         {
             IsValid = string.IsNullOrWhiteSpace(Nome).Not()
@@ -432,13 +457,7 @@ namespace Ebd.Mobile.ViewModels.Aluno
                 });
 
                 if (Turmas.Count == 1)
-                {
                     TurmaSelecionada = Turmas[0];
-                }
-                else if (TurmaSelecionada is not null)
-                {
-
-                }
             }
             catch (Exception ex)
             {
@@ -459,6 +478,17 @@ namespace Ebd.Mobile.ViewModels.Aluno
                 });
 
                 IsBusy = false;
+            }
+        }
+
+        private void TurmaAlterada(TurmaResponse turmaSelecionadaAnteriormente)
+        {
+            if (TurmaSelecionada is not null && TurmaSelecionada.Equals(turmaSelecionadaAnteriormente).Not())
+            {
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    DataNascimento = DateTime.Now.AddYears(-TurmaSelecionada.IdadeMaxima);
+                });
             }
         }
     }
