@@ -11,43 +11,41 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
+  solution: '**/*.sln'
+  buildPlatform: 'Any CPU'
+  dotnetSdkVersion: '7.x'
+  Parameters.RestoreBuildProjects: '**/Ebd.Presentation.Api.csproj'
 
 steps:
 - task: UseDotNet@2
   displayName: 'Install .NET Core sdk 6.x'
   inputs:
     packageType: 'sdk'
-    version: 6.x
+    version: '$(dotnetSdkVersion)'
+    installationPath: $(Agent.ToolsDirectory)/dotnet  
 
 - task: DotNetCoreCLI@2
   displayName: 'Restore'
   inputs:
     command: 'restore'
-    projects: |
-      **/Ebd.Domain.Core.csproj
-      **/Ebd.Infra.Data.csproj
-      **/Ebd.CrossCutting.IoC.csproj
-      **/Ebd.Application.csproj
+    projects: '$(Parameters.RestoreBuildProjects)'
     feedsToUse: 'select'
 
 - task: DotNetCoreCLI@2
   displayName: 'Build'
   inputs:
     command: 'build'
-    projects: |
-      **/Ebd.Domain.Core.csproj
-      **/Ebd.Infra.Data.csproj
-      **/Ebd.CrossCutting.IoC.csproj
-      **/Ebd.Application.csproj
-    arguments: '-o $(Build.ArtifactStagingDirectory)'
+    projects: '$(Parameters.RestoreBuildProjects)'
+    arguments: '-o $(Build.ArtifactStagingDirectory) --configuration $(BuildConfiguration) --no-restore'
 
 - task: DotNetCoreCLI@2
   displayName: 'Publish files'
   inputs:
     command: 'publish'
     projects: '**/Ebd.Presentation.Api.csproj'
-    publishWebProjects: true
-    arguments: '-o $(Build.ArtifactStagingDirectory)'
+    publishWebProjects: false
+    zipAfterPublish: true
+    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory) --no-build'
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Build Artifacts $(Build.ArtifactStagingDirectory)'
@@ -55,6 +53,7 @@ steps:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'drop'
     publishLocation: 'Container'
+  condition: succeeded()
 
 - task: AzureRmWebAppDeployment@4
   displayName: Deploy on admp.azurewebsites.net
@@ -64,3 +63,4 @@ steps:
     appType: 'webApp'
     WebAppName: 'admp'
     packageForLinux: '$(System.ArtifactStagingDirectory)'
+    StartupCommand: 'dotnet Ebd.Presentation.Api.dll'
