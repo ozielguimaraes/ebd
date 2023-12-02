@@ -273,29 +273,6 @@ namespace Ebd.Mobile.ViewModels.Aluno
                 {
                     var enderecoAluno = new EnderecoRequest(Logradouro, Numero, cep: Cep, BairroId);
 
-                    var responsaveis = new List<PessoaResponsavelRequest>
-                        {
-                            new PessoaResponsavelRequest(
-                               pessoaResponsavelId: PessoaResponsavelId.OrZero(),
-                               responsavelId: ResponsavelId.OrZero(),
-                               responsavelMae,
-                               alunoId: AlunoId.OrZero(),
-                               tipoResponsavel: TipoResponsavel.Mae)
-                        };
-
-                    if (string.IsNullOrWhiteSpace(NomePai).Not())
-                    {
-                        var responsavelPai = new PessoaRequest(NomePai, new ContatoRequest(CelularPai, TipoContato.Celular))
-                        {
-                            Enderecos = new List<EnderecoRequest> { enderecoAluno }
-                        };
-                        responsaveis.Add(new PessoaResponsavelRequest(
-                               pessoaResponsavelId: PessoaResponsavelId.OrZero(),
-                               responsavelId: ResponsavelId.OrZero(),
-                               responsavelPai,
-                               alunoId: AlunoId.OrZero(),
-                               tipoResponsavel: TipoResponsavel.Pai));
-                    }
                     var alunoRequest = new AlterarAlunoRequest
                     {
                         NascidoEm = DataNascimento.Value,
@@ -309,7 +286,6 @@ namespace Ebd.Mobile.ViewModels.Aluno
                             new ContatoRequest(Email, TipoContato.Email)
                         },
                         Enderecos = new List<EnderecoRequest> { enderecoAluno },
-                        Responsaveis = responsaveis
                         Responsaveis = ObterResponsaveis(enderecoAluno)
                     };
                     var response = await _alunoService.SalvarAsync(alunoRequest);
@@ -337,7 +313,6 @@ namespace Ebd.Mobile.ViewModels.Aluno
         private List<PessoaResponsavelRequest> ObterResponsaveis(EnderecoRequest enderecoAluno)
         {
             var responsaveis = new List<PessoaResponsavelRequest>();
-
             var responsavelMae = new PessoaRequest(NomeMae.ToTitleCase(), new ContatoRequest(CelularMae, TipoContato.Celular))
             {
                 Enderecos = new List<EnderecoRequest> { enderecoAluno }
