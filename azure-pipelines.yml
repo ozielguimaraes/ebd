@@ -62,11 +62,10 @@ steps:
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Build Artifacts $(Build.BuildNumber) $(Build.ArtifactStagingDirectory)'
-  # inputs:
-    #PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    # ArtifactName: '$(Parameters.ArtifactName)'
-#    ArtifactName: 'drop'
-    # publishLocation: 'Container'
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
   condition: succeeded()
 
 - task: AzureRmWebAppDeployment@4
