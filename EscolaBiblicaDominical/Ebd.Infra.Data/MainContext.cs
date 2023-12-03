@@ -50,7 +50,7 @@ namespace Ebd.Infra.Data
                             errorCodesToAdd: null);
                     }
                 })
-                .EnableSensitiveDataLogging(false)
+                //.EnableSensitiveDataLogging(false)
                 .UseLoggerFactory(new LoggerFactory());
 
             //builder.UseLazyLoadingProxies(false);
