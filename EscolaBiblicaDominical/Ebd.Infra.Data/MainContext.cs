@@ -2,6 +2,7 @@
 using Ebd.Infra.Data.Context.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
 
@@ -9,8 +10,11 @@ namespace Ebd.Infra.Data
 {
     public class MainContext : DbContext, IEntityFrameworkContext, IDisposable
     {
-        public MainContext(DataBaseConfiguration configuration)
+        private IConfiguration appConfiguration;
+
+        public MainContext(DataBaseConfiguration configuration, IConfiguration appConfiguration)
         {
+            this.appConfiguration = appConfiguration;
             Configuration = configuration;
             Database.SetCommandTimeout(Configuration.TimeoutInSeconds);
         }
@@ -36,29 +40,20 @@ namespace Ebd.Infra.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder builder)
         {
-            //builder.UseSqlServer(Configuration.ConnectionString, options =>
-            //{
-            //    if (Configuration.RetryOnFailure.Enable)
-            //        options.EnableRetryOnFailure(
-            //            maxRetryCount: Configuration.RetryOnFailure.RetryCount,
-            //            maxRetryDelay: TimeSpan.FromSeconds(Configuration.RetryOnFailure.MaxTimeOutInSeconds),
-            //            errorNumbersToAdd: null);
-            //})
-            //    .EnableSensitiveDataLogging()
-            //    .UseLoggerFactory(new LoggerFactory());
-            //builder.UseLazyLoadingProxies(false);
-            builder.UseNpgsql(Configuration.ConnectionString, options => 
-            {
-                if(Configuration.RetryOnFailure.Enable)
+            builder.UseNpgsql(appConfiguration.GetConnectionString("DefaultConnection"), npgsqlOptions =>
                 {
-                    options.EnableRetryOnFailure(
-                       maxRetryCount: Configuration.RetryOnFailure.RetryCount,
-                       maxRetryDelay: TimeSpan.FromSeconds(Configuration.RetryOnFailure.MaxTimeOutInSeconds),
-                       errorCodesToAdd: null);
-                }
-            })
-            .EnableSensitiveDataLogging(false)
-            .UseLoggerFactory(new LoggerFactory());
+                    if (Configuration.RetryOnFailure.Enable)
+                    {
+                        npgsqlOptions.EnableRetryOnFailure(
+                            maxRetryCount: Configuration.RetryOnFailure.RetryCount,
+                            maxRetryDelay: TimeSpan.FromSeconds(Configuration.RetryOnFailure.MaxTimeOutInSeconds),
+                            errorCodesToAdd: null);
+                    }
+                })
+                .EnableSensitiveDataLogging(false)
+                .UseLoggerFactory(new LoggerFactory());
+
+            //builder.UseLazyLoadingProxies(false);
 
             base.OnConfiguring(builder);
         }
@@ -66,7 +61,7 @@ namespace Ebd.Infra.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.ApplyConfigurationsFromAssembly(System.Reflection.Assembly.GetExecutingAssembly());
-            
+
             base.OnModelCreating(builder);
         }
     }

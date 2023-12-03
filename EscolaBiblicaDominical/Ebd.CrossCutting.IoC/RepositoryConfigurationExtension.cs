@@ -1,14 +1,13 @@
 ﻿using Ebd.Domain.Core.Interfaces.Repositories;
-using Ebd.Infra.Data;
-using Ebd.Infra.Data.Context.Interfaces;
 using Ebd.Infra.Data.Repositories;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Ebd.CrossCutting.IoC
 {
     public static class RepositoryConfigurationExtension
     {
-        public static IServiceCollection AddRepositoryConfiguration(this IServiceCollection services)
+        public static IServiceCollection AddRepositoryConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddScoped(typeof(IAlunoRepository), typeof(AlunoRepository));
             services.AddScoped(typeof(IAvaliacaoRepository), typeof(AvaliacaoRepository));
@@ -20,9 +19,6 @@ namespace Ebd.CrossCutting.IoC
             services.AddScoped(typeof(IProfessorRepository), typeof(ProfessorRepository));
             services.AddScoped(typeof(IRevistaRepository), typeof(RevistaRepository));
             services.AddScoped(typeof(ITurmaRepository), typeof(TurmaRepository));
-
-            services.AddDbContext<MainContext>();
-            services.AddScoped<IEntityFrameworkContext, MainContext>();
 
             return services;
         }

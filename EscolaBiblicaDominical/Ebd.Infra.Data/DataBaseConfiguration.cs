@@ -2,7 +2,6 @@
 {
     public class DataBaseConfiguration
     {
-        public string ConnectionString { get; set; }
         public int? TimeoutInSeconds { get; set; }
         public RetryOnFailure RetryOnFailure { get; set; } = new();
     }

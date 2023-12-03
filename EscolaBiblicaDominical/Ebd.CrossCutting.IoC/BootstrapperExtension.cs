@@ -9,7 +9,7 @@ namespace Ebd.CrossCutting.IoC
         {
             services.AddDataBaseConfiguration(configuration);
             services.AddApplicationConfiguration();
-            services.AddRepositoryConfiguration();
+            services.AddRepositoryConfiguration(configuration);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Ebd.Infra.Data;
+using Ebd.Infra.Data.Context.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -8,7 +9,13 @@ namespace Ebd.CrossCutting.IoC
     {
         public static IServiceCollection AddDataBaseConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddSingleton(configuration.GetConfiguration<DataBaseConfiguration>());
+            services.AddScoped<IEntityFrameworkContext, MainContext>();
+
+            var databaseConfig = configuration.GetConfiguration<DataBaseConfiguration>();
+            services.AddSingleton(databaseConfig);
+
+            services.AddDbContext<MainContext>();
+
             return services;
         }
     }

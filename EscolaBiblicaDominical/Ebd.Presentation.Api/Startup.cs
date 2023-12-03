@@ -33,7 +33,6 @@ namespace Ebd.Presentation.Api
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Ebd.Presentation.Api", Version = "v1" });
-
             });
         }
 
