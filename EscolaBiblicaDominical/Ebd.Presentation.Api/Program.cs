@@ -15,7 +15,9 @@ namespace Ebd.Presentation.Api
                 .WriteTo.File("Logs/application.log")
                 .CreateLogger();
 #if DEBUG
-            CreateHostBuilder(args).Build().Run();
+            CreateHostBuilder(args)
+                .Build()
+                .Run();
 #else
             BuildWebHost(args).Run();
 #endif
@@ -41,6 +43,11 @@ namespace Ebd.Presentation.Api
                {
                    ConfigureLog(builder);
                })
+            .ConfigureLogging(builder =>
+            {
+                builder.SetMinimumLevel(LogLevel.Trace);
+                builder.AddLog4Net("log4net.config");
+            })
             .Build();
         private static void ConfigureLog(ILoggingBuilder builder)
         {
