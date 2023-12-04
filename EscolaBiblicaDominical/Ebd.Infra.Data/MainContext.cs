@@ -52,8 +52,9 @@ namespace Ebd.Infra.Data
             var casdas = appConfiguration.GetConnectionString("POSTGRESQLCONNSTR_DefaultConnection");
             Debug.WriteLine("POSTGRESQLCONNSTR_DefaultConnection");
             Debug.WriteLine(casdas);
+            var connection = adas ?? basdas ?? casdas;
 
-            builder.UseNpgsql(appConfiguration.GetConnectionString("POSTGRESQLCONNSTR_DefaultConnection"), npgsqlOptions =>
+            builder.UseNpgsql(connection, npgsqlOptions =>
                 {
                     if (Configuration.RetryOnFailure.Enable)
                     {

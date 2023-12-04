@@ -57,6 +57,10 @@ namespace Ebd.Presentation.Api
         {
             builder.Services.AddLogging(loggingBuilder =>
             {
+                loggingBuilder.AddEventLog(options =>
+                {
+                    options.SourceName = "Ebd";
+                });
                 builder.AddLog4Net("log4net.config");
                 loggingBuilder.AddSerilog();
             });
