@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Diagnostics;
 
 namespace Ebd.Infra.Data
 {
@@ -40,7 +41,19 @@ namespace Ebd.Infra.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder builder)
         {
-            builder.UseNpgsql(appConfiguration.GetConnectionString("DefaultConnection"), npgsqlOptions =>
+            var adas = appConfiguration.GetConnectionString("DefaultConnection");
+            Debug.WriteLine("DefaultConnection");
+            Debug.WriteLine(adas);
+
+            var basdas = appConfiguration.GetConnectionString("CUSTOMCONNSTR_DefaultConnection");
+            Debug.WriteLine("CUSTOMCONNSTR_DefaultConnection");
+            Debug.WriteLine(basdas);
+
+            var casdas = appConfiguration.GetConnectionString("POSTGRESQLCONNSTR_DefaultConnection");
+            Debug.WriteLine("POSTGRESQLCONNSTR_DefaultConnection");
+            Debug.WriteLine(casdas);
+
+            builder.UseNpgsql(appConfiguration.GetConnectionString("POSTGRESQLCONNSTR_DefaultConnection"), npgsqlOptions =>
                 {
                     if (Configuration.RetryOnFailure.Enable)
                     {
@@ -50,7 +63,7 @@ namespace Ebd.Infra.Data
                             errorCodesToAdd: null);
                     }
                 })
-                //.EnableSensitiveDataLogging(false)
+                .EnableSensitiveDataLogging(true)
                 .UseLoggerFactory(new LoggerFactory());
 
             //builder.UseLazyLoadingProxies(false);

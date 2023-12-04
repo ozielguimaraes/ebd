@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
+﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace Ebd.Presentation.Api.Extensions
 {
@@ -9,17 +7,6 @@ namespace Ebd.Presentation.Api.Extensions
         public static void ConfigureRouting(this IServiceCollection services)
         {
             services.AddRouting(options => options.LowercaseUrls = true);
-        }
-
-        public static IHostBuilder ConfigureAppSettings(this IHostBuilder host)
-        {
-            host.ConfigureAppConfiguration((ctx, builder) =>
-            {
-                builder.AddJsonFile("appsettings.json", false, true);
-                builder.AddEnvironmentVariables();
-            });
-
-            return host;
         }
     }
 }

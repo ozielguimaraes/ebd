@@ -6,7 +6,6 @@ using Ebd.Mobile.Services.Responses;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -112,13 +111,13 @@ namespace Ebd.Mobile.Services.Implementations.Base
             int randomId = rnd.Next(1000, 9999);
 
             _loggerService.LogInformation($"Request Uri-{randomId}: [HttpGet] {GetFullUri(requestUri)}");
-            using HttpResponseMessage responseMessage = await HttpClient.GetAsync(requestUri);
+            using HttpResponseMessage responseMessage = await HttpClient.GetAsync($"api/{requestUri}");
             string responseContent = null;
 
             try
             {
                 responseContent = await responseMessage.Content.ReadAsStringAsync();
-                LogUrlAndResponse(requestId: randomId, jsonResponse: responseContent, responseMessage.RequestMessage.Method, requestUri: responseMessage.RequestMessage.RequestUri, statusCode:  responseMessage.StatusCode);
+                LogUrlAndResponse(requestId: randomId, jsonResponse: responseContent, responseMessage.RequestMessage.Method, requestUri: responseMessage.RequestMessage.RequestUri, statusCode: responseMessage.StatusCode);
 
                 if (responseMessage.IsSuccessStatusCode.Not())
                     ExceptionFromHttpStatusCode(responseMessage, responseContent);
@@ -150,7 +149,7 @@ namespace Ebd.Mobile.Services.Implementations.Base
             Debug.WriteLine($"JSON request: {contentRequest}");
 #endif
             using HttpResponseMessage responseMessage = await HttpClient.PostAsync(
-                requestUri,
+                $"api/{requestUri}",
                 new StringContent(contentRequest, Encoding.UTF8, ApplicationJson)
                 );
             var responseContent = await responseMessage.Content.ReadAsStringAsync();
@@ -190,7 +189,7 @@ namespace Ebd.Mobile.Services.Implementations.Base
             Debug.WriteLine($"JSON request: {contentRequest}");
 #endif
             using HttpResponseMessage responseMessage = await HttpClient.PostAsync(
-                requestUri,
+                $"api/{requestUri}",
                 new StringContent(contentRequest, Encoding.UTF8, ApplicationJson)
                 );
             var responseContent = await responseMessage.Content.ReadAsStringAsync();
