@@ -52,7 +52,7 @@ namespace Ebd.Infra.Data
             var casdas = appConfiguration.GetConnectionString("POSTGRESQLCONNSTR_DefaultConnection");
             Debug.WriteLine("POSTGRESQLCONNSTR_DefaultConnection");
             Debug.WriteLine(casdas);
-            var connection = adas ?? basdas ?? casdas;
+            var connection = adas ?? basdas ?? casdas ?? Environment.GetEnvironmentVariable("POSTGRESQLCONNSTR_DefaultConnection");
 
             builder.UseNpgsql(connection, npgsqlOptions =>
                 {
