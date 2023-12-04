@@ -41,35 +41,53 @@ namespace Ebd.Infra.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder builder)
         {
-            var adas = appConfiguration.GetConnectionString("DefaultConnection");
-            Debug.WriteLine("DefaultConnection");
-            Debug.WriteLine(adas);
-
-            var basdas = appConfiguration.GetConnectionString("CUSTOMCONNSTR_DefaultConnection");
-            Debug.WriteLine("CUSTOMCONNSTR_DefaultConnection");
-            Debug.WriteLine(basdas);
-
-            var casdas = appConfiguration.GetConnectionString("POSTGRESQLCONNSTR_DefaultConnection");
-            Debug.WriteLine("POSTGRESQLCONNSTR_DefaultConnection");
-            Debug.WriteLine(casdas);
-            var connection = adas ?? basdas ?? casdas ?? Environment.GetEnvironmentVariable("POSTGRESQLCONNSTR_DefaultConnection") ?? Environment.GetEnvironmentVariable("CUSTOMCONNSTR_DefaultConnection");
-
-            builder.UseNpgsql(connection, npgsqlOptions =>
-                {
-                    if (Configuration.RetryOnFailure.Enable)
-                    {
-                        npgsqlOptions.EnableRetryOnFailure(
-                            maxRetryCount: Configuration.RetryOnFailure.RetryCount,
-                            maxRetryDelay: TimeSpan.FromSeconds(Configuration.RetryOnFailure.MaxTimeOutInSeconds),
-                            errorCodesToAdd: null);
-                    }
-                })
+            ConfigurePostgresConnection(builder)
+            //ConfigureMySqlConnection()
                 .EnableSensitiveDataLogging(true)
                 .UseLoggerFactory(new LoggerFactory());
-
             //builder.UseLazyLoadingProxies(false);
 
             base.OnConfiguring(builder);
+        }
+
+        private DbContextOptionsBuilder ConfigurePostgresConnection(DbContextOptionsBuilder builder)
+        {
+            var connection1 = appConfiguration.GetConnectionString("DefaultConnection");
+            Debug.WriteLine("DefaultConnection");
+            Debug.WriteLine(connection1);
+
+            var connection2 = appConfiguration.GetConnectionString("CUSTOMCONNSTR_DefaultConnection");
+            Debug.WriteLine("CUSTOMCONNSTR_DefaultConnection");
+            Debug.WriteLine(connection2);
+
+            var connection3 = appConfiguration.GetConnectionString("POSTGRESQLCONNSTR_DefaultConnection");
+            Debug.WriteLine("POSTGRESQLCONNSTR_DefaultConnection");
+            Debug.WriteLine(connection3);
+            var connection = connection1 ?? connection2 ?? connection3 ?? Environment.GetEnvironmentVariable("POSTGRESQLCONNSTR_DefaultConnection") ?? Environment.GetEnvironmentVariable("CUSTOMCONNSTR_DefaultConnection");
+
+            if (connection is null)
+                throw new ArgumentNullException("Conexão nula");
+
+            builder.UseNpgsql(connection, npgsqlOptions =>
+            {
+                if (Configuration.RetryOnFailure.Enable)
+                {
+                    npgsqlOptions.EnableRetryOnFailure(
+                        maxRetryCount: Configuration.RetryOnFailure.RetryCount,
+                        maxRetryDelay: TimeSpan.FromSeconds(Configuration.RetryOnFailure.MaxTimeOutInSeconds),
+                        errorCodesToAdd: null);
+                }
+            });
+
+            return builder;
+        }
+
+        private DbContextOptionsBuilder ConfigureMySqlConnection(DbContextOptionsBuilder builder)
+        {
+            var serverVersion = new MySqlServerVersion(Configuration.MySql.Version);
+            builder.UseMySql(appConfiguration.GetConnectionString("DefaultConnection"), serverVersion);
+
+            return builder;
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
