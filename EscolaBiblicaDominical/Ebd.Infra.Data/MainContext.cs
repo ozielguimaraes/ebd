@@ -41,8 +41,8 @@ namespace Ebd.Infra.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder builder)
         {
-            ConfigurePostgresConnection(builder)
-            //ConfigureMySqlConnection()
+            //ConfigurePostgresConnection(builder)
+            ConfigureMySqlConnection(builder)
                 .EnableSensitiveDataLogging(true)
                 .UseLoggerFactory(new LoggerFactory());
             //builder.UseLazyLoadingProxies(false);
@@ -84,6 +84,7 @@ namespace Ebd.Infra.Data
 
         private DbContextOptionsBuilder ConfigureMySqlConnection(DbContextOptionsBuilder builder)
         {
+            var aconn = appConfiguration.GetConnectionString("MySql");
             var serverVersion = new MySqlServerVersion(Configuration.MySql.Version);
             builder.UseMySql(appConfiguration.GetConnectionString("DefaultConnection"), serverVersion);
 
