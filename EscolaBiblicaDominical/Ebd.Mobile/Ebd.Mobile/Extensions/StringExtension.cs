@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using System.Linq;
 
 namespace Ebd.Mobile.Extensions
@@ -19,5 +20,12 @@ namespace Ebd.Mobile.Extensions
             => input.Length <= 1 ? input : input.Substring(0, 1).ToUpper() + input.Substring(1).ToLower();
 
         public static string ToTitleCase(this string input) => CultureInfo.CurrentCulture.TextInfo.ToTitleCase(input.ToLower());
+
+        public static DateTime ToDateTime(this string input)
+        {
+            DateTime.TryParse(input, out var date);
+
+            return date;
+        }
     }
 }

@@ -115,8 +115,8 @@ namespace Ebd.Mobile.ViewModels.Aluno
             }
         }
 
-        private DateTime? dataNascimento = DateTime.Now.AddYears(-17);
-        public DateTime? DataNascimento
+        private string dataNascimento;
+        public string DataNascimento
         {
             get => dataNascimento;
             set
@@ -275,7 +275,7 @@ namespace Ebd.Mobile.ViewModels.Aluno
 
                     var alunoRequest = new AlterarAlunoRequest
                     {
-                        NascidoEm = DataNascimento.Value,
+                        NascidoEm = DataNascimento.ToDateTime(),
                         Nome = Nome.ToTitleCase(),
                         WhatsappIgualCelular = true,
                         AlunoId = AlunoId,
@@ -344,7 +344,7 @@ namespace Ebd.Mobile.ViewModels.Aluno
         private void CheckFormIsValid()
         {
             IsValid = string.IsNullOrWhiteSpace(Nome).Not()
-                && DataNascimento is not null && DataNascimento < DateTime.Now
+                && DataNascimento is not null
                 && string.IsNullOrWhiteSpace(Logradouro).Not()
                 && string.IsNullOrWhiteSpace(Numero).Not()
                 && string.IsNullOrWhiteSpace(Bairro).Not()
@@ -359,7 +359,6 @@ namespace Ebd.Mobile.ViewModels.Aluno
             if (string.IsNullOrEmpty(content).Not())
             {
                 TurmaSelecionada = JsonSerializer.Deserialize<TurmaResponse>(content);
-                DataNascimento = DateTime.Now.AddYears(-TurmaSelecionada.IdadeMaxima + 1);
             }
         }
 
@@ -462,7 +461,7 @@ namespace Ebd.Mobile.ViewModels.Aluno
             {
                 MainThread.BeginInvokeOnMainThread(() =>
                 {
-                    DataNascimento = DateTime.Now.AddYears(-TurmaSelecionada.IdadeMaxima);
+
                 });
             }
         }
