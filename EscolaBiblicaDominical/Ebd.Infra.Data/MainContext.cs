@@ -1,7 +1,9 @@
 ﻿using Ebd.Domain.Core.Entities;
 using Ebd.Infra.Data.Context.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
@@ -42,12 +44,83 @@ namespace Ebd.Infra.Data
         protected override void OnConfiguring(DbContextOptionsBuilder builder)
         {
             //ConfigurePostgresConnection(builder)
-            ConfigureMySqlConnection(builder)
+            //ConfigureMySqlConnection(builder)
+            ConfigureSqlServerConnection(builder)
                 .EnableSensitiveDataLogging(true)
                 .UseLoggerFactory(new LoggerFactory());
             //builder.UseLazyLoadingProxies(false);
 
             base.OnConfiguring(builder);
+        }
+
+        protected override void ConfigureConventions(ModelConfigurationBuilder builder)
+        {
+            builder.Properties<DateOnly>()
+                .HaveConversion<DateOnlyConverter>()
+                .HaveColumnType("date");
+
+            builder.Properties<DateOnly?>()
+                .HaveConversion<NullableDateOnlyConverter>()
+                .HaveColumnType("date");
+
+            builder.Properties<TimeOnly>()
+                .HaveConversion<TimeOnlyConverter>()
+                .HaveColumnType("time");
+
+            builder.Properties<TimeOnly>()
+                .HaveConversion<TimeOnlyConverter>()
+                .HaveColumnType("time");
+
+            base.ConfigureConventions(builder);
+        }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.ApplyConfigurationsFromAssembly(System.Reflection.Assembly.GetExecutingAssembly());
+
+            base.OnModelCreating(builder);
+        }
+
+        private DbContextOptionsBuilder ConfigureSqlServerConnection(DbContextOptionsBuilder builder)
+        {
+            builder.UseSqlServer(appConfiguration.GetConnectionString("SqlServer"), options =>
+            {
+                if (Configuration.RetryOnFailure.Enable)
+                {
+                    options.EnableRetryOnFailure(
+                        maxRetryCount: Configuration.RetryOnFailure.RetryCount,
+                        maxRetryDelay: TimeSpan.FromSeconds(Configuration.RetryOnFailure.MaxTimeOutInSeconds),
+                        errorNumbersToAdd: null);
+                }
+            });
+
+            return builder;
+        }
+        private DbContextOptionsBuilder ConfigureMySqlConnection(DbContextOptionsBuilder builder)
+        {
+            const int tableDoesNotExist = 1146;
+            const int tooManyConnections = 1040;
+            const int accessDenied = 1145;
+            const int syntaxError = 1064;
+            const int mySqlServerConnectionClosed = 2006;
+            const int outOfMemory = 2008;
+            const int lostConnectionDuringQuery = 2013;
+
+            var connectionString = appConfiguration.GetConnectionString("MySql");
+            var serverVersion = new MySqlServerVersion(Configuration.MySql.Version);
+            Debug.WriteLine(connectionString);
+            builder.UseMySql(connectionString, serverVersion, options =>
+            {
+                if (Configuration.RetryOnFailure.Enable)
+                {
+                    options.EnableRetryOnFailure(
+                        maxRetryCount: Configuration.RetryOnFailure.RetryCount,
+                        maxRetryDelay: TimeSpan.FromSeconds(Configuration.RetryOnFailure.MaxTimeOutInSeconds),
+                        errorNumbersToAdd: new int[7] { tableDoesNotExist, tooManyConnections, accessDenied, syntaxError, mySqlServerConnectionClosed, outOfMemory, lostConnectionDuringQuery });
+                }
+            });
+
+            return builder;
         }
 
         private DbContextOptionsBuilder ConfigurePostgresConnection(DbContextOptionsBuilder builder)
@@ -63,7 +136,10 @@ namespace Ebd.Infra.Data
             var connection3 = appConfiguration.GetConnectionString("POSTGRESQLCONNSTR_DefaultConnection");
             Debug.WriteLine("POSTGRESQLCONNSTR_DefaultConnection");
             Debug.WriteLine(connection3);
-            var connection = connection1 ?? connection2 ?? connection3 ?? Environment.GetEnvironmentVariable("POSTGRESQLCONNSTR_DefaultConnection") ?? Environment.GetEnvironmentVariable("CUSTOMCONNSTR_DefaultConnection");
+            var connection = connection1 ?? connection2 ?? connection3
+                ?? Environment.GetEnvironmentVariable("POSTGRESQLCONNSTR_DefaultConnection")
+                ?? Environment.GetEnvironmentVariable("CUSTOMCONNSTR_DefaultConnection")
+                ?? Environment.GetEnvironmentVariable("AZURE_POSTGRESQL_CONNECTIONSTRING");
 
             if (connection is null)
                 throw new ArgumentNullException("Conexão nula");
@@ -81,21 +157,55 @@ namespace Ebd.Infra.Data
 
             return builder;
         }
+    }
 
-        private DbContextOptionsBuilder ConfigureMySqlConnection(DbContextOptionsBuilder builder)
+    /// <summary>
+    /// Converts <see cref="DateOnly" /> to <see cref="DateTime"/> and vice versa.
+    /// </summary>
+    public class DateOnlyConverter : ValueConverter<DateOnly, DateTime>
+    {
+        /// <summary>
+        /// Creates a new instance of this converter.
+        /// </summary>
+        public DateOnlyConverter() : base(
+                d => d.ToDateTime(TimeOnly.MinValue),
+                d => DateOnly.FromDateTime(d))
+        { }
+    }
+
+    public class TimeOnlyConverter : ValueConverter<TimeOnly, TimeSpan>
+    {
+        public TimeOnlyConverter() : base(
+                timeOnly => timeOnly.ToTimeSpan(),
+                timeSpan => TimeOnly.FromTimeSpan(timeSpan))
         {
-            var aconn = appConfiguration.GetConnectionString("MySql");
-            var serverVersion = new MySqlServerVersion(Configuration.MySql.Version);
-            builder.UseMySql(appConfiguration.GetConnectionString("DefaultConnection"), serverVersion);
-
-            return builder;
         }
+    }
 
-        protected override void OnModelCreating(ModelBuilder builder)
+    public class TimeOnlyComparer : ValueComparer<TimeOnly>
+    {
+        public TimeOnlyComparer() : base(
+            (t1, t2) => t1.Ticks == t2.Ticks,
+            t => t.GetHashCode())
         {
-            builder.ApplyConfigurationsFromAssembly(System.Reflection.Assembly.GetExecutingAssembly());
-
-            base.OnModelCreating(builder);
         }
+    }
+
+    /// <summary>
+    /// Converts <see cref="DateOnly?" /> to <see cref="DateTime?"/> and vice versa.
+    /// </summary>
+    public class NullableDateOnlyConverter : ValueConverter<DateOnly?, DateTime?>
+    {
+        /// <summary>
+        /// Creates a new instance of this converter.
+        /// </summary>
+        public NullableDateOnlyConverter() : base(
+            d => d == null
+                ? null
+                : new DateTime?(d.Value.ToDateTime(TimeOnly.MinValue)),
+            d => d == null
+                ? null
+                : new DateOnly?(DateOnly.FromDateTime(d.Value)))
+        { }
     }
 }

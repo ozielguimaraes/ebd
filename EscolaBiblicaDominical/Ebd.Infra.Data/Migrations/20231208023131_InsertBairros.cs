@@ -754,5 +754,6 @@ namespace Ebd.Infra.Data.Migrations
                 keyColumn: "TurmaId",
                 keyValue: 3);
         }
+
     }
 }

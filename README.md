@@ -21,7 +21,7 @@ Ebd é um projeto que pode ser utilizado nas Igrejas para ter um controle da par
 
 Ebd utiliza alguns projetos open source:
 
-- [.NET5] - .NET 5
+- [.NET7] - .NET 7
 - [EFCore5] - Entity Framework Core 5
 
 
@@ -46,8 +46,8 @@ Como disse, toda ajuda é bem vinda, pode [enviar uma contribuição][BuyBook] t
 [//]: # (Referências utilizadas)
 
    [Tailwind CSS]: <https://github.com/tailwindlabs/tailwindcss>
-   [SDKNet5]: <https://dotnet.microsoft.com/download/dotnet/5.0>
-   [.NET5]: <https://docs.microsoft.com/en-us/dotnet/core/dotnet-five>
+   [SDKNet5]: <https://dotnet.microsoft.com/download/dotnet/7.0>
+   [.NET7]: <https://docs.microsoft.com/en-us/dotnet/core/dotnet-7>
    [EFCore5]: <https://docs.microsoft.com/en-us/ef/core/what-is-new/ef-core-5.0/whatsnew>
    [BuyBook]: <https://www.buymeacoffee.com/ozielguimaraes>
 

@@ -1,13 +1,12 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
 namespace Ebd.Infra.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,10 +15,10 @@ namespace Ebd.Infra.Data.Migrations
                 name: "Avaliacao",
                 columns: table => new
                 {
-                    AvaliacaoId = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Nota = table.Column<int>(type: "integer", nullable: false),
-                    Nome = table.Column<string>(type: "character varying(35)", maxLength: 35, nullable: false)
+                    AvaliacaoId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nota = table.Column<int>(type: "int", nullable: false),
+                    Nome = table.Column<string>(type: "nvarchar(35)", maxLength: 35, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -30,9 +29,9 @@ namespace Ebd.Infra.Data.Migrations
                 name: "Bairro",
                 columns: table => new
                 {
-                    BairroId = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Nome = table.Column<string>(type: "character varying(35)", maxLength: 35, nullable: false)
+                    BairroId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nome = table.Column<string>(type: "nvarchar(35)", maxLength: 35, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -43,11 +42,11 @@ namespace Ebd.Infra.Data.Migrations
                 name: "Pessoa",
                 columns: table => new
                 {
-                    PessoaId = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Nome = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    WhatsappIgualCelular = table.Column<bool>(type: "boolean", nullable: false),
-                    NascidoEm = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    PessoaId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nome = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    WhatsappIgualCelular = table.Column<bool>(type: "bit", nullable: false),
+                    NascidoEm = table.Column<DateTime>(type: "date", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -58,11 +57,11 @@ namespace Ebd.Infra.Data.Migrations
                 name: "Turma",
                 columns: table => new
                 {
-                    TurmaId = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Nome = table.Column<string>(type: "character varying(60)", maxLength: 60, nullable: false),
-                    IdadeMinima = table.Column<int>(type: "integer", nullable: false),
-                    IdadeMaxima = table.Column<int>(type: "integer", nullable: false)
+                    TurmaId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nome = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false),
+                    IdadeMinima = table.Column<int>(type: "int", nullable: false),
+                    IdadeMaxima = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -73,12 +72,12 @@ namespace Ebd.Infra.Data.Migrations
                 name: "Contato",
                 columns: table => new
                 {
-                    ContatoId = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Valor = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    Tipo = table.Column<int>(type: "integer", nullable: false),
-                    Classificacao = table.Column<int>(type: "integer", nullable: false),
-                    PessoaId = table.Column<int>(type: "integer", nullable: false)
+                    ContatoId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Valor = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Tipo = table.Column<int>(type: "int", nullable: false),
+                    Classificacao = table.Column<int>(type: "int", nullable: false),
+                    PessoaId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -95,14 +94,14 @@ namespace Ebd.Infra.Data.Migrations
                 name: "Endereco",
                 columns: table => new
                 {
-                    EnderecoId = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Classificacao = table.Column<int>(type: "integer", nullable: false),
-                    Logradouro = table.Column<string>(type: "character varying(60)", maxLength: 60, nullable: false),
-                    Numero = table.Column<string>(type: "character varying(6)", maxLength: 6, nullable: false),
-                    Cep = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false),
-                    PessoaId = table.Column<int>(type: "integer", nullable: false),
-                    BairroId = table.Column<int>(type: "integer", nullable: false)
+                    EnderecoId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Classificacao = table.Column<int>(type: "int", nullable: false),
+                    Logradouro = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false),
+                    Numero = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: false),
+                    Cep = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    PessoaId = table.Column<int>(type: "int", nullable: false),
+                    BairroId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -125,10 +124,10 @@ namespace Ebd.Infra.Data.Migrations
                 name: "Aluno",
                 columns: table => new
                 {
-                    AlunoId = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    PessoaId = table.Column<int>(type: "integer", nullable: false),
-                    TurmaId = table.Column<int>(type: "integer", nullable: false)
+                    AlunoId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PessoaId = table.Column<int>(type: "int", nullable: false),
+                    TurmaId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -151,10 +150,10 @@ namespace Ebd.Infra.Data.Migrations
                 name: "Professor",
                 columns: table => new
                 {
-                    ProfessorId = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    PessoaId = table.Column<int>(type: "integer", nullable: false),
-                    TurmaId = table.Column<int>(type: "integer", nullable: false)
+                    ProfessorId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PessoaId = table.Column<int>(type: "int", nullable: false),
+                    TurmaId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -177,13 +176,13 @@ namespace Ebd.Infra.Data.Migrations
                 name: "Revista",
                 columns: table => new
                 {
-                    RevistaId = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Sumario = table.Column<string>(type: "character varying(60)", maxLength: 60, nullable: false),
-                    RemoverDepois = table.Column<string>(type: "text", nullable: true),
-                    Ano = table.Column<int>(type: "integer", nullable: false),
-                    Trimestre = table.Column<int>(type: "integer", nullable: false),
-                    TurmaId = table.Column<int>(type: "integer", nullable: false)
+                    RevistaId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Sumario = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false),
+                    RemoverDepois = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Ano = table.Column<int>(type: "int", nullable: false),
+                    Trimestre = table.Column<int>(type: "int", nullable: false),
+                    TurmaId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -200,12 +199,12 @@ namespace Ebd.Infra.Data.Migrations
                 name: "ResponsavelAluno",
                 columns: table => new
                 {
-                    ResponsavelAlunoId = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    TipoResponsavel = table.Column<int>(type: "integer", nullable: false),
-                    ResponsavelId = table.Column<int>(type: "integer", nullable: false),
-                    ResponsavelPessoaId = table.Column<int>(type: "integer", nullable: false),
-                    AlunoId = table.Column<int>(type: "integer", nullable: false)
+                    ResponsavelAlunoId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TipoResponsavel = table.Column<int>(type: "int", nullable: false),
+                    ResponsavelId = table.Column<int>(type: "int", nullable: false),
+                    ResponsavelPessoaId = table.Column<int>(type: "int", nullable: false),
+                    AlunoId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -228,10 +227,10 @@ namespace Ebd.Infra.Data.Migrations
                 name: "Licao",
                 columns: table => new
                 {
-                    LicaoId = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Titulo = table.Column<string>(type: "character varying(60)", maxLength: 60, nullable: false),
-                    RevistaId = table.Column<int>(type: "integer", nullable: false)
+                    LicaoId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Titulo = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false),
+                    RevistaId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -247,11 +246,11 @@ namespace Ebd.Infra.Data.Migrations
                 name: "AvaliacaoAluno",
                 columns: table => new
                 {
-                    AvaliacaoAlunoId = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    AvaliacaoId = table.Column<int>(type: "integer", nullable: false),
-                    AlunoId = table.Column<int>(type: "integer", nullable: false),
-                    LicaoId = table.Column<int>(type: "integer", nullable: false)
+                    AvaliacaoAlunoId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AvaliacaoId = table.Column<int>(type: "int", nullable: false),
+                    AlunoId = table.Column<int>(type: "int", nullable: false),
+                    LicaoId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -277,12 +276,12 @@ namespace Ebd.Infra.Data.Migrations
                 name: "Chamada",
                 columns: table => new
                 {
-                    ChamadaId = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    EstavaPresente = table.Column<bool>(type: "boolean", nullable: false),
-                    Data = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    AlunoId = table.Column<int>(type: "integer", nullable: false),
-                    LicaoId = table.Column<int>(type: "integer", nullable: false)
+                    ChamadaId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    EstavaPresente = table.Column<bool>(type: "bit", nullable: false),
+                    Data = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    AlunoId = table.Column<int>(type: "int", nullable: false),
+                    LicaoId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

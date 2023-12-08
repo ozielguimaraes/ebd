@@ -1,6 +1,7 @@
 ﻿using Android.App;
 using Android.OS;
 using Android.Runtime;
+using Ebd.Mobile.Services.Implementations.Logger;
 using Plugin.FirebasePushNotification;
 using System;
 

@@ -3,8 +3,8 @@ using System;
 using Ebd.Infra.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
@@ -18,23 +18,23 @@ namespace Ebd.Infra.Data.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "7.0.13")
-                .HasAnnotation("Relational:MaxIdentifierLength", 63);
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("Ebd.Domain.Core.Entities.Aluno", b =>
                 {
                     b.Property<int>("AlunoId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("AlunoId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AlunoId"));
 
                     b.Property<int>("PessoaId")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<int>("TurmaId")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.HasKey("AlunoId");
 
@@ -49,17 +49,17 @@ namespace Ebd.Infra.Data.Migrations
                 {
                     b.Property<int>("AvaliacaoId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("AvaliacaoId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AvaliacaoId"));
 
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasMaxLength(35)
-                        .HasColumnType("character varying(35)");
+                        .HasColumnType("nvarchar(35)");
 
                     b.Property<int>("Nota")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.HasKey("AvaliacaoId");
 
@@ -70,18 +70,18 @@ namespace Ebd.Infra.Data.Migrations
                 {
                     b.Property<int>("AvaliacaoAlunoId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("AvaliacaoAlunoId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AvaliacaoAlunoId"));
 
                     b.Property<int>("AlunoId")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<int>("AvaliacaoId")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<int>("LicaoId")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.HasKey("AvaliacaoAlunoId");
 
@@ -98,14 +98,14 @@ namespace Ebd.Infra.Data.Migrations
                 {
                     b.Property<int>("BairroId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("BairroId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BairroId"));
 
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasMaxLength(35)
-                        .HasColumnType("character varying(35)");
+                        .HasColumnType("nvarchar(35)");
 
                     b.HasKey("BairroId");
 
@@ -118,21 +118,21 @@ namespace Ebd.Infra.Data.Migrations
                 {
                     b.Property<int>("ChamadaId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ChamadaId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ChamadaId"));
 
                     b.Property<int>("AlunoId")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("Data")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("EstavaPresente")
-                        .HasColumnType("boolean");
+                        .HasColumnType("bit");
 
                     b.Property<int>("LicaoId")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.HasKey("ChamadaId");
 
@@ -147,23 +147,23 @@ namespace Ebd.Infra.Data.Migrations
                 {
                     b.Property<int>("ContatoId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ContatoId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ContatoId"));
 
                     b.Property<int>("Classificacao")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<int>("PessoaId")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<int>("Tipo")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<string>("Valor")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("ContatoId");
 
@@ -176,33 +176,33 @@ namespace Ebd.Infra.Data.Migrations
                 {
                     b.Property<int>("EnderecoId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("EnderecoId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EnderecoId"));
 
                     b.Property<int>("BairroId")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<string>("Cep")
                         .IsRequired()
                         .HasMaxLength(10)
-                        .HasColumnType("character varying(10)");
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<int>("Classificacao")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<string>("Logradouro")
                         .IsRequired()
                         .HasMaxLength(60)
-                        .HasColumnType("character varying(60)");
+                        .HasColumnType("nvarchar(60)");
 
                     b.Property<string>("Numero")
                         .IsRequired()
                         .HasMaxLength(6)
-                        .HasColumnType("character varying(6)");
+                        .HasColumnType("nvarchar(6)");
 
                     b.Property<int>("PessoaId")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.HasKey("EnderecoId");
 
@@ -217,17 +217,17 @@ namespace Ebd.Infra.Data.Migrations
                 {
                     b.Property<int>("LicaoId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("LicaoId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LicaoId"));
 
                     b.Property<int>("RevistaId")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<string>("Titulo")
                         .IsRequired()
                         .HasMaxLength(60)
-                        .HasColumnType("character varying(60)");
+                        .HasColumnType("nvarchar(60)");
 
                     b.HasKey("LicaoId");
 
@@ -240,20 +240,20 @@ namespace Ebd.Infra.Data.Migrations
                 {
                     b.Property<int>("PessoaId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("PessoaId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PessoaId"));
 
-                    b.Property<DateOnly>("NascidoEm")
+                    b.Property<DateTime>("NascidoEm")
                         .HasColumnType("date");
 
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<bool>("WhatsappIgualCelular")
-                        .HasColumnType("boolean");
+                        .HasColumnType("bit");
 
                     b.HasKey("PessoaId");
 
@@ -266,15 +266,15 @@ namespace Ebd.Infra.Data.Migrations
                 {
                     b.Property<int>("ProfessorId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ProfessorId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProfessorId"));
 
                     b.Property<int>("PessoaId")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<int>("TurmaId")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.HasKey("ProfessorId");
 
@@ -289,21 +289,21 @@ namespace Ebd.Infra.Data.Migrations
                 {
                     b.Property<int>("ResponsavelAlunoId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ResponsavelAlunoId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ResponsavelAlunoId"));
 
                     b.Property<int>("AlunoId")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<int>("ResponsavelId")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<int>("ResponsavelPessoaId")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<int>("TipoResponsavel")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.HasKey("ResponsavelAlunoId");
 
@@ -318,26 +318,26 @@ namespace Ebd.Infra.Data.Migrations
                 {
                     b.Property<int>("RevistaId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("RevistaId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RevistaId"));
 
                     b.Property<int>("Ano")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<string>("RemoverDepois")
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Sumario")
                         .IsRequired()
                         .HasMaxLength(60)
-                        .HasColumnType("character varying(60)");
+                        .HasColumnType("nvarchar(60)");
 
                     b.Property<int>("Trimestre")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<int>("TurmaId")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.HasKey("RevistaId");
 
@@ -352,20 +352,20 @@ namespace Ebd.Infra.Data.Migrations
                 {
                     b.Property<int>("TurmaId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("TurmaId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TurmaId"));
 
                     b.Property<int>("IdadeMaxima")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<int>("IdadeMinima")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasMaxLength(60)
-                        .HasColumnType("character varying(60)");
+                        .HasColumnType("nvarchar(60)");
 
                     b.HasKey("TurmaId");
 
