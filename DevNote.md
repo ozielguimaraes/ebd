@@ -9,3 +9,6 @@ Sistema e aplicativo para gestão de alunos
 
 ## Atualizar EF Tools
 `dotnet tool update --global dotnet-ef`
+
+## Confiar no certiciado localhost
+`dotnet dev-certs https --trust`

@@ -24,6 +24,7 @@
             <Color x:Key="StatusbarColor">#123456</Color>
             <Color x:Key="NavBarColor">#1976D2</Color>
             <Color x:Key="NavigationBarTextColor">#5D5D5D</Color>
+            <Color x:Key="RequiredStarColor">#F5F5F5</Color>
 
             <Color x:Key="NormalButtonBackgroundColor">#1976D2</Color>
             <Color x:Key="NormalButtonTextColor">#FFFFFF</Color>

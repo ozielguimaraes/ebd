@@ -15,7 +15,7 @@
                     <FormattedString>
                         <Span Text="Turma" />
                         <Span Text=" " />
-                        <Span Text="*" TextColor="Red" />
+                        <Span Text="*" TextColor="{StaticResource RequiredStarColor}" />
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
@@ -31,17 +31,21 @@
                     <FormattedString>
                         <Span Text="Nome" />
                         <Span Text=" " />
-                        <Span Text="*" TextColor="Red" />
+                        <Span Text="*" TextColor="{StaticResource RequiredStarColor}" />
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
             <Entry
+                x:Name="nomeCompleto"
                 MaxLength="40"
                 Placeholder="Informe o nome completo"
                 ReturnType="Next"
                 Text="{Binding Nome}">
                 <Entry.Behaviors>
                     <xct:MultiValidationBehavior InvalidStyle="{StaticResource InvalidEntryStyle}">
+                        <xct:RequiredStringValidationBehavior InvalidStyle="{StaticResource InvalidEntryStyle}"
+                                                          Flags="ValidateOnValueChanging"
+                                                          RequiredString="{Binding Source={x:Reference nomeCompleto},Path=Text}" />
                         <xct:TextValidationBehavior MaximumLength="40" MinimumLength="12" />
                         <xct:CharactersValidationBehavior CharacterType="Letter" Flags="ValidateOnValueChanging" />
                     </xct:MultiValidationBehavior>
@@ -53,7 +57,7 @@
                     <FormattedString>
                         <Span Text="Data de nascimento" />
                         <Span Text=" " />
-                        <Span Text="*" TextColor="Red" />
+                        <Span Text="*" TextColor="{StaticResource RequiredStarColor}" />
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
@@ -70,7 +74,7 @@
                     <FormattedString>
                         <Span Text="Celular" />
                         <Span Text=" " />
-                        <Span Text="*" TextColor="Red" />
+                        <Span Text="*" TextColor="{StaticResource RequiredStarColor}" />
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
@@ -97,7 +101,7 @@
                     <FormattedString>
                         <Span Text="Email" />
                         <Span Text=" " />
-                        <Span Text="*" TextColor="Red" />
+                        <Span Text="*" TextColor="{StaticResource RequiredStarColor}" />
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
@@ -128,7 +132,7 @@
                     <FormattedString>
                         <Span Text="Nome da mãe" />
                         <Span Text=" " />
-                        <Span Text="*" TextColor="Red" />
+                        <Span Text="*" TextColor="{StaticResource RequiredStarColor}" />
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
@@ -152,7 +156,7 @@
                     <FormattedString>
                         <Span Text="Celular da mãe" />
                         <Span Text=" " />
-                        <Span Text="*" TextColor="Red" />
+                        <Span Text="*" TextColor="{StaticResource RequiredStarColor}" />
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
@@ -262,7 +266,7 @@
                     <FormattedString>
                         <Span Text="Rua/avenida" />
                         <Span Text=" " />
-                        <Span Text="*" TextColor="Red" />
+                        <Span Text="*" TextColor="{StaticResource RequiredStarColor}" />
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
@@ -284,7 +288,7 @@
                     <FormattedString>
                         <Span Text="Número" />
                         <Span Text=" " />
-                        <Span Text="*" TextColor="Red" />
+                        <Span Text="*" TextColor="{StaticResource RequiredStarColor}" />
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
@@ -306,7 +310,7 @@
                     <FormattedString>
                         <Span Text="Bairro" />
                         <Span Text=" " />
-                        <Span Text="*" TextColor="Red" />
+                        <Span Text="*" TextColor="{StaticResource RequiredStarColor}" />
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
