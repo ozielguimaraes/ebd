@@ -63,7 +63,7 @@
                     FontAttributes="Bold" 
                     BackgroundColor="{StaticResource PrimaryColor}" 
                     CornerRadius="35"
-                    TextColor="{StaticResource SecondaryColor}"
+                    TextColor="{StaticResource PrimaryTextColor}"
                     HorizontalOptions="End" 
                     WidthRequest="110"
                     HeightRequest="60"

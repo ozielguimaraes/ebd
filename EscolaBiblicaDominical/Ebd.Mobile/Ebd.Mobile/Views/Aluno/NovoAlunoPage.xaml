@@ -5,6 +5,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:vm="clr-namespace:Ebd.Mobile.ViewModels.Aluno"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:pancake="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+    xmlns:icons="clr-namespace:Ebd.Mobile.Constants.Icons"
     Title="{Binding Title}"
     BackgroundColor="{StaticResource AppBackgroundColor}"
     x:DataType="vm:NovoAlunoViewModel">
@@ -118,119 +120,6 @@
                 </Entry.Behaviors>
             </Entry>
 
-            <BoxView
-                Margin="0,10,0,0"
-                HeightRequest="1"
-                Color="Black" />
-            <Label
-                FontAttributes="Bold"
-                FontSize="Subtitle"
-                Text="Responsáveis" />
-
-            <Label Margin="0,10,0,0">
-                <Label.FormattedText>
-                    <FormattedString>
-                        <Span Text="Nome da mãe" />
-                        <Span Text=" " />
-                        <Span Text="*" TextColor="{StaticResource RequiredStarColor}" />
-                    </FormattedString>
-                </Label.FormattedText>
-            </Label>
-            <Entry
-                MaxLength="40"
-                ReturnType="Next"
-                Text="{Binding NomeMae}">
-                <Entry.Behaviors>
-                    <xct:MultiValidationBehavior InvalidStyle="{StaticResource InvalidEntryStyle}">
-                        <xct:TextValidationBehavior
-                            Flags="ValidateOnValueChanging"
-                            MaximumLength="40"
-                            MinimumLength="12" />
-                        <xct:CharactersValidationBehavior CharacterType="Letter" Flags="ValidateOnValueChanging" />
-                    </xct:MultiValidationBehavior>
-                </Entry.Behaviors>
-            </Entry>
-
-            <Label Margin="0,10,0,0">
-                <Label.FormattedText>
-                    <FormattedString>
-                        <Span Text="Celular da mãe" />
-                        <Span Text=" " />
-                        <Span Text="*" TextColor="{StaticResource RequiredStarColor}" />
-                    </FormattedString>
-                </Label.FormattedText>
-            </Label>
-            <Entry
-                Keyboard="Telephone"
-                MaxLength="15"
-                Placeholder="(34) 99691-9292"
-                ReturnType="Next"
-                Text="{Binding CelularMae}">
-                <Entry.Behaviors>
-                    <xct:MaskedBehavior Mask="(XX) XXXXX-XXXX" />
-                    <xct:MultiValidationBehavior InvalidStyle="{StaticResource InvalidEntryStyle}">
-                        <xct:TextValidationBehavior
-                            Flags="ValidateOnValueChanging"
-                            MaximumLength="15"
-                            MinimumLength="15" />
-                        <xct:CharactersValidationBehavior CharacterType="Digit" />
-                        <xct:TextValidationBehavior MinimumLength="15" MaximumLength="15" Flags="ValidateOnValueChanging" />
-                        <xct:CharactersValidationBehavior RegexPattern="^\(\d{2}\) \d{5}-\d{4}$" />
-                    </xct:MultiValidationBehavior>
-                </Entry.Behaviors>
-            </Entry>
-
-            <Label Margin="0,10,0,0">
-                <Label.FormattedText>
-                    <FormattedString>
-                        <Span Text="Nome do pai" />
-                    </FormattedString>
-                </Label.FormattedText>
-            </Label>
-            <Entry
-                MaxLength="40"
-                ReturnType="Next"
-                Text="{Binding NomePai}">
-                <Entry.Behaviors>
-                    <xct:MultiValidationBehavior InvalidStyle="{StaticResource InvalidEntryStyle}">
-                        <xct:TextValidationBehavior
-                            Flags="ValidateOnValueChanging"
-                            MaximumLength="40"
-                            MinimumLength="12" />
-                        <xct:CharactersValidationBehavior CharacterType="Letter" Flags="ValidateOnValueChanging" />
-                    </xct:MultiValidationBehavior>
-                </Entry.Behaviors>
-            </Entry>
-
-            <Label Margin="0,10,0,0">
-                <Label.FormattedText>
-                    <FormattedString>
-                        <Span Text="Celular do pai" />
-                    </FormattedString>
-                </Label.FormattedText>
-            </Label>
-            <Entry
-                Keyboard="Telephone"
-                MaxLength="15"
-                Placeholder="(34) 99691-9292"
-                ReturnType="Next"
-                Text="{Binding CelularPai}">
-                <Entry.Behaviors>
-                    <xct:MaskedBehavior Mask="(XX) XXXXX-XXXX" />
-                    <xct:MultiValidationBehavior InvalidStyle="{StaticResource InvalidEntryStyle}">
-                        <xct:TextValidationBehavior
-                            Flags="ValidateOnValueChanging"
-                            MaximumLength="15"
-                            MinimumLength="14" />
-                        <xct:CharactersValidationBehavior CharacterType="Digit" />
-                    </xct:MultiValidationBehavior>
-                </Entry.Behaviors>
-            </Entry>
-
-            <BoxView
-                Margin="0,10,0,0"
-                HeightRequest="1"
-                Color="Black" />
             <Label
                 FontAttributes="Bold"
                 FontSize="Subtitle"
@@ -345,8 +234,52 @@
                 </Entry.Behaviors>
             </Entry>
 
+            <FlexLayout
+                        Margin="0,32,0,0"
+                        AlignItems="Center"
+                        JustifyContent="SpaceBetween">
+                <Label
+                    FontSize="16"
+                    FontAttributes="Bold"
+                    HorizontalOptions="Start"
+                    Text="Responsáveis"
+                    TextColor="Black"
+                    VerticalOptions="Center" />
+                <pancake:PancakeView
+                            BackgroundColor="{StaticResource SecondaryColor}"
+                            CornerRadius="16"
+                            HeightRequest="32"
+                            HorizontalOptions="CenterAndExpand"
+                            VerticalOptions="CenterAndExpand"
+                            WidthRequest="32">
+                    <pancake:PancakeView.Shadow>
+                        <pancake:DropShadow Offset="0,0" Color="#f4f4f4">
+                            <pancake:DropShadow.BlurRadius>
+                                <OnPlatform x:TypeArguments="x:Single">
+                                    <On Platform="Android" Value="1" />
+                                    <On Platform="iOS" Value="2" />
+                                </OnPlatform>
+                            </pancake:DropShadow.BlurRadius>
+                            <pancake:DropShadow.Opacity>
+                                <OnPlatform x:TypeArguments="x:Single">
+                                    <On Platform="Android" Value="1" />
+                                    <On Platform="iOS" Value="0.2" />
+                                </OnPlatform>
+                            </pancake:DropShadow.Opacity>
+                        </pancake:DropShadow>
+                    </pancake:PancakeView.Shadow>
+                    <pancake:PancakeView.GestureRecognizers>
+                        <TapGestureRecognizer
+                                    Command="{Binding AdicionarResponsavelCommand}"
+                            NumberOfTapsRequired="1" />
+                    </pancake:PancakeView.GestureRecognizers>
+                    <!--<Label FontFamily="{StaticResource FontAwesomeSolid}"
+                           Text="{x:Static icons:FontAwesome.Solid.Exclamation}"/>-->
+                    <Label Text="+" />
+                </pancake:PancakeView>
+            </FlexLayout>
             <Button
-                Margin="16,0,16,10"
+                Margin="16,24,16,10"
                 CornerRadius="16"
                 Command="{Binding SalvarCommand}"
                 Style="{StaticResource ButtonIsDisabled}"

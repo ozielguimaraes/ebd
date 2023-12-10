@@ -1,4 +1,5 @@
 ﻿using Ebd.CrossCutting.Enumerators;
+using Ebd.Mobile.Constants;
 using Ebd.Mobile.Extensions;
 using Ebd.Mobile.Services.Interfaces;
 using Ebd.Mobile.Services.Requests.Aluno;
@@ -11,6 +12,7 @@ using MvvmHelpers;
 using MvvmHelpers.Commands;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text.Json;
@@ -36,6 +38,7 @@ namespace Ebd.Mobile.ViewModels.Aluno
             _alunoService = alunoService;
             _bairroService = bairroService;
             _cepService = cepService;
+            Responsaveis = new ObservableCollection<PessoaResponsavelRequest>();
         }
 
         private string turma;
@@ -77,6 +80,14 @@ namespace Ebd.Mobile.ViewModels.Aluno
                 => _cepCompletedCommand
                 ??= new AsyncCommand(
                     execute: CepCompletedCommandExecute,
+                    onException: CommandOnException);
+
+        private ICommand _adicionarResponsavelCommand;
+        public ICommand AdicionarResponsavelCommand
+                => _adicionarResponsavelCommand
+                ??= new AsyncCommand(
+                    execute: AdicionarResponsavelCommandExecute,
+                    canExecute: PermitirAdicionarResponsavel,
                     onException: CommandOnException);
 
         private int? alunoId;
@@ -147,6 +158,8 @@ namespace Ebd.Mobile.ViewModels.Aluno
                 CheckFormIsValid();
             }
         }
+
+        public ObservableCollection<PessoaResponsavelRequest> Responsaveis { get; set; }
 
         private string nomeMae;
         public string NomeMae
@@ -356,7 +369,7 @@ namespace Ebd.Mobile.ViewModels.Aluno
 
         private void SetTurmaSelecionada(string content)
         {
-            if (string.IsNullOrEmpty(content).Not())
+            if (string.IsNullOrWhiteSpace(content).Not())
             {
                 TurmaSelecionada = JsonSerializer.Deserialize<TurmaResponse>(content);
             }
@@ -381,7 +394,21 @@ namespace Ebd.Mobile.ViewModels.Aluno
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex);
+                ex.LogFullException(nameof(CepCompletedCommandExecute));
+            }
+        }
+
+        private bool PermitirAdicionarResponsavel(object args) => IsValid && IsNotBusy;
+
+        private async Task AdicionarResponsavelCommandExecute()
+        {
+            try
+            {
+                await Shell.Current.GoToAsync(PageConstant.Aluno.ResponsavelAluno.Adicionar);
+            }
+            catch (Exception ex)
+            {
+                ex.LogFullException(nameof(AdicionarResponsavelCommandExecute));
             }
         }
 

@@ -13,7 +13,6 @@ namespace Ebd.Mobile
 {
     public static class DependencyInjection
     {
-
         public static IServiceCollection ConfigureServices(this IServiceCollection services)
         {
             //services.AddSingleton<IApiService, ApiService>();
@@ -31,6 +30,7 @@ namespace Ebd.Mobile
             services.AddSingleton<IRevistaService, RevistaService>();
             services.AddSingleton<ISyncService, SyncService>();
             services.AddSingleton<ITurmaService, TurmaService>();
+
             return services;
         }
 
@@ -54,6 +54,7 @@ namespace Ebd.Mobile
             services.AddTransient<EfetuarChamadaViewModel>();
             services.AddTransient<EscolherTurmaViewModel>();
             services.AddTransient<NovoAlunoViewModel>();
+            services.AddTransient<AdicionarResponsavelViewModel>();
 
             return services;
         }

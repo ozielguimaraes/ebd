@@ -19,6 +19,7 @@ namespace Ebd.Mobile
             Routing.RegisterRoute(nameof(EfetuarChamadaPage), typeof(EfetuarChamadaPage));
             Routing.RegisterRoute(nameof(EscolherTurmaPage), typeof(EscolherTurmaPage));
             Routing.RegisterRoute(PageConstant.Aluno.Novo, typeof(NovoAlunoPage));
+            Routing.RegisterRoute(PageConstant.Aluno.ResponsavelAluno.Adicionar, typeof(AdicionarResponsavelPage));
         }
 
         private async void OnMenuItemClicked(object sender, EventArgs e)

@@ -14,21 +14,20 @@
     <Application.Resources>
         <ResourceDictionary>
             <!--  Values  -->
+            <x:String x:Key="FontAwesomeSolid">Awesome-Solid</x:String>
             <Thickness x:Key="ContentPadding">20, 0</Thickness>
 
             <!--  Colors  -->
             <Color x:Key="AppBackgroundColor">#F5F5F5</Color>
             <Color x:Key="PrimaryColor">#1976D2</Color>
-            <Color x:Key="SecondaryColor">#F5F5F5</Color>
+            <Color x:Key="PrimaryTextColor">#F5F5F5</Color>
+            <Color x:Key="SecondaryColor">#FF5733</Color>
 
             <Color x:Key="StatusbarColor">#123456</Color>
             <Color x:Key="NavBarColor">#1976D2</Color>
             <Color x:Key="NavigationBarTextColor">#5D5D5D</Color>
             <Color x:Key="RequiredStarColor">#F5F5F5</Color>
 
-            <Color x:Key="NormalButtonBackgroundColor">#1976D2</Color>
-            <Color x:Key="NormalButtonTextColor">#FFFFFF</Color>
-            
             <Style TargetType="Label">
                 <Setter Property="TextColor" Value="Black" />
             </Style>
@@ -55,8 +54,8 @@
             </Style>
             <Style TargetType="Button" ApplyToDerivedTypes="True">
                 <Setter Property="FontSize" Value="Caption" />
-                <Setter Property="BackgroundColor" Value="{StaticResource NormalButtonBackgroundColor}" />
-                <Setter Property="TextColor" Value="{StaticResource NormalButtonTextColor}" />
+                <Setter Property="BackgroundColor" Value="{StaticResource PrimaryColor}" />
+                <Setter Property="TextColor" Value="{StaticResource PrimaryTextColor}" />
                 <Setter Property="CornerRadius" Value="5" />
             </Style>
 

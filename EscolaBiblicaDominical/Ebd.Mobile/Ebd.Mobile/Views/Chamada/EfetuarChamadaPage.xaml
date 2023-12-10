@@ -62,7 +62,7 @@
                 <Button Text="Próximo"
                         Margin="0,32,0,0"
                         Command="{Binding ProximoAlunoCommand}"
-                        TextColor="{StaticResource SecondaryColor}"
+                        TextColor="{StaticResource PrimaryTextColor}"
                         BackgroundColor="{StaticResource PrimaryColor}"></Button>
             </StackLayout>
         </ScrollView>

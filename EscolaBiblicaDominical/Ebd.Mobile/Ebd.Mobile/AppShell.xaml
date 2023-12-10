@@ -68,7 +68,7 @@
     </Shell.Resources>
     <Shell.FlyoutHeader>
         <Grid HeightRequest="70" BackgroundColor="{StaticResource PrimaryColor}">
-            <Label Text="E.B.D" TextColor="{StaticResource SecondaryColor}"
+            <Label Text="E.B.D" TextColor="{StaticResource PrimaryTextColor}"
                    HorizontalOptions="Center"
                    VerticalOptions="Center" />
         </Grid>
