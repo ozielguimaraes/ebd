@@ -6,6 +6,7 @@ using Ebd.Mobile.Services.Requests.Aluno;
 using Ebd.Mobile.Services.Requests.Contato;
 using Ebd.Mobile.Services.Requests.Endereco;
 using Ebd.Mobile.Services.Responses;
+using Ebd.Mobile.Services.Responses.Bairro;
 using Ebd.Mobile.Services.Responses.Cep;
 using Ebd.Mobile.Services.Responses.Turma;
 using MvvmHelpers;
@@ -30,6 +31,8 @@ namespace Ebd.Mobile.ViewModels.Aluno
         private readonly IBairroService _bairroService;
         private readonly ICepService _cepService;
         private readonly ITurmaService _turmaService;
+
+        public const string BottomSheetSelecionarBairro = "BottomSheetSelecionarBairro";
 
         public NovoAlunoViewModel(ITurmaService turmaService, IAlunoService alunoService, IBairroService bairroService, ICepService cepService, IDiagnosticService diagnosticService, IDialogService dialogService, ILoggerService loggerService) : base(diagnosticService, dialogService, loggerService)
         {
@@ -89,6 +92,15 @@ namespace Ebd.Mobile.ViewModels.Aluno
                     execute: AdicionarResponsavelCommandExecute,
                     canExecute: PermitirAdicionarResponsavel,
                     onException: CommandOnException);
+
+        private ICommand bairroSelecionadoCommand;
+        public ICommand BairroSelecionadoCommand
+                => bairroSelecionadoCommand
+                ??= new AsyncCommand(
+                    execute: BairroSelecionadoCommandExecute,
+                    onException: CommandOnException);
+
+        public ObservableCollection<BairroResponse> Bairros { get; set; }
 
         private int? alunoId;
         public int? AlunoId
@@ -238,22 +250,15 @@ namespace Ebd.Mobile.ViewModels.Aluno
             }
         }
 
-        private int bairroId;
-        public int BairroId
-        {
-            get => bairroId;
-            set
-            {
-                SetProperty(ref bairroId, value);
-                CheckFormIsValid();
-            }
-        }
-
-        private string bairro;
-        public string Bairro
+        private BairroResponse bairro;
+        public BairroResponse Bairro
         {
             get => bairro;
-            set => SetProperty(ref bairro, value);
+            set
+            {
+                SetProperty(ref bairro, value);
+                CheckFormIsValid();
+            }
         }
 
         private string complemento;
@@ -271,7 +276,80 @@ namespace Ebd.Mobile.ViewModels.Aluno
         public bool IsValid
         {
             get => isValid;
-            set => SetProperty(ref isValid, value);
+            set
+            {
+                SetProperty(ref isValid, value);
+                SetupAdicionarResponsavelStatus();
+            }
+        }
+
+        private bool adicionarResponsavelEstaHabilitado = false;
+        public bool AdicionarResponsavelEstaHabilitado
+        {
+            get => adicionarResponsavelEstaHabilitado;
+            set => SetProperty(ref adicionarResponsavelEstaHabilitado, value);
+        }
+
+        private void SetupAdicionarResponsavelStatus()
+        {
+            AdicionarResponsavelEstaHabilitado = PermitirAdicionarResponsavel(null);
+        }
+
+        public override async Task Appearing(object args)
+        {
+            if (IsBusy) return;
+
+            try
+            {
+                IsBusy = true;
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    DialogService.ShowLoading("Buscando as turmas...");
+                });
+
+                var response = await _turmaService.ObterTodasAsync();
+
+                if (response.HasError)
+                {
+                    MainThread.BeginInvokeOnMainThread(() =>
+                    {
+                        DialogService.HideLoading();
+                    });
+
+                    IsBusy = false;
+                    await DialogService.DisplayAlert("Oops", response.Exception.Message);
+                    return;
+                }
+
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    Turmas.Clear();
+                    Turmas.AddRange(response.Data);
+                });
+
+                if (Turmas.Count == 1)
+                    TurmaSelecionada = Turmas[0];
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError("Error to load list of classes", ex);
+                DiagnosticService.TrackError(ex);
+
+                MainThread.BeginInvokeOnMainThread(async () =>
+                {
+                    await Shell.Current.GoToAsync("..");
+                    await DialogService.DisplayAlert(ex);
+                });
+            }
+            finally
+            {
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    DialogService.HideLoading();
+                });
+
+                IsBusy = false;
+            }
         }
 
         private async Task SalvarCommandExecute()
@@ -284,7 +362,7 @@ namespace Ebd.Mobile.ViewModels.Aluno
                 CheckFormIsValid();
                 if (IsValid)
                 {
-                    var enderecoAluno = new EnderecoRequest(Logradouro, Numero, cep: Cep, BairroId);
+                    var enderecoAluno = new EnderecoRequest(Logradouro, Numero, cep: Cep, Bairro.BairroId);
 
                     var alunoRequest = new AlterarAlunoRequest
                     {
@@ -360,7 +438,7 @@ namespace Ebd.Mobile.ViewModels.Aluno
                 && DataNascimento is not null
                 && string.IsNullOrWhiteSpace(Logradouro).Not()
                 && string.IsNullOrWhiteSpace(Numero).Not()
-                && string.IsNullOrWhiteSpace(Bairro).Not()
+                && Bairro is not null
                 && string.IsNullOrWhiteSpace(NomeMae).Not()
                 && string.IsNullOrWhiteSpace(CelularMae).Not() && CelularMae.Length == 15
                 && string.IsNullOrWhiteSpace(Celular).Not() && Celular.Length == 15
@@ -412,6 +490,11 @@ namespace Ebd.Mobile.ViewModels.Aluno
             }
         }
 
+        private async Task BairroSelecionadoCommandExecute(BairroResponse bairro)
+        {
+            Bairro = bairro;
+        }
+
         private async Task TentarBuscarInformacaoBairro(BaseResponse<CepResponse> endereco)
         {
             var respostaPesquisaBairro = await _bairroService.PesquisarAsync(endereco.Data.Bairro); //TODO Buscar banco local??
@@ -420,65 +503,8 @@ namespace Ebd.Mobile.ViewModels.Aluno
                 if (respostaPesquisaBairro.Data.FirstOrDefault() is not null)
                 {
                     var bairro = respostaPesquisaBairro.Data.First();
-                    BairroId = bairro.BairroId;
-                    Bairro = bairro.Nome;
+                    Bairro = bairro;
                 }
-            }
-        }
-
-        public override async Task Appearing(object args)
-        {
-            if (IsBusy) return;
-            try
-            {
-                IsBusy = true;
-                MainThread.BeginInvokeOnMainThread(() =>
-                {
-                    DialogService.ShowLoading("Buscando as turmas...");
-                });
-
-                var response = await _turmaService.ObterTodasAsync();
-
-                if (response.HasError)
-                {
-                    MainThread.BeginInvokeOnMainThread(() =>
-                    {
-                        DialogService.HideLoading();
-                    });
-
-                    IsBusy = false;
-                    await DialogService.DisplayAlert("Oops", response.Exception.Message);
-                    return;
-                }
-
-                MainThread.BeginInvokeOnMainThread(() =>
-                {
-                    Turmas.Clear();
-                    Turmas.AddRange(response.Data);
-                });
-
-                if (Turmas.Count == 1)
-                    TurmaSelecionada = Turmas[0];
-            }
-            catch (Exception ex)
-            {
-                Logger.LogError("Error to load list of classes", ex);
-                DiagnosticService.TrackError(ex);
-
-                MainThread.BeginInvokeOnMainThread(async () =>
-                {
-                    await Shell.Current.GoToAsync("..");
-                    await DialogService.DisplayAlert(ex);
-                });
-            }
-            finally
-            {
-                MainThread.BeginInvokeOnMainThread(() =>
-                {
-                    DialogService.HideLoading();
-                });
-
-                IsBusy = false;
             }
         }
 

@@ -104,7 +104,7 @@ namespace Ebd.Mobile.Controls
             }
         }
 
-        public static readonly BindableProperty HeightPercentageProperty = BindableProperty.Create(nameof(HeightPercentage), typeof(double), typeof(BottomSheetControl), 0.5d, propertyChanged: OnSheetHeightPercentageChanged);
+        public static readonly BindableProperty HeightPercentageProperty = BindableProperty.Create(nameof(HeightPercentage), typeof(double), typeof(BottomSheetControl), 50d, propertyChanged: OnSheetHeightPercentageChanged);
 
         public double HeightPercentage
         {
@@ -117,7 +117,7 @@ namespace Ebd.Mobile.Controls
             var control = (BottomSheetControl)bindable;
             if (control != null && newValue is double newHeightPercentage)
             {
-                control.SheetContainer.HeightRequest = control.Height * newHeightPercentage;
+                control.SheetContainer.HeightRequest = control.Height * (newHeightPercentage / 100);
             }
         }
     }

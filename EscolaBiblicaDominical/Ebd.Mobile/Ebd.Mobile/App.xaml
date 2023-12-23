@@ -27,7 +27,12 @@
             <Color x:Key="NavBarColor">#1976D2</Color>
             <Color x:Key="NavigationBarTextColor">#5D5D5D</Color>
             <Color x:Key="RequiredStarColor">#F5F5F5</Color>
+            <Color x:Key="PlaceholderColor">#C0C0C0</Color>
 
+            <Color x:Key="SeparatorColor">#CCCCCC</Color>
+            <Color x:Key="ListBackgroundColor">#F2F2F2</Color>
+            <Color x:Key="ListItemSelectedBackgroundColor">#F2F2F2</Color>
+            
             <Style TargetType="Label">
                 <Setter Property="TextColor" Value="Black" />
             </Style>
@@ -43,10 +48,16 @@
                 <Setter Property="TextColor" Value="#FFFFFF" />
                 <Setter Property="IsEnabled" Value="True" />
             </Style>
+
+            <Style x:Key="BottomSheetTitleLabel" TargetType="Label">
+                <Setter Property="TextColor" Value="Black" />
+                <Setter Property="FontSize" Value="24" />
+            </Style>
             <!--  Implicit styles  -->
             <Style TargetType="Entry" ApplyToDerivedTypes="True">
                 <Setter Property="FontSize" Value="Small" />
                 <Setter Property="TextColor" Value="Black" />
+                <Setter Property="PlaceholderColor" Value="{StaticResource PlaceholderColor}" />
             </Style>
             <Style TargetType="Picker" ApplyToDerivedTypes="True">
                 <Setter Property="FontSize" Value="Small" />
