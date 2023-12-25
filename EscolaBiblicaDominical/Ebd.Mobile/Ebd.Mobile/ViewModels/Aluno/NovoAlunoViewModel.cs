@@ -96,7 +96,7 @@ namespace Ebd.Mobile.ViewModels.Aluno
         private ICommand bairroSelecionadoCommand;
         public ICommand BairroSelecionadoCommand
                 => bairroSelecionadoCommand
-                ??= new AsyncCommand(
+                ??= new AsyncCommand<BairroResponse>(
                     execute: BairroSelecionadoCommandExecute,
                     onException: CommandOnException);
 
@@ -493,6 +493,8 @@ namespace Ebd.Mobile.ViewModels.Aluno
         private async Task BairroSelecionadoCommandExecute(BairroResponse bairro)
         {
             Bairro = bairro;
+
+            await Task.CompletedTask;
         }
 
         private async Task TentarBuscarInformacaoBairro(BaseResponse<CepResponse> endereco)
