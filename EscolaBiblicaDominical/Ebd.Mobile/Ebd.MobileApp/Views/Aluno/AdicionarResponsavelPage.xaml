@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage 
+    x:Class="Ebd.Mobile.Views.Aluno.AdicionarResponsavelPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit" 
+    xmlns:vm="clr-namespace:Ebd.Mobile.ViewModels.Aluno"
+    Title="{Binding Title}"
+    BackgroundColor="{StaticResource AppBackgroundColor}"
+    x:DataType="vm:AdicionarResponsavelViewModel">
+    <ContentPage.Content>
+        <ScrollView Margin="16,0">
+            <StackLayout>
+                <Label Margin="0,10,0,0">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Nome" />
+                            <Span Text=" " />
+                            <Span Text="*" TextColor="{StaticResource RequiredStarColor}" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Entry
+                MaxLength="40"
+                ReturnType="Next"
+                Text="{Binding Nome}">
+                    <Entry.Behaviors>
+                        <xct:MultiValidationBehavior InvalidStyle="{StaticResource InvalidEntryStyle}">
+                            <xct:TextValidationBehavior
+                            Flags="ValidateOnValueChanging"
+                            MaximumLength="40"
+                            MinimumLength="12" />
+                            <xct:CharactersValidationBehavior CharacterType="Letter" Flags="ValidateOnValueChanging" />
+                        </xct:MultiValidationBehavior>
+                    </Entry.Behaviors>
+                </Entry>
+
+                <Label Margin="0,10,0,0">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Celular" />
+                            <Span Text=" " />
+                            <Span Text="*" TextColor="{StaticResource RequiredStarColor}" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Entry
+                Keyboard="Telephone"
+                MaxLength="15"
+                Placeholder="(34) 99691-9292"
+                ReturnType="Next"
+                Text="{Binding Celular}">
+                    <Entry.Behaviors>
+                        <xct:MaskedBehavior Mask="(XX) XXXXX-XXXX" />
+                        <xct:MultiValidationBehavior InvalidStyle="{StaticResource InvalidEntryStyle}">
+                            <xct:TextValidationBehavior
+                            Flags="ValidateOnValueChanging"
+                            MaximumLength="15"
+                            MinimumLength="15" />
+                            <xct:CharactersValidationBehavior CharacterType="Digit" />
+                            <xct:TextValidationBehavior MinimumLength="15" MaximumLength="15" Flags="ValidateOnValueChanging" />
+                            <xct:CharactersValidationBehavior RegexPattern="^\(\d{2}\) \d{5}-\d{4}$" />
+                        </xct:MultiValidationBehavior>
+                    </Entry.Behaviors>
+                </Entry>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

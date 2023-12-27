@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<controls:BottomSheetControl
+    x:Class="Ebd.Mobile.Views.BottomSheets.ListaDeBairroBottomSheet"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Ebd.Mobile.Controls" 
+    xmlns:bairro="clr-namespace:Ebd.Mobile.Services.Responses.Bairro">
+    <controls:BottomSheetControl.HeightPercentage>
+        <OnPlatform x:TypeArguments="x:Double">
+            <On Platform="Android" Value="85" />
+            <On Platform="iOS" Value="70" />
+        </OnPlatform>
+    </controls:BottomSheetControl.HeightPercentage>
+    <controls:BottomSheetControl.SheetContent>
+        <StackLayout Margin="16,0">
+            <Label
+                Margin="0,24,0,0"
+                Style="{StaticResource BottomSheetTitleLabel}"
+                Text="Selecione o bairro" />
+
+            <CollectionView
+                Margin="0,32,0,0"
+                ItemsSource="{Binding Bairros}"
+                SelectionMode="Single">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="bairro:BairroResponse">
+                        <StackLayout Padding="0,2">
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.BairroSelecionadoCommand}" CommandParameter="{Binding .}" />
+                            </StackLayout.GestureRecognizers>
+                            <Label
+                                Margin="0,16"
+                                FontFamily="RobotoRegular"
+                                FontSize="22"
+                                Text="{Binding Nome}" />
+                            <BoxView
+                                Margin="0,2"
+                                HeightRequest="1"
+                                HorizontalOptions="FillAndExpand"
+                                Color="{StaticResource SeparatorColor}" />
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup Name="CommonStates">
+                                    <VisualState Name="Normal">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="{StaticResource ListBackgroundColor}" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="{StaticResource ListItemSelectedBackgroundColor}" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </StackLayout>
+    </controls:BottomSheetControl.SheetContent>
+</controls:BottomSheetControl>
