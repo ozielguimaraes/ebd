@@ -1,4 +1,5 @@
-﻿using Ebd.Mobile.Services.Interfaces;
+﻿using Controls.UserDialogs.Maui;
+using Ebd.Mobile.Services.Interfaces;
 
 namespace Ebd.Mobile.Services.Implementations.Dialog
 {
@@ -35,10 +36,10 @@ namespace Ebd.Mobile.Services.Implementations.Dialog
 
         public void ShowLoading(string message)
             => UserDialogs.Instance.ShowLoading(
-                title: message,
+                message: message,
                 maskType: MaskType.Black);
 
         public void HideLoading()
-            => UserDialogs.Instance.HideLoading();
+            => UserDialogs.Instance.HideHud();
     }
 }
