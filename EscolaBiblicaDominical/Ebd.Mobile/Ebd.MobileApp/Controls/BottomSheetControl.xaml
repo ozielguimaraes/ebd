@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Ebd.Mobile.Controls.BottomSheetControl"
-             xmlns:pancake="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
-             xmlns:icons="clr-namespace:Ebd.Mobile.Constants">
+<ContentView
+    x:Class="Ebd.Mobile.Controls.BottomSheetControl"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:icons="clr-namespace:Ebd.Mobile.Constants">
 
     <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
         <BoxView
@@ -18,43 +18,38 @@
                 <TapGestureRecognizer Tapped="OnOverlayTapped" />
             </BoxView.GestureRecognizers>
         </BoxView>
-
-        <pancake:PancakeView
+        <Border
             x:Name="SheetContainer"
             BackgroundColor="White"
-            CornerRadius="16,16,0,0"
             InputTransparent="False"
             IsVisible="False"
             VerticalOptions="End">
-            <pancake:PancakeView.Shadow>
-                <pancake:DropShadow
-                    BlurRadius="5"
-                    Opacity="0.3"
-                    Offset="0,-2" />
-            </pancake:PancakeView.Shadow>
             <StackLayout>
                 <StackLayout
                     BackgroundColor="Transparent"
                     HeightRequest="60"
                     HorizontalOptions="End"
                     WidthRequest="60">
+
                     <!--<Image
-                        Margin="0,16,16,0"
-                        HeightRequest="32"
-                        HorizontalOptions="End"
-                        Source="close_button.png"
-                        VerticalOptions="Center" />-->
-                    
-                    <Label Text="XMark"
-                           FontFamily="{StaticResource FontAwesomeSolid}"
-                           FontSize="20">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="CloseButtonClicked" />
+                            Margin="0,16,16,0"
+                            HeightRequest="32"
+                            HorizontalOptions="End"
+                            Source="close_button.png"
+                            VerticalOptions="Center" />-->
+
+                    <Label
+                        FontFamily="{StaticResource FontAwesomeSolid}"
+                        FontSize="20"
+                        Text="XMark">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="CloseButtonClicked" />
                         </Label.GestureRecognizers>
                     </Label>
                 </StackLayout>
                 <ContentView x:Name="SheetContentView" />
             </StackLayout>
-        </pancake:PancakeView>
+        </Border>
+
     </Grid>
 </ContentView>
