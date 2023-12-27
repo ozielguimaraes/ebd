@@ -1,10 +1,4 @@
-﻿using System;
-using Microsoft.Maui.Controls.Xaml;
-using Microsoft.Maui.Devices;
-using Microsoft.Maui.Controls;
-using Microsoft.Maui;
-
-namespace Ebd.Mobile.Controls
+﻿namespace Ebd.Mobile.Controls
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
 
@@ -17,18 +11,17 @@ namespace Ebd.Mobile.Controls
             {
                 var heightRequest = this.Height * HeightPercentage;
 
-                switch (Device.Idiom)
+                if (DeviceInfo.Current.Idiom == DeviceIdiom.Phone)
                 {
-                    case DeviceIdiom.Phone:
-                        if (DeviceDisplay.MainDisplayInfo.Width < 720)
-                        {
-                            heightRequest *= 70;
-                            heightRequest *= 1.7;
-                        }
-                        break;
-                    case DeviceIdiom.Tablet:
-                        heightRequest *= 0.8;
-                        break;
+                    if (DeviceDisplay.MainDisplayInfo.Width < 720)
+                    {
+                        heightRequest *= 70;
+                        heightRequest *= 1.7;
+                    }
+                }
+                else
+                {
+                    heightRequest *= 0.8;
                 }
 
                 SheetContainer.HeightRequest = heightRequest;
