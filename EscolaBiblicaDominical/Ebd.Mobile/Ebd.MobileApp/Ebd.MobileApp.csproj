@@ -41,6 +41,9 @@
 	<ItemGroup>
 		<!-- App Icon -->
 		<AndroidResource Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
+		<AndroidResource Include="Resources\Fonts\OpenSansBold.ttf" />
+		<AndroidResource Include="Resources\Fonts\OpenSansMedium.ttf" />
+		<AndroidResource Include="Resources\Fonts\OpenSansRegular.ttf" />
 
 		<!-- Splash Screen -->
 		<AndroidResource Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
@@ -57,16 +60,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiFont Remove="Resources\Fonts\OpenSansRegular.ttf" />
-	  <MauiFont Remove="Resources\Fonts\OpenSansSemibold.ttf" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <AndroidResource Include="Resources\Fonts\OpenSansRegular.ttf" />
-	  <AndroidResource Include="Resources\Fonts\OpenSansSemibold.ttf" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
@@ -78,6 +71,10 @@
 		<PackageReference Include="Refractored.MvvmHelpers" Version="1.6.2" />
 		<PackageReference Include="System.Text.Json" Version="8.0.0" />
 		<PackageReference Include="CommunityToolkit.Maui" Version="7.0.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\Ebd.CrossCutting.Common\Ebd.CrossCutting.Common.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
