@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:d="http://schemas.microsoft.com/dotnet/2021/maui/design"
-             xmlns:droid="clr-namespace:Xamarin.CommunityToolkit.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.CommunityToolkit"
-             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             x:Class="Ebd.Mobile.App"
-             mc:Ignorable="d">
+<Application
+    x:Class="Ebd.Mobile.App"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:d="http://schemas.microsoft.com/dotnet/2021/maui/design"
+    xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    mc:Ignorable="d">
     <!--
         Define global resources and styles here, that apply to all pages in your app.
     -->
@@ -32,7 +32,7 @@
             <Color x:Key="SeparatorColor">#CCCCCC</Color>
             <Color x:Key="ListBackgroundColor">#F2F2F2</Color>
             <Color x:Key="ListItemSelectedBackgroundColor">#F2F2F2</Color>
-            
+
             <Style TargetType="Label">
                 <Setter Property="TextColor" Value="Black" />
             </Style>
@@ -54,16 +54,16 @@
                 <Setter Property="FontSize" Value="24" />
             </Style>
             <!--  Implicit styles  -->
-            <Style TargetType="Entry" ApplyToDerivedTypes="True">
+            <Style ApplyToDerivedTypes="True" TargetType="Entry">
                 <Setter Property="FontSize" Value="Small" />
                 <Setter Property="TextColor" Value="Black" />
                 <Setter Property="PlaceholderColor" Value="{StaticResource PlaceholderColor}" />
             </Style>
-            <Style TargetType="Picker" ApplyToDerivedTypes="True">
+            <Style ApplyToDerivedTypes="True" TargetType="Picker">
                 <Setter Property="FontSize" Value="Small" />
                 <Setter Property="TextColor" Value="Black" />
             </Style>
-            <Style TargetType="Button" ApplyToDerivedTypes="True">
+            <Style ApplyToDerivedTypes="True" TargetType="Button">
                 <Setter Property="FontSize" Value="Caption" />
                 <Setter Property="BackgroundColor" Value="{StaticResource PrimaryColor}" />
                 <Setter Property="TextColor" Value="{StaticResource PrimaryTextColor}" />
@@ -79,10 +79,14 @@
                 <Setter Property="BackgroundColor" Value="{StaticResource AppBackgroundColor}" />
                 <Setter Property="ios:Page.UseSafeArea" Value="False" />
                 <Setter Property="NavigationPage.BackButtonTitle" Value="" />
-                <Setter Property="xct:StatusBarEffect.Color" Value="{StaticResource StatusbarColor}" />
-                <Setter Property="xct:StatusBarEffect.Style" Value="DarkContent" />
-                <Setter Property="droid:NavigationBarEffect.Color" Value="{StaticResource NavBarColor}" />
-                <Setter Property="droid:NavigationBarEffect.Style" Value="LightContent" />
+
+                <Style.Behaviors>
+                    <toolkit:StatusBarBehavior StatusBarColor="{StaticResource StatusbarColor}" />
+                </Style.Behaviors>
+            </Style>
+            <Style ApplyToDerivedTypes="True" TargetType="NavigationPage">
+                <Setter Property="BarBackgroundColor" Value="{StaticResource NavBarColor}" />
+                <Setter Property="BarTextColor" Value="{StaticResource AppBackgroundColor}" />
             </Style>
             <!--<Style TargetType="Button">
                 <Setter Property="TextColor" Value="White"></Setter>
@@ -103,6 +107,6 @@
                     </VisualStateGroupList>
                 </Setter>
             </Style>-->
-        </ResourceDictionary>        
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

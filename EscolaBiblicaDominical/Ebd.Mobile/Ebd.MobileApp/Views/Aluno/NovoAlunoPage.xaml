@@ -3,14 +3,13 @@
     x:Class="Ebd.Mobile.Views.Aluno.NovoAlunoPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:vm="clr-namespace:Ebd.Mobile.ViewModels.Aluno"
-    xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-    xmlns:pancake="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
-    xmlns:icons="clr-namespace:Ebd.Mobile.Constants.Icons" 
     xmlns:bottomSheets="clr-namespace:Ebd.Mobile.Views.BottomSheets"
+    xmlns:icons="clr-namespace:Ebd.Mobile.Constants.Icons"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:vm="clr-namespace:Ebd.Mobile.ViewModels.Aluno"
     Title="{Binding Title}"
-    BackgroundColor="{StaticResource AppBackgroundColor}"
-    x:DataType="vm:NovoAlunoViewModel">
+    x:DataType="vm:NovoAlunoViewModel"
+    BackgroundColor="{StaticResource AppBackgroundColor}">
     <Grid>
         <ScrollView Margin="16,0">
             <StackLayout>
@@ -24,11 +23,11 @@
                     </Label.FormattedText>
                 </Label>
                 <Picker
-                Title="Selecione uma turma"
-                ItemDisplayBinding="{Binding FaixaIdadeNome}"
-                ItemsSource="{Binding Turmas}"
-                SelectedItem="{Binding TurmaSelecionada}"
-                TitleColor="{StaticResource PrimaryColor}" />
+                    Title="Selecione uma turma"
+                    ItemDisplayBinding="{Binding FaixaIdadeNome}"
+                    ItemsSource="{Binding Turmas}"
+                    SelectedItem="{Binding TurmaSelecionada}"
+                    TitleColor="{StaticResource PrimaryColor}" />
 
                 <Label Margin="0,10,0,0">
                     <Label.FormattedText>
@@ -40,19 +39,17 @@
                     </Label.FormattedText>
                 </Label>
                 <Entry
-                x:Name="nomeCompleto"
-                MaxLength="40"
-                Placeholder="Informe o nome completo"
-                ReturnType="Next"
-                Text="{Binding Nome}">
+                    x:Name="nomeCompleto"
+                    MaxLength="40"
+                    Placeholder="Informe o nome completo"
+                    ReturnType="Next"
+                    Text="{Binding Nome}">
                     <Entry.Behaviors>
-                        <xct:MultiValidationBehavior InvalidStyle="{StaticResource InvalidEntryStyle}">
-                            <xct:RequiredStringValidationBehavior InvalidStyle="{StaticResource InvalidEntryStyle}"
-                                                          Flags="ValidateOnValueChanging"
-                                                          RequiredString="{Binding Source={x:Reference nomeCompleto},Path=Text}" />
-                            <xct:TextValidationBehavior MaximumLength="40" MinimumLength="12" />
-                            <xct:CharactersValidationBehavior CharacterType="Letter" Flags="ValidateOnValueChanging" />
-                        </xct:MultiValidationBehavior>
+                        <toolkit:MultiValidationBehavior InvalidStyle="{StaticResource InvalidEntryStyle}">
+                            <toolkit:RequiredStringValidationBehavior InvalidStyle="{StaticResource InvalidEntryStyle}" RequiredString="{Binding Source={x:Reference nomeCompleto}, Path=Text}" />
+                            <toolkit:TextValidationBehavior MaximumLength="40" MinimumLength="12" />
+                            <toolkit:CharactersValidationBehavior CharacterType="Letter" />
+                        </toolkit:MultiValidationBehavior>
                     </Entry.Behaviors>
                 </Entry>
 
@@ -65,12 +62,13 @@
                         </FormattedString>
                     </Label.FormattedText>
                 </Label>
-                <Entry Text="{Binding DataNascimento}"
-                   Placeholder="dia/mês/ano"
-                   Keyboard="Numeric"
-                   ReturnType="Next">
+                <Entry
+                    Keyboard="Numeric"
+                    Placeholder="dia/mês/ano"
+                    ReturnType="Next"
+                    Text="{Binding DataNascimento}">
                     <Entry.Behaviors>
-                        <xct:MaskedBehavior Mask="XX/XX/XXXX" />
+                        <toolkit:MaskedBehavior Mask="XX/XX/XXXX" />
                     </Entry.Behaviors>
                 </Entry>
 
@@ -84,20 +82,17 @@
                     </Label.FormattedText>
                 </Label>
                 <Entry
-                Keyboard="Telephone"
-                MaxLength="15"
-                Placeholder="(34) 99691-9292"
-                ReturnType="Next"
-                Text="{Binding Celular}">
+                    Keyboard="Telephone"
+                    MaxLength="15"
+                    Placeholder="(34) 99691-9292"
+                    ReturnType="Next"
+                    Text="{Binding Celular}">
                     <Entry.Behaviors>
-                        <xct:MaskedBehavior Mask="(XX) XXXXX-XXXX" />
-                        <xct:MultiValidationBehavior InvalidStyle="{StaticResource InvalidEntryStyle}">
-                            <xct:TextValidationBehavior
-                            Flags="ValidateOnValueChanging"
-                            MaximumLength="15"
-                            MinimumLength="15" />
-                            <xct:CharactersValidationBehavior CharacterType="Digit" />
-                        </xct:MultiValidationBehavior>
+                        <toolkit:MaskedBehavior Mask="(XX) XXXXX-XXXX" />
+                        <toolkit:MultiValidationBehavior InvalidStyle="{StaticResource InvalidEntryStyle}">
+                            <toolkit:TextValidationBehavior MaximumLength="15" MinimumLength="15" />
+                            <toolkit:CharactersValidationBehavior CharacterType="Digit" />
+                        </toolkit:MultiValidationBehavior>
                     </Entry.Behaviors>
                 </Entry>
 
@@ -111,22 +106,19 @@
                     </Label.FormattedText>
                 </Label>
                 <Entry
-                Keyboard="Email"
-                MaxLength="50"
-                ReturnType="Next"
-                Text="{Binding Email}">
+                    Keyboard="Email"
+                    MaxLength="50"
+                    ReturnType="Next"
+                    Text="{Binding Email}">
                     <Entry.Behaviors>
-                        <xct:EmailValidationBehavior
-                        DecorationFlags="Trim"
-                        Flags="ValidateOnValueChanging"
-                        InvalidStyle="{StaticResource InvalidEntryStyle}" />
+                        <toolkit:EmailValidationBehavior DecorationFlags="Trim" InvalidStyle="{StaticResource InvalidEntryStyle}" />
                     </Entry.Behaviors>
                 </Entry>
 
                 <Label
-                FontAttributes="Bold"
-                FontSize="Subtitle"
-                Text="Informações de endereço" />
+                    FontAttributes="Bold"
+                    FontSize="Subtitle"
+                    Text="Informações de endereço" />
 
                 <Label Margin="0,10,0,0">
                     <Label.FormattedText>
@@ -136,20 +128,17 @@
                     </Label.FormattedText>
                 </Label>
                 <Entry
-                Keyboard="Numeric"
-                ReturnType="Next"
-                Text="{Binding Cep}">
+                    Keyboard="Numeric"
+                    ReturnType="Next"
+                    Text="{Binding Cep}">
                     <Entry.Behaviors>
-                        <xct:EventToCommandBehavior Command="{Binding CepCompletedCommand}" EventName="Completed" />
-                        <xct:UserStoppedTypingBehavior Command="{Binding CepCompletedCommand}" MinimumLengthThreshold="9" />
-                        <xct:MaskedBehavior Mask="XX XXX-XXX" />
-                        <xct:MultiValidationBehavior InvalidStyle="{StaticResource InvalidEntryStyle}">
-                            <xct:TextValidationBehavior
-                            Flags="ValidateOnValueChanging"
-                            MaximumLength="10"
-                            MinimumLength="10" />
-                            <xct:CharactersValidationBehavior CharacterType="Digit" />
-                        </xct:MultiValidationBehavior>
+                        <toolkit:EventToCommandBehavior Command="{Binding CepCompletedCommand}" EventName="Completed" />
+                        <toolkit:UserStoppedTypingBehavior Command="{Binding CepCompletedCommand}" MinimumLengthThreshold="9" />
+                        <toolkit:MaskedBehavior Mask="XX XXX-XXX" />
+                        <toolkit:MultiValidationBehavior InvalidStyle="{StaticResource InvalidEntryStyle}">
+                            <toolkit:TextValidationBehavior MaximumLength="10" MinimumLength="10" />
+                            <toolkit:CharactersValidationBehavior CharacterType="Digit" />
+                        </toolkit:MultiValidationBehavior>
                     </Entry.Behaviors>
                 </Entry>
 
@@ -163,15 +152,14 @@
                     </Label.FormattedText>
                 </Label>
                 <Entry
-                MaxLength="40"
-                ReturnType="Next"
-                Text="{Binding Logradouro}">
+                    MaxLength="40"
+                    ReturnType="Next"
+                    Text="{Binding Logradouro}">
                     <Entry.Behaviors>
-                        <xct:TextValidationBehavior
-                        Flags="ValidateOnValueChanging"
-                        InvalidStyle="{StaticResource InvalidEntryStyle}"
-                        MaximumLength="40"
-                        MinimumLength="10" />
+                        <toolkit:TextValidationBehavior
+                            InvalidStyle="{StaticResource InvalidEntryStyle}"
+                            MaximumLength="40"
+                            MinimumLength="10" />
                     </Entry.Behaviors>
                 </Entry>
 
@@ -185,15 +173,14 @@
                     </Label.FormattedText>
                 </Label>
                 <Entry
-                MaxLength="6"
-                ReturnType="Next"
-                Text="{Binding Numero}">
+                    MaxLength="6"
+                    ReturnType="Next"
+                    Text="{Binding Numero}">
                     <Entry.Behaviors>
-                        <xct:TextValidationBehavior
-                        Flags="ValidateOnValueChanging"
-                        InvalidStyle="{StaticResource InvalidEntryStyle}"
-                        MaximumLength="8"
-                        MinimumLength="1" />
+                        <toolkit:TextValidationBehavior
+                            InvalidStyle="{StaticResource InvalidEntryStyle}"
+                            MaximumLength="8"
+                            MinimumLength="1" />
                     </Entry.Behaviors>
                 </Entry>
 
@@ -206,14 +193,15 @@
                         </FormattedString>
                     </Label.FormattedText>
                 </Label>
-                <Label Margin="0,10,0,0"
-                   Text="{Binding Bairro.Nome}"
-                   IsVisible="{Binding Bairro, Converter={Static xct:IsNotNullOrEmptyConverter}}"
-                   />
-                <Label Margin="0,10,0,0"
-                   Text="Selecionar"
-                   IsVisible="{Binding Bairro, Converter={Static xct:IsNullOrEmptyConverter}}"
-                   TextColor="{StaticResource PlaceholderColor}" />
+                <Label
+                    Margin="0,10,0,0"
+                    IsVisible="{Binding Bairro, Converter={StaticResource toolkit:IsNotNullConverter}}"
+                    Text="{Binding Bairro.Nome}" />
+                <Label
+                    Margin="0,10,0,0"
+                    IsVisible="{Binding Bairro, Converter={StaticResource toolkit:IsNullConverter}}"
+                    Text="Selecionar"
+                    TextColor="{StaticResource PlaceholderColor}" />
 
                 <Label Margin="0,10,0,0">
                     <Label.FormattedText>
@@ -222,75 +210,59 @@
                         </FormattedString>
                     </Label.FormattedText>
                 </Label>
-                <Entry Text="{Binding Complemento}"
-                   MaxLength="25"
-                   ReturnType="Done">
+                <Entry
+                    MaxLength="25"
+                    ReturnType="Done"
+                    Text="{Binding Complemento}">
                     <Entry.Behaviors>
-                        <xct:TextValidationBehavior
-                        Flags="ValidateOnValueChanging"
-                        InvalidStyle="{StaticResource InvalidEntryStyle}"
-                        MaximumLength="30"
-                        MinimumLength="6" />
+                        <toolkit:TextValidationBehavior
+                            InvalidStyle="{StaticResource InvalidEntryStyle}"
+                            MaximumLength="30"
+                            MinimumLength="6" />
                     </Entry.Behaviors>
                 </Entry>
 
                 <FlexLayout
-                        Margin="0,32,0,0"
-                        AlignItems="Center"
-                        JustifyContent="SpaceBetween">
+                    Margin="0,32,0,0"
+                    AlignItems="Center"
+                    JustifyContent="SpaceBetween">
                     <Label
-                    FontSize="16"
-                    FontAttributes="Bold"
-                    HorizontalOptions="Start"
-                    Text="Responsáveis"
-                    TextColor="Black"
-                    VerticalOptions="Center" />
-                    <pancake:PancakeView
-                            BackgroundColor="{StaticResource SecondaryColor}"
-                            CornerRadius="16"
-                            HeightRequest="32"
-                            HorizontalOptions="CenterAndExpand"
-                            VerticalOptions="CenterAndExpand"
-                            WidthRequest="32">
-                        <pancake:PancakeView.Shadow>
-                            <pancake:DropShadow Offset="0,0" Color="#f4f4f4">
-                                <pancake:DropShadow.BlurRadius>
-                                    <OnPlatform x:TypeArguments="x:Single">
-                                        <On Platform="Android" Value="1" />
-                                        <On Platform="iOS" Value="2" />
-                                    </OnPlatform>
-                                </pancake:DropShadow.BlurRadius>
-                                <pancake:DropShadow.Opacity>
-                                    <OnPlatform x:TypeArguments="x:Single">
-                                        <On Platform="Android" Value="1" />
-                                        <On Platform="iOS" Value="0.2" />
-                                    </OnPlatform>
-                                </pancake:DropShadow.Opacity>
-                            </pancake:DropShadow>
-                        </pancake:PancakeView.Shadow>
-                        <pancake:PancakeView.GestureRecognizers>
-                            <TapGestureRecognizer
-                                    Command="{Binding AdicionarResponsavelCommand}"
-                            NumberOfTapsRequired="1" />
-                        </pancake:PancakeView.GestureRecognizers>
-                        <Label Text="+" TextColor="{StaticResource PrimaryTextColor}"
-                           VerticalOptions="CenterAndExpand"
-                           FontSize="Large"
-                           HorizontalOptions="Center" />
-                    </pancake:PancakeView>
+                        FontAttributes="Bold"
+                        FontSize="16"
+                        HorizontalOptions="Start"
+                        Text="Responsáveis"
+                        TextColor="Black"
+                        VerticalOptions="Center" />
+                    <Frame
+                        BackgroundColor="{StaticResource SecondaryColor}"
+                        CornerRadius="16"
+                        HeightRequest="32"
+                        HorizontalOptions="CenterAndExpand"
+                        VerticalOptions="CenterAndExpand"
+                        WidthRequest="32">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding AdicionarResponsavelCommand}" NumberOfTapsRequired="1" />
+                        </Frame.GestureRecognizers>
+                        <Label
+                            FontSize="Large"
+                            HorizontalOptions="Center"
+                            Text="+"
+                            TextColor="{StaticResource PrimaryTextColor}"
+                            VerticalOptions="CenterAndExpand" />
+                    </Frame>
                 </FlexLayout>
                 <Button
-                Margin="16,24,16,10"
-                CornerRadius="16"
-                Command="{Binding SalvarCommand}"
-                Style="{StaticResource ButtonIsDisabled}"
-                HorizontalOptions="FillAndExpand"
-                Text="Salvar">
+                    Margin="16,24,16,10"
+                    Command="{Binding SalvarCommand}"
+                    CornerRadius="16"
+                    HorizontalOptions="FillAndExpand"
+                    Style="{StaticResource ButtonIsDisabled}"
+                    Text="Salvar">
                     <Button.Triggers>
                         <DataTrigger
-                        Binding="{Binding IsValid}"
-                        TargetType="Button"
-                        Value="true">
+                            Binding="{Binding IsValid}"
+                            TargetType="Button"
+                            Value="true">
                             <Setter Property="Style" Value="{StaticResource ButtonIsEnabled}" />
                         </DataTrigger>
                     </Button.Triggers>
