@@ -1,4 +1,5 @@
 using CommunityToolkit.Maui;
+using Microsoft.Extensions.Logging;
 
 namespace Ebd.Mobile;
 
@@ -8,15 +9,18 @@ public static class MauiProgram
     {
         var builder = MauiApp.CreateBuilder();
         builder
-            .UseMauiCommunityToolkit()
             .UseMauiApp<App>()
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("OpenSansRegular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSansMedium.ttf", "OpenSansMedium");
                 fonts.AddFont("OpenSansBold.ttf", "OpenSansBold");
-            });
+            })
+            .UseMauiCommunityToolkit();
 
+#if DEBUG
+        builder.Logging.AddDebug();
+#endif
         return builder.Build();
     }
 }
