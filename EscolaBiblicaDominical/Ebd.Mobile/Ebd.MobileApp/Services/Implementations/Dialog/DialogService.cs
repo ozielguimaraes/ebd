@@ -1,9 +1,4 @@
-﻿using Acr.UserDialogs;
-using Ebd.Mobile.Services.Interfaces;
-using System;
-using System.Threading.Tasks;
-using Microsoft.Maui.Controls;
-using Microsoft.Maui;
+﻿using Ebd.Mobile.Services.Interfaces;
 
 namespace Ebd.Mobile.Services.Implementations.Dialog
 {
