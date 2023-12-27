@@ -2,11 +2,6 @@
 using Ebd.Mobile.Services.Interfaces;
 using Ebd.Mobile.Views.Chamada;
 using MvvmHelpers.Commands;
-using System;
-using System.Threading.Tasks;
-using Microsoft.Maui.ApplicationModel;
-using Microsoft.Maui.Controls;
-using Microsoft.Maui;
 
 namespace Ebd.Mobile.ViewModels
 {
