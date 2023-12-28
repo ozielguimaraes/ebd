@@ -1,8 +1,5 @@
 ﻿using Ebd.Mobile.Services.Interfaces;
-using Microsoft.Extensions.DependencyInjection;
 using Plugin.FirebasePushNotification;
-using Microsoft.Maui.Controls;
-using Microsoft.Maui;
 
 namespace Ebd.Mobile
 {
@@ -10,13 +7,16 @@ namespace Ebd.Mobile
     {
         private readonly ILoggerService loggerService;
 
-        public App()
+        public App(ILoggerService loggerService)
         {
             InitializeComponent();
-            Startup.Init();
+            this.loggerService = loggerService;
+
             //ConfigureFirebaseRefreshToken();
             MainPage = new AppShell();
-            loggerService = Startup.ServiceProvider.GetService<ILoggerService>();
+
+            if (Startup.ServiceProvider is null)
+                throw new InvalidOperationException("ServiceProvider is not initialized.");
         }
 
         private void ConfigureFirebaseRefreshToken()

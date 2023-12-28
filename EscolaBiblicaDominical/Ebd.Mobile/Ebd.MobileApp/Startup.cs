@@ -1,20 +1,25 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System.Diagnostics;
 
 namespace Ebd.Mobile
 {
     public static class Startup
     {
-        public static ServiceProvider ServiceProvider { get; private set; }
+        private static readonly Lazy<ServiceProvider> _serviceProvider = new Lazy<ServiceProvider>(CreateServiceProvider);
 
-        public static void Init()
+        public static ServiceProvider ServiceProvider => _serviceProvider.Value;
+
+        private static ServiceProvider CreateServiceProvider()
         {
-            var provider = new ServiceCollection()
+            return new ServiceCollection()
                 .ConfigureServices()
                 .ConfigureRepositories()
                 .ConfigureViewModels()
                 .BuildServiceProvider();
+        }
 
-            ServiceProvider = provider;
+        public static void Init()
+        {
+            Debug.WriteLine($"ServiceProvider is null: {ServiceProvider is null}");
         }
     }
 }

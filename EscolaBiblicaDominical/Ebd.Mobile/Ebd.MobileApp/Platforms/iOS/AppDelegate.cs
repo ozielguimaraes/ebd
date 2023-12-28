@@ -1,5 +1,6 @@
 ﻿using Ebd.Mobile;
 using Foundation;
+using UIKit;
 
 namespace Ebd.MobileApp
 {
@@ -7,5 +8,11 @@ namespace Ebd.MobileApp
     public class AppDelegate : MauiUIApplicationDelegate
     {
         protected override MauiApp CreateMauiApp() => MauiProgram.CreateMauiApp();
+
+        public override bool FinishedLaunching(UIApplication app, NSDictionary options)
+        {
+            Startup.Init();
+            return base.FinishedLaunching(app, options);
+        }
     }
 }

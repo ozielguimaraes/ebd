@@ -1,4 +1,5 @@
-﻿using Ebd.CrossCutting.Enumerators;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using Ebd.CrossCutting.Enumerators;
 using Ebd.Mobile.Constants;
 using Ebd.Mobile.Extensions;
 using Ebd.Mobile.Services.Interfaces;
@@ -9,19 +10,13 @@ using Ebd.Mobile.Services.Responses;
 using Ebd.Mobile.Services.Responses.Bairro;
 using Ebd.Mobile.Services.Responses.Cep;
 using Ebd.Mobile.Services.Responses.Turma;
+using Ebd.MobileApp.Messages;
 using MvvmHelpers;
 using MvvmHelpers.Commands;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Linq;
 using System.Text.Json;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using Microsoft.Maui.ApplicationModel;
-using Microsoft.Maui.Controls;
-using Microsoft.Maui;
 
 namespace Ebd.Mobile.ViewModels.Aluno
 {
@@ -93,6 +88,12 @@ namespace Ebd.Mobile.ViewModels.Aluno
                     execute: AdicionarResponsavelCommandExecute,
                     canExecute: PermitirAdicionarResponsavel,
                     onException: CommandOnException);
+
+        private ICommand alterarBairroCommand;
+        public ICommand AlterarBairroCommand
+                => alterarBairroCommand
+                ??= new Microsoft.Maui.Controls.Command(
+                    execute: AlterarBairroCommandExecute);
 
         private ICommand bairroSelecionadoCommand;
         public ICommand BairroSelecionadoCommand
@@ -296,7 +297,7 @@ namespace Ebd.Mobile.ViewModels.Aluno
             AdicionarResponsavelEstaHabilitado = PermitirAdicionarResponsavel(null);
         }
 
-        public override async Task Appearing(object args)
+        public override async Task Appearing(object? args)
         {
             if (IsBusy) return;
 
@@ -312,10 +313,7 @@ namespace Ebd.Mobile.ViewModels.Aluno
 
                 if (response.HasError)
                 {
-                    MainThread.BeginInvokeOnMainThread(() =>
-                    {
-                        DialogService.HideLoading();
-                    });
+                    MainThread.BeginInvokeOnMainThread(DialogService.HideLoading);
 
                     IsBusy = false;
                     await DialogService.DisplayAlert("Oops", response.Exception.Message);
@@ -477,7 +475,7 @@ namespace Ebd.Mobile.ViewModels.Aluno
             }
         }
 
-        private bool PermitirAdicionarResponsavel(object args) => IsValid && IsNotBusy;
+        private bool PermitirAdicionarResponsavel(object? args) => IsValid && IsNotBusy;
 
         private async Task AdicionarResponsavelCommandExecute()
         {
@@ -489,6 +487,13 @@ namespace Ebd.Mobile.ViewModels.Aluno
             {
                 ex.LogFullException(nameof(AdicionarResponsavelCommandExecute));
             }
+        }
+
+        private void AlterarBairroCommandExecute()
+        {
+            var message = "Usuário clicou em alterar bairro";
+            WeakReferenceMessenger.Default.Send(new StringValueChangedMessage(message));
+            Logger.LogInformation(message);
         }
 
         private async Task BairroSelecionadoCommandExecute(BairroResponse bairro)
