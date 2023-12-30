@@ -71,7 +71,7 @@
             </Style>
 
             <Style ApplyToDerivedTypes="True" TargetType="NavigationPage">
-                <Setter Property="BarBackgroundColor" Value="{StaticResource PrimaryColor}" />
+                <Setter Property="BarBackgroundColor" Value="{StaticResource NavBarColor}" />
                 <Setter Property="BarTextColor" Value="{StaticResource NavigationBarTextColor}" />
             </Style>
 
@@ -83,10 +83,6 @@
                 <Style.Behaviors>
                     <toolkit:StatusBarBehavior StatusBarColor="{StaticResource StatusbarColor}" />
                 </Style.Behaviors>
-            </Style>
-            <Style ApplyToDerivedTypes="True" TargetType="NavigationPage">
-                <Setter Property="BarBackgroundColor" Value="{StaticResource NavBarColor}" />
-                <Setter Property="BarTextColor" Value="{StaticResource AppBackgroundColor}" />
             </Style>
             <!--<Style TargetType="Button">
                 <Setter Property="TextColor" Value="White"></Setter>
