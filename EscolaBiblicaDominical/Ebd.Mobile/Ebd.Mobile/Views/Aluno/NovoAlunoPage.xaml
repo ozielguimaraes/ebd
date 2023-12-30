@@ -208,11 +208,11 @@
                 </Label>
                 <Label Margin="0,10,0,0"
                    Text="{Binding Bairro.Nome}"
-                   IsVisible="{Binding Bairro, Converter={Static xct:IsNotNullOrEmptyConverter}}"
+                   IsVisible="{Binding Bairro, Converter={Static xct:IsNotNullConverter}}"
                    />
                 <Label Margin="0,10,0,0"
                    Text="Selecionar"
-                   IsVisible="{Binding Bairro, Converter={Static xct:IsNullOrEmptyConverter}}"
+                   IsVisible="{Binding Bairro, Converter={Static xct:IsNullConverter}}"
                    TextColor="{StaticResource PlaceholderColor}" />
 
                 <Label Margin="0,10,0,0">
