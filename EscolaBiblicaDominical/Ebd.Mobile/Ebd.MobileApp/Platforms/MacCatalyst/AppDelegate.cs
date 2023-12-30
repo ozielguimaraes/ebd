@@ -1,4 +1,5 @@
-﻿using Foundation;
+﻿using Ebd.Mobile;
+using Foundation;
 
 namespace Ebd.MobileApp
 {
