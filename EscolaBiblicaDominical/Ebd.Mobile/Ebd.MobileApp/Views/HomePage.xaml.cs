@@ -13,7 +13,7 @@ namespace Ebd.Mobile.Views
         public HomePage()
         {
             InitializeComponent();
-            BindingContext = viewModel = Startup.ServiceProvider.GetService<HomeViewModel>();
+            BindingContext = viewModel = DependencyInjection.GetService<HomeViewModel>();
         }
 
         protected override void OnAppearing()

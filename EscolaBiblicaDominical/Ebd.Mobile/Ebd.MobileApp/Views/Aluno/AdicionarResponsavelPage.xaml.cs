@@ -10,7 +10,7 @@ namespace Ebd.Mobile.Views.Aluno
         public AdicionarResponsavelPage()
         {
             InitializeComponent();
-            BindingContext = ViewModel ??= Startup.ServiceProvider.GetService<AdicionarResponsavelViewModel>();
+            BindingContext = ViewModel ??= DependencyInjection.GetService<AdicionarResponsavelViewModel>();
         }
     }
 }

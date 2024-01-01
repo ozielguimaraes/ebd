@@ -10,7 +10,7 @@ namespace Ebd.Mobile.Views
         public AboutPage()
         {
             InitializeComponent();
-            BindingContext = Startup.ServiceProvider.GetService<AboutViewModel>();
+            BindingContext = DependencyInjection.GetService<AboutViewModel>();
         }
     }
 }

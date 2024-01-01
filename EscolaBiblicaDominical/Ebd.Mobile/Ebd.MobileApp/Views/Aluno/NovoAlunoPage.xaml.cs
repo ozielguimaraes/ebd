@@ -13,7 +13,7 @@ namespace Ebd.Mobile.Views.Aluno
         {
             InitializeComponent();
             WeakReferenceMessenger.Default.Register(this);
-            BindingContext = ViewModel ??= Startup.ServiceProvider.GetService<NovoAlunoViewModel>();
+            BindingContext = ViewModel ??= DependencyInjection.GetService<NovoAlunoViewModel>();
             ListaDeBairroBottomSheet.InputTransparent = true;
         }
 

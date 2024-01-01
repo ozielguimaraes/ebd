@@ -13,7 +13,7 @@ namespace Ebd.Mobile.Views.Aluno
         public ListaAlunoPage()
         {
             InitializeComponent();
-            BindingContext = ViewModel ?? Startup.ServiceProvider.GetService<ListaAlunoViewModel>();
+            BindingContext = ViewModel ?? DependencyInjection.GetService<ListaAlunoViewModel>();
         }
 
         protected override async void OnAppearing()

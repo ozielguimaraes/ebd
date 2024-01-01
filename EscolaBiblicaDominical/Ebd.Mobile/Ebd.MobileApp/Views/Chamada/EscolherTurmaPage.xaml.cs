@@ -13,7 +13,7 @@ namespace Ebd.Mobile.Views.Chamada
         public EscolherTurmaPage()
         {
             InitializeComponent();
-            BindingContext = Startup.ServiceProvider.GetService<EscolherTurmaViewModel>();
+            BindingContext = DependencyInjection.GetService<EscolherTurmaViewModel>();
         }
 
         protected override async void OnAppearing()

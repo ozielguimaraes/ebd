@@ -7,7 +7,6 @@ using Ebd.Mobile.Services.Interfaces;
 using Ebd.Mobile.ViewModels;
 using Ebd.Mobile.ViewModels.Aluno;
 using Ebd.Mobile.ViewModels.Chamada;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Ebd.Mobile
 {
@@ -20,6 +19,7 @@ namespace Ebd.Mobile
             services.AddSingleton<IDiagnosticService, DiagnosticService>();
             services.AddSingleton<IDialogService, DialogService>();
             services.AddSingleton<INetworkService, NetworkService>();
+            services.AddSingleton(Connectivity.Current);
 
             services.AddSingleton<IAlunoService, AlunoService>();
             services.AddSingleton<IAvaliacaoService, AvaliacaoService>();
@@ -58,5 +58,18 @@ namespace Ebd.Mobile
 
             return services;
         }
+
+        public static TService GetService<TService>() => Current.GetService<TService>();
+
+        public static IServiceProvider Current =>
+#if WINDOWS10_0_17763_0_OR_GREATER
+        MauiWinUIApplication.Current.Services;
+#elif ANDROID
+            MauiApplication.Current.Services;
+#elif IOS || MACCATALYST
+        MauiUIApplicationDelegate.Current.Services;
+#else
+        null;
+#endif
     }
 }

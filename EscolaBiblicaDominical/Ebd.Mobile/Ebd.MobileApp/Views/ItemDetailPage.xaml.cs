@@ -10,7 +10,7 @@ namespace Ebd.Mobile.Views
         public ItemDetailPage()
         {
             InitializeComponent();
-            BindingContext ??= Startup.ServiceProvider.GetService<ItemDetailViewModel>();
+            BindingContext ??= DependencyInjection.GetService<ItemDetailViewModel>();
         }
     }
 }

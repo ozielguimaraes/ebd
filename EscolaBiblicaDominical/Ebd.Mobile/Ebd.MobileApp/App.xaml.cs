@@ -12,9 +12,6 @@ namespace Ebd.Mobile
             this.loggerService = loggerService;
 
             MainPage = new AppShell();
-
-            if (Startup.ServiceProvider is null)
-                throw new InvalidOperationException("ServiceProvider is not initialized.");
         }
 
         protected override void OnStart()

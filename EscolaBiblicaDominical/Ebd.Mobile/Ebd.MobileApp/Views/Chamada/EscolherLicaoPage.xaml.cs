@@ -13,7 +13,7 @@ namespace Ebd.Mobile.Views.Chamada
         public EscolherLicaoPage()
         {
             InitializeComponent();
-            BindingContext = ViewModel ?? Startup.ServiceProvider.GetService<EfetuarChamadaViewModel>();
+            BindingContext = ViewModel ?? DependencyInjection.GetService<EfetuarChamadaViewModel>();
         }
     }
 }

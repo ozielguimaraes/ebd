@@ -13,7 +13,7 @@ namespace Ebd.Mobile.Views.Chamada
         public EfetuarChamadaPage()
         {
             InitializeComponent();
-            BindingContext ??= Startup.ServiceProvider.GetService<EfetuarChamadaViewModel>();
+            BindingContext ??= DependencyInjection.GetService<EfetuarChamadaViewModel>();
         }
 
         protected override async void OnAppearing()

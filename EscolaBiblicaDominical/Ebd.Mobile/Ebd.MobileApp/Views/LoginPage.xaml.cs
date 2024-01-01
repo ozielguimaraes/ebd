@@ -11,7 +11,7 @@ namespace Ebd.Mobile.Views
         public LoginPage()
         {
             InitializeComponent();
-            BindingContext ??= Startup.ServiceProvider.GetService<LoginViewModel>();
+            BindingContext ??= DependencyInjection.GetService<LoginViewModel>();
         }
     }
 }
