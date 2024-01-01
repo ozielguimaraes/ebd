@@ -1,27 +1,18 @@
 ﻿using Ebd.Mobile.Constants;
-using Ebd.Mobile.Infrastructure;
 using LiteDB;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using Microsoft.Maui.Controls;
-using Microsoft.Maui;
 
 namespace Ebd.Mobile.Repository
 {
     public sealed class Repository : IRepository
     {
-        private static LiteDatabase dataBase;
+        private static LiteDatabase _dataBase;
         private static LiteDatabase DataBase
         {
             get
             {
-                var dataFile = DependencyService.Get<IFilePath>().GetFullPath(ConfigurationConstant.DatabaseName);
-                if (dataBase is null)
-                    dataBase = new LiteDatabase(dataFile);
-
-                return dataBase;
+                string dataFile = Path.Combine(FileSystem.AppDataDirectory, ConfigurationConstant.DatabaseName);
+                return _dataBase ??= new LiteDatabase(dataFile);
             }
         }
 
