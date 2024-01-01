@@ -8,25 +8,25 @@ namespace Ebd.Mobile.ViewModels
     public class HomeViewModel : BaseViewModel
     {
         private readonly ISyncService syncService;
+        private readonly ILoggerService loggerService;
 
         public HomeViewModel(ISyncService syncService, IDiagnosticService diagnosticService, IDialogService dialogService, ILoggerService loggerService) : base(diagnosticService, dialogService, loggerService)
         {
             this.syncService = syncService;
-        }
+            this.loggerService = loggerService;
 
-        private readonly AsyncCommand _goToAlunoPageCommand;
-        public AsyncCommand GoToAlunoPageCommand
-            => _goToAlunoPageCommand
-            ?? new AsyncCommand(
+            GoToAlunoPageCommand = new AsyncCommand(
                 execute: ExecuteGoToAlunoPageCommand,
                 onException: CommandOnException);
 
-        private readonly AsyncCommand _goToEscolherTurmaPageCommand;
-        public AsyncCommand GoToEscolherTurmaPageCommand
-            => _goToEscolherTurmaPageCommand
-            ?? new AsyncCommand(
+            GoToEscolherTurmaPageCommand = new AsyncCommand(
                 execute: ExecuteGoToEscolherTurmaPageCommand,
                 onException: CommandOnException);
+        }
+
+        public AsyncCommand GoToAlunoPageCommand { get; private set; }
+
+        public AsyncCommand GoToEscolherTurmaPageCommand { get; }
 
         private async Task ExecuteGoToAlunoPageCommand()
         {
@@ -40,9 +40,17 @@ namespace Ebd.Mobile.ViewModels
 
         internal void OnAppearing()
         {
-            MainThread.BeginInvokeOnMainThread(async () =>
+            MainThread.InvokeOnMainThreadAsync(async () =>
             {
-                await syncService.SyncDataAsync();
+                try
+                {
+                    await syncService.SyncDataAsync();
+                }
+                catch (Exception exception)
+                {
+                    loggerService.LogError("Não foi possível syncronizar os dados", exception);   
+                    //TODO Do something else with this error
+                }
             });
         }
     }
