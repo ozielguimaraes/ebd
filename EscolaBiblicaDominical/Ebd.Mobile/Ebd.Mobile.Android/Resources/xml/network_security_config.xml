@@ -1,7 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<network-security-config>
-  <domain-config cleartextTrafficPermitted="true">
-    <domain includeSubdomains="true">escolabiblicadominical.azurewebsites.net</domain>
-    <domain includeSubdomains="true">asser.site</domain>
-  </domain-config>
-</network-security-config>
