@@ -11,7 +11,6 @@ namespace Ebd.MobileApp
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            Startup.Init();
         }
     }
 }

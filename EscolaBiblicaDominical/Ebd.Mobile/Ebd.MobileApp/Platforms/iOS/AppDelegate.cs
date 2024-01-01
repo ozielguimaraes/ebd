@@ -11,7 +11,6 @@ namespace Ebd.MobileApp
 
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
-            Startup.Init();
             return base.FinishedLaunching(app, options);
         }
     }
