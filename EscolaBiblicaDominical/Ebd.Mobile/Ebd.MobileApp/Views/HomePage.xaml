@@ -35,12 +35,12 @@
                         <Grid.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding GoToAlunoPageCommand}" />
                         </Grid.GestureRecognizers>
-                        <components:MenuCardView IconSource="icon_feed.png" Title="Alunos" />
+                        <components:MenuCardView IconSource="dotnet_bot.png" Title="Alunos" />
                     </Grid>
                     <Grid Margin="4" 
                            FlexLayout.AlignSelf="Start"
                            FlexLayout.Basis="{OnIdiom Phone='50%'}">
-                        <components:MenuCardView IconSource="icon_feed.png" Title="Professores" />
+                        <components:MenuCardView IconSource="dotnet_bot.png" Title="Professores" />
                     </Grid>
                     <Grid Margin="4" 
                           FlexLayout.AlignSelf="Start"
@@ -48,7 +48,7 @@
                         <Grid.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding GoToEscolherTurmaPageCommand}" />
                         </Grid.GestureRecognizers>
-                        <components:MenuCardView IconSource="icon_feed.png" Title="Chamada" />
+                        <components:MenuCardView IconSource="dotnet_bot.png" Title="Chamada" />
                     </Grid>
                 </FlexLayout>
             </ScrollView>
