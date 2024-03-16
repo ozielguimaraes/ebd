@@ -50,7 +50,7 @@
                                             <Label Text="{Binding Nome}" FontSize="Medium" FontAttributes="Bold" />
                                             <Label Text="10 pontos" FontSize="Subtitle" />
                                         </FlexLayout>
-                                        <Image Source="icon_feed.png" />
+                                        <Image Source="dotnet_bot.png" />
                                     </StackLayout>
                                 </Frame>
                             </DataTemplate>
