@@ -14,7 +14,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <!--  Values  -->
-            <x:String x:Key="FontAwesomeSolid">Awesome-Solid</x:String>
+            <x:String x:Key="FontAwesomeSolid">FontAwesome-Solid</x:String>
             <Thickness x:Key="ContentPadding">20, 0</Thickness>
 
             <!--  Colors  -->
