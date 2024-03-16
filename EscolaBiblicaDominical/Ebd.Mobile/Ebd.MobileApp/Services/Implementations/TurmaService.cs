@@ -1,9 +1,9 @@
-﻿using Ebd.Mobile.Extensions;
-using Ebd.Mobile.Repository;
+﻿using Ebd.Mobile.Repository;
 using Ebd.Mobile.Services.Implementations.Base;
 using Ebd.Mobile.Services.Interfaces;
 using Ebd.Mobile.Services.Responses;
 using Ebd.Mobile.Services.Responses.Turma;
+using Ebd.MobileApp.Models.Extensions;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;

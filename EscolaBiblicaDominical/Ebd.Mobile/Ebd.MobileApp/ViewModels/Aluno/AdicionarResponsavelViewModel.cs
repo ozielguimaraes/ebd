@@ -1,5 +1,5 @@
-﻿using Ebd.Mobile.Extensions;
-using Ebd.Mobile.Services.Interfaces;
+﻿using Ebd.Mobile.Services.Interfaces;
+using Ebd.MobileApp.Models.Extensions;
 
 namespace Ebd.Mobile.ViewModels.Aluno
 {

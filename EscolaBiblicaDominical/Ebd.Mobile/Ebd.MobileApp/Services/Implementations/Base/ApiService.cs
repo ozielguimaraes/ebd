@@ -1,8 +1,8 @@
 ﻿using Ebd.Mobile.Constants;
-using Ebd.Mobile.Extensions;
 using Ebd.Mobile.Services.Exceptions;
 using Ebd.Mobile.Services.Interfaces;
 using Ebd.Mobile.Services.Responses;
+using Ebd.MobileApp.Models.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
