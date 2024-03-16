@@ -1,7 +1,5 @@
-﻿using Ebd.Mobile.Services.Interfaces;
-using Ebd.MobileApp.Models.Extensions;
-using System;
-using System.Collections.Generic;
+﻿using Ebd.CrossCutting.Common.Extensions;
+using Ebd.Mobile.Services.Interfaces;
 using System.Diagnostics;
 
 namespace Ebd.Mobile.Services.Implementations.Logger

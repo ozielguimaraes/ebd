@@ -1,4 +1,4 @@
-﻿namespace Ebd.Mobile.Extensions
+﻿namespace Ebd.CrossCutting.Common.Extensions
 {
     public static class IntExtension
     {

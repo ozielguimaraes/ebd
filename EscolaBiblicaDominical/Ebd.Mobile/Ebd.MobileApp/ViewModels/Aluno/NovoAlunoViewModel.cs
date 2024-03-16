@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
+using Ebd.CrossCutting.Common.Extensions;
 using Ebd.CrossCutting.Enumerators;
 using Ebd.Mobile.Constants;
 using Ebd.Mobile.Services.Interfaces;
@@ -10,7 +11,6 @@ using Ebd.Mobile.Services.Responses.Bairro;
 using Ebd.Mobile.Services.Responses.Cep;
 using Ebd.Mobile.Services.Responses.Turma;
 using Ebd.MobileApp.Messages;
-using Ebd.MobileApp.Models.Extensions;
 using MvvmHelpers;
 using MvvmHelpers.Commands;
 using System.Collections.ObjectModel;

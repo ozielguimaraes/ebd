@@ -1,18 +1,14 @@
-﻿using Ebd.Mobile.Constants;
+﻿using Ebd.CrossCutting.Common.Extensions;
+using Ebd.Mobile.Constants;
 using Ebd.Mobile.Services.Exceptions;
 using Ebd.Mobile.Services.Interfaces;
 using Ebd.Mobile.Services.Responses;
-using Ebd.MobileApp.Models.Extensions;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
-using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace Ebd.Mobile.Services.Implementations.Base
 {

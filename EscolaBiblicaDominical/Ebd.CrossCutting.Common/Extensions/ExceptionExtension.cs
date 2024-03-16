@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Text;
 
-namespace Ebd.Mobile.Extensions
+namespace Ebd.CrossCutting.Common.Extensions
 {
     public static class ExceptionExtension
     {
