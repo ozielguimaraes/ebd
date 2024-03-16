@@ -46,6 +46,7 @@ namespace Ebd.Infra.Data
             //ConfigurePostgresConnection(builder)
             //ConfigureMySqlConnection(builder)
             ConfigureSqlServerConnection(builder)
+                .LogTo(message => Debug.WriteLine(message), LogLevel.Debug)
                 .EnableSensitiveDataLogging(true)
                 .UseLoggerFactory(new LoggerFactory());
             //builder.UseLazyLoadingProxies(false);
