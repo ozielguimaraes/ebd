@@ -7,11 +7,37 @@ using Ebd.Mobile.Services.Interfaces;
 using Ebd.Mobile.ViewModels;
 using Ebd.Mobile.ViewModels.Aluno;
 using Ebd.Mobile.ViewModels.Chamada;
+using Ebd.MobileApp.Network;
 
 namespace Ebd.Mobile
 {
     public static class DependencyInjection
     {
+        public static IServiceCollection ConfigureAndHandleHttpClient(this IServiceCollection services)
+        {
+            services.AddSingleton<IPlatformHttpMessageHandler>(_ =>
+            {
+#if ANDROID
+                return new Ebd.MobileApp.Platforms.Android.Network.AndroidHttpMessageHandler();
+#else
+                return new MobileApp.Platforms.iOS.Network.IosHttpMessageHandler();
+#endif
+            });
+            services.AddHttpClient("maui-to-https-localhost", httpClient =>
+            {
+                var baseAddress = DynamicBaseUrl.GetAdjustedBaseUrl();
+
+                httpClient.BaseAddress = new Uri(baseAddress);
+            })
+                .ConfigureHttpMessageHandlerBuilder(builder =>
+                {
+                    var platfromHttpMessageHandler = builder.Services.GetRequiredService<IPlatformHttpMessageHandler>();
+                    builder.PrimaryHandler = platfromHttpMessageHandler.GetHttpMessageHandler();
+                });
+
+            return services;
+        }
+
         public static IServiceCollection ConfigureServices(this IServiceCollection services)
         {
             //services.AddSingleton<IApiService, ApiService>();

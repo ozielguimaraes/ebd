@@ -1,11 +1,14 @@
-﻿using Ebd.Mobile.Constants;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using Ebd.Mobile.Constants;
 using Ebd.Mobile.Services.Interfaces;
 using Ebd.Mobile.Views.Chamada;
+using MvvmHelpers;
 using MvvmHelpers.Commands;
 
-namespace Ebd.Mobile.ViewModels
+namespace Ebd.MobileApp.ViewModels.Home
 {
-    public class HomeViewModel : BaseViewModel
+    internal sealed partial class HomeViewModel : BasePageViewModel
     {
         private readonly ISyncService syncService;
         private readonly ILoggerService loggerService;
@@ -28,6 +31,37 @@ namespace Ebd.Mobile.ViewModels
 
         public AsyncCommand GoToEscolherTurmaPageCommand { get; }
 
+        [ObservableProperty]
+        HomeTab _currentTab;
+
+
+        [RelayCommand]
+        void GoToTab(HomeTab destinationTab)
+        {
+            if (CurrentTab == destinationTab)
+                return;
+
+            CurrentTab = destinationTab;
+
+            switch (CurrentTab)
+            {
+                case HomeTab.Home:
+                    InitializeHomeTab().SafeFireAndForget();
+                    break;
+                case HomeTab.Classroom:
+                    InitializeClassroomTab().SafeFireAndForget();
+                    break;
+                case HomeTab.Attendance:
+                    InitializeAttendanceTab().SafeFireAndForget();
+                    break;
+                case HomeTab.Profile:
+                    InitializeProfileTab().SafeFireAndForget();
+                    break;
+                default:
+                    break;
+            }
+        }
+
         private async Task ExecuteGoToAlunoPageCommand()
         {
             await Shell.Current.GoToAsync(PageConstant.Aluno.Lista);
@@ -48,7 +82,7 @@ namespace Ebd.Mobile.ViewModels
                 }
                 catch (Exception exception)
                 {
-                    loggerService.LogError("Não foi possível syncronizar os dados", exception);   
+                    loggerService.LogError("Não foi possível syncronizar os dados", exception);
                     //TODO Do something else with this error
                 }
             });

@@ -1,10 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
-
-namespace Ebd.Mobile.Services.Interfaces
+﻿namespace Ebd.Mobile.Services.Interfaces
 {
     public interface INetworkService
     {
+        HttpClient GetHttpClient();
         Task<bool> HasInternetConnection();
         Task<T> Retry<T>(Func<Task<T>> func);
         Task<T> Retry<T>(Func<Task<T>> func, int retryCount);

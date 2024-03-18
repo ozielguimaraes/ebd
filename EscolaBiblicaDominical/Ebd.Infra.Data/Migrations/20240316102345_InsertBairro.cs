@@ -5,7 +5,7 @@
 namespace Ebd.Infra.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class InsertBairros : Migration
+    public partial class InsertBairro : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

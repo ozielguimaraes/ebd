@@ -17,8 +17,9 @@ public static class MauiProgram
                 fonts.AddFont("OpenSansBold.ttf", "OpenSansBold");
             })
             .UseMauiCommunityToolkit();
-        
+
         builder.Services
+            .ConfigureAndHandleHttpClient()
             .ConfigureServices()
             .ConfigureRepositories()
             .ConfigureViewModels()

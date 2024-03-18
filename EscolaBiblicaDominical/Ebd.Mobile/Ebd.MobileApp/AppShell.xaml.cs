@@ -2,9 +2,6 @@
 using Ebd.Mobile.Views;
 using Ebd.Mobile.Views.Aluno;
 using Ebd.Mobile.Views.Chamada;
-using System;
-using Microsoft.Maui.Controls;
-using Microsoft.Maui;
 
 namespace Ebd.Mobile
 {

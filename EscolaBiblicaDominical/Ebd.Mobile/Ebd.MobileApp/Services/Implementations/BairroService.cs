@@ -2,8 +2,6 @@
 using Ebd.Mobile.Services.Interfaces;
 using Ebd.Mobile.Services.Responses;
 using Ebd.Mobile.Services.Responses.Bairro;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Ebd.Mobile.Services.Implementations
 {

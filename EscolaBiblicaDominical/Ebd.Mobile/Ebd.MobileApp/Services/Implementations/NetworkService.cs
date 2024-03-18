@@ -1,18 +1,18 @@
 ﻿using Ebd.Mobile.Services.Interfaces;
+using Ebd.MobileApp.Network;
 using Polly;
-using System;
-using System.Threading.Tasks;
-using Microsoft.Maui.Networking;
 
 namespace Ebd.Mobile.Services.Implementations
 {
     public class NetworkService : INetworkService
     {
         private readonly ILoggerService _loggerService;
+        private readonly IHttpClientFactory _httpClientFactory;
 
-        public NetworkService(ILoggerService loggerService)
+        public NetworkService(ILoggerService loggerService, IHttpClientFactory httpClientFactory)
         {
             _loggerService = loggerService;
+            _httpClientFactory = httpClientFactory;
         }
 
         public async Task<bool> HasInternetConnection()
@@ -75,6 +75,25 @@ namespace Ebd.Mobile.Services.Implementations
 
             return await Policy.Handle<Exception>().WaitAndRetryAsync(retryCount, sleepDurationProvider, onRetryAsync ?? onRetryInner).ExecuteAsync<T>(func);
         }
+
+        public HttpClient GetHttpClient()
+        {
+            if (IsDeviceEmulator())
+                return _httpClientFactory.CreateClient("maui-to-https-localhost");
+
+            return new HttpClient
+            {
+                BaseAddress = new Uri(DynamicBaseUrl.GetAdjustedBaseUrl())
+            };
+        }
+
+        private static bool IsDeviceEmulator()
+        {
+            return DeviceInfo.Model.Contains("simulator", StringComparison.OrdinalIgnoreCase) ||
+                   DeviceInfo.Model.Contains("emulator", StringComparison.OrdinalIgnoreCase) ||
+                   DeviceInfo.DeviceType == DeviceType.Virtual;
+        }
+
         #endregion
     }
 }

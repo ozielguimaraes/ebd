@@ -1,12 +1,9 @@
 ﻿using Ebd.Mobile.Models;
 using Ebd.Mobile.Services.Interfaces;
-using System;
-using Microsoft.Maui.Controls;
-using Microsoft.Maui;
 
 namespace Ebd.Mobile.ViewModels
 {
-    public class NewItemViewModel : BaseViewModel
+    internal class NewItemViewModel : BaseViewModel
     {
         private string text;
         private string description;

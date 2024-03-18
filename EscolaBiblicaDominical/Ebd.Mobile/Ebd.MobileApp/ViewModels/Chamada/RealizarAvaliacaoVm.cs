@@ -3,7 +3,7 @@ using Ebd.Mobile.Services.Responses.Avaliacao;
 
 namespace Ebd.Mobile.ViewModels.Chamada
 {
-    public class RealizarAvaliacaoVm : BaseViewModel
+    internal class RealizarAvaliacaoVm : BaseViewModel
     {
         public RealizarAvaliacaoVm(AvaliacaoResponse avaliacaoResponse, IDiagnosticService diagnosticService, IDialogService dialogService, ILoggerService loggerService) : base(diagnosticService, dialogService, loggerService)
         {

@@ -1,5 +1,4 @@
 ﻿using Ebd.CrossCutting.Common.Extensions;
-using Ebd.Mobile.Constants;
 using Ebd.Mobile.Services.Exceptions;
 using Ebd.Mobile.Services.Interfaces;
 using Ebd.Mobile.Services.Responses;
@@ -24,26 +23,23 @@ namespace Ebd.Mobile.Services.Implementations.Base
 
         public ApiService(INetworkService networkService, ILoggerService loggerService)
         {
+            _networkService = networkService;
+            _loggerService = loggerService;
+
             HttpClientHandler clientHandler = new()
             {
                 ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; }
             };
-
-            HttpClient = new HttpClient(clientHandler)
-            {
-                BaseAddress = new Uri(AppConstant.BaseUrl)
-            };
-
-            HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(ApplicationJson));
-
             _jsonSerializerOptions = new JsonSerializerOptions
             {
                 DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
                 IgnoreReadOnlyProperties = true,
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
             };
-            _networkService = networkService;
-            _loggerService = loggerService;
+
+            HttpClient = _networkService.GetHttpClient();
+
+            HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(ApplicationJson));
         }
 
         public async Task<BaseResponse<T>> GetAndRetry<T>(string requestUri, int retryCount, Func<Exception, int, Task> onRetry = null, string accessToken = null) where T : class
@@ -105,7 +101,7 @@ namespace Ebd.Mobile.Services.Implementations.Base
             Random rnd = new();
             int randomId = rnd.Next(1000, 9999);
 
-            _loggerService.LogInformation($"Request Uri-{randomId}: [HttpGet] {GetFullUri(requestUri)}");
+            _loggerService.LogInformation($"Request Uri-{randomId}: [HttpGet] {HttpClient.BaseAddress}/{requestUri}");
             using HttpResponseMessage responseMessage = await HttpClient.GetAsync($"api/{requestUri}");
             string responseContent = null;
 
@@ -138,7 +134,7 @@ namespace Ebd.Mobile.Services.Implementations.Base
         {
             Random rnd = new Random();
             int randomId = rnd.Next(1000, 9999);
-            _loggerService.LogInformation($"Request Uri: [HttpPost] {GetFullUri(requestUri)}");
+            _loggerService.LogInformation($"Request Uri: [HttpPost] {HttpClient.BaseAddress}/{requestUri}");
             var contentRequest = JsonSerializer.Serialize(request);
 #if DEBUG
             Debug.WriteLine($"JSON request: {contentRequest}");
@@ -177,7 +173,7 @@ namespace Ebd.Mobile.Services.Implementations.Base
         {
             Random rnd = new Random();
             int id = rnd.Next(1000, 9999);
-            _loggerService.LogInformation($"Request Uri: [HttpPost] {GetFullUri(requestUri)}");
+            _loggerService.LogInformation($"Request Uri: [HttpPost] {HttpClient.BaseAddress}/{requestUri}");
 
             var contentRequest = JsonSerializer.Serialize(request);
 #if DEBUG
@@ -217,11 +213,6 @@ namespace Ebd.Mobile.Services.Implementations.Base
 #endif
         }
 
-        private static void LogRequestUri(string requestUri)
-        {
-            Debug.WriteLine($"Request Uri: {AppConstant.BaseUrl}{requestUri}");
-        }
-
         private void TryAddAuthorization(string accessToken)
         {
             if (!string.IsNullOrWhiteSpace(accessToken))
@@ -237,7 +228,5 @@ namespace Ebd.Mobile.Services.Implementations.Base
                 _ => new InvalidOperationException("Erro desconhecido ao realizar essa operação"),
             };
         }
-
-        private string GetFullUri(string uri) => $"{AppConstant.BaseUrl}/{uri}";
     }
 }

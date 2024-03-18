@@ -1,13 +1,10 @@
 ﻿using Ebd.Mobile.Services.Interfaces;
-using System;
 using System.Diagnostics;
-using Microsoft.Maui.Controls;
-using Microsoft.Maui;
 
 namespace Ebd.Mobile.ViewModels
 {
     [QueryProperty(nameof(ItemId), nameof(ItemId))]
-    public class ItemDetailViewModel : BaseViewModel
+    internal class ItemDetailViewModel : BaseViewModel
     {
         private string itemId;
         private string text;

@@ -45,6 +45,5 @@ namespace Ebd.Infra.Data.Migrations
                 keyColumn: "AvaliacaoId",
                 keyValue: 5);
         }
-
     }
 }

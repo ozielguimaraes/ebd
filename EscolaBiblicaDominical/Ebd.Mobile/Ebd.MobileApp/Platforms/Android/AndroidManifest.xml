@@ -7,7 +7,7 @@
 				 android:appComponentFactory="androidx.core.app.CoreComponentFactory"
 				 tools:replace="android:appComponentFactory">
 		<!-- for http support-->
-		<uses-library android:name="org.apache.http.legacy" android:required="false" />
+		<!--<uses-library android:name="org.apache.http.legacy" android:required="false" />-->
 
 	</application>
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />

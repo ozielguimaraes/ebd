@@ -1,13 +1,12 @@
-﻿using Ebd.CrossCutting.Common.Extensions;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Ebd.CrossCutting.Common.Extensions;
 using Ebd.Mobile.Services.Interfaces;
-using System;
-using System.Threading.Tasks;
-using BaseViewModelMvvmHelpers = MvvmHelpers.BaseViewModel;
-using Microsoft.Maui.ApplicationModel;
+using Ebd.MobileApp.Services.Navigation;
+using Ebd.MobileApp.ViewModels;
 
 namespace Ebd.Mobile.ViewModels
 {
-    public abstract class BaseViewModel : BaseViewModelMvvmHelpers
+    internal abstract partial class BaseViewModel : ObservableObject
     {
         protected readonly IDiagnosticService DiagnosticService;
         protected readonly IDialogService DialogService;
@@ -19,6 +18,12 @@ namespace Ebd.Mobile.ViewModels
             DialogService = dialogService;
             Logger = logger;
         }
+
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(IsNotBusy))]
+        bool _IsBusy = false;
+
+        public bool IsNotBusy => !IsBusy;
 
         protected void CommandOnException(Exception ex)
             => MainThread.BeginInvokeOnMainThread(() => DialogService.DisplayAlert(ex));
@@ -41,5 +46,9 @@ namespace Ebd.Mobile.ViewModels
                 DialogService.HideLoading();
             });
         }
+
+        protected Task Navigate<TPageViewModel>(object? parameter = null)
+            where TPageViewModel : BasePageViewModel
+            => NavigationService.Current.Navigate<TPageViewModel>(parameter);
     }
 }

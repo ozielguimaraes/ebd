@@ -1,7 +1,4 @@
-﻿using Ebd.Mobile.ViewModels;
-using Microsoft.Maui.Controls.Xaml;
-using Microsoft.Maui.Controls;
-using Microsoft.Maui;
+﻿using Ebd.MobileApp.ViewModels.Home;
 
 namespace Ebd.Mobile.Views
 {
