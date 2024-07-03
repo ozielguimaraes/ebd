@@ -36,6 +36,19 @@ public static class MauiProgram
             .BuildServiceProvider();
 #if DEBUG
         builder.Logging.AddDebug();
+        AppDomain.CurrentDomain.UnhandledException += (sender, e) =>
+        {
+            if (e.ExceptionObject is Exception ex)
+            {
+                //SentrySdk.CaptureException(ex);
+            }
+        };
+
+        TaskScheduler.UnobservedTaskException += (sender, e) =>
+        {
+            //SentrySdk.CaptureException(e.Exception);
+            e.SetObserved();
+        };
 #endif
         var app = builder.Build();
         DependencyInjection.Initialize(app.Services);

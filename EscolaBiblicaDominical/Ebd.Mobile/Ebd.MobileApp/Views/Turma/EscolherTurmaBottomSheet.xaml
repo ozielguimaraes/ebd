@@ -29,30 +29,28 @@
             SelectionMode="None">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <ViewCell>
-                        <VerticalStackLayout Padding="10">
-                            <VerticalStackLayout.GestureRecognizers>
-                                <TapGestureRecognizer
-                                    Command="{Binding Source={x:Reference ThisBottomSheet}, Path=BindingContext.TurmaSelecionadaCommand}"
-                                    CommandParameter="{Binding .}"
-                                    NumberOfTapsRequired="1" />
-                            </VerticalStackLayout.GestureRecognizers>
-                            <Label
-                                FontSize="Subtitle"
-                                LineBreakMode="NoWrap"
-                                Text="{Binding Nome}" />
-                            <Label
-                                FontSize="Small"
-                                LineBreakMode="NoWrap"
-                                TextColor="{StaticResource PrimaryDarkText}">
-                                <Label.FormattedText>
-                                    <FormattedString>
-                                        <Span Text="{Binding FaixaIdade}" TextColor="{StaticResource Gray300}" />
-                                    </FormattedString>
-                                </Label.FormattedText>
-                            </Label>
-                        </VerticalStackLayout>
-                    </ViewCell>
+                    <VerticalStackLayout Padding="10">
+                        <VerticalStackLayout.GestureRecognizers>
+                            <TapGestureRecognizer
+                                Command="{Binding Source={x:Reference ThisBottomSheet}, Path=BindingContext.TurmaSelecionadaCommand}"
+                                CommandParameter="{Binding .}"
+                                NumberOfTapsRequired="1" />
+                        </VerticalStackLayout.GestureRecognizers>
+                        <Label
+                            FontSize="Subtitle"
+                            LineBreakMode="NoWrap"
+                            Text="{Binding Nome}" />
+                        <Label
+                            FontSize="Small"
+                            LineBreakMode="NoWrap"
+                            TextColor="{StaticResource PrimaryDarkText}">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="{Binding FaixaIdade}" TextColor="{StaticResource Gray300}" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                    </VerticalStackLayout>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
