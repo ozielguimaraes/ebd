@@ -3,7 +3,7 @@
 internal enum HomeTab
 {
     Home,
-    Classroom,
+    Students,
     Attendance,
     Profile
 }

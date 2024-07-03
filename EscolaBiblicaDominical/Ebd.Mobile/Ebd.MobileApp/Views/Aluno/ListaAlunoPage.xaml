@@ -1,54 +1,51 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-             xmlns:vm="clr-namespace:Ebd.Mobile.ViewModels.Aluno" 
-             xmlns:response="clr-namespace:Ebd.Mobile.Services.Responses.Aluno" 
-             xmlns:converters="clr-namespace:Ebd.Mobile.Converters"
-             x:Class="Ebd.Mobile.Views.Aluno.ListaAlunoPage"
-             Title="{Binding Title}"
-             BackgroundColor="{StaticResource Primary}"
-             x:DataType="vm:ListaAlunoViewModel">
+<ContentPage
+    x:Class="Ebd.Mobile.Views.Aluno.ListaAlunoPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:components="clr-namespace:Ebd.MobileApp.Views.Components"
+    xmlns:converters="clr-namespace:Ebd.Mobile.Converters"
+    xmlns:response="clr-namespace:Ebd.Mobile.Services.Responses.Aluno"
+    xmlns:vm="clr-namespace:Ebd.Mobile.ViewModels.Aluno"
+    Title="{Binding Title}"
+    x:DataType="vm:ListaAlunoViewModel"
+    BackgroundColor="{StaticResource Primary}">
     <ContentPage.Resources>
         <ResourceDictionary>
             <converters:IsNotNullConverter x:Key="IsNotNull" />
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
+        <Grid RowDefinitions="*,*">
             <ScrollView Margin="8">
                 <StackLayout>
                     <Label Text="Turma" />
-                    <Picker Title="Selecione uma turma"
-                            TitleColor="{StaticResource Primary}"
-                            ItemsSource="{Binding Turmas}"
-                            SelectedItem="{Binding TurmaSelecionada}"
-                            ItemDisplayBinding="{Binding FaixaIdadeNome}"/>
+                    <Label Text="{Binding TurmaSelecionada.Nome}" TextColor="{StaticResource Primary}" />
 
-                    <CollectionView ItemsSource="{Binding Alunos}"
-                                    Margin="0,16,0,0">
+                    <CollectionView Margin="0,16,0,0" ItemsSource="{Binding Alunos}">
                         <CollectionView.EmptyView>
-                            <Label Text="Nenhum aluno encontrado para a turma."
-                                   FontSize="Subtitle"
-                                   HorizontalTextAlignment="Center" />
+                            <Label
+                                FontSize="Subtitle"
+                                HorizontalTextAlignment="Center"
+                                Text="Nenhum aluno encontrado para a turma." />
                         </CollectionView.EmptyView>
                         <CollectionView.ItemTemplate>
                             <DataTemplate x:DataType="response:AlunoResponse">
-                                <Frame Padding="0" 
-                                       CornerRadius="8"
-                                       HasShadow="False">
-                                    <StackLayout 
-                                        Orientation="Horizontal" 
-                                        Margin="10,8">
-                                        <FlexLayout 
+                                <Frame
+                                    Padding="0"
+                                    CornerRadius="8"
+                                    HasShadow="False">
+                                    <StackLayout Margin="10,8" Orientation="Horizontal">
+                                        <FlexLayout
+                                            Direction="Column"
                                             HeightRequest="70"
                                             HorizontalOptions="StartAndExpand"
-                                            Direction="Column"
                                             JustifyContent="SpaceAround">
-                                            <Label Text="{Binding Nome}" FontSize="Medium" FontAttributes="Bold" />
-                                            <Label Text="10 pontos" FontSize="Subtitle" />
+                                            <Label
+                                                FontAttributes="Bold"
+                                                FontSize="Medium"
+                                                Text="{Binding Nome}" />
+                                            <Label FontSize="Subtitle" Text="10 pontos" />
                                         </FlexLayout>
                                         <Image Source="dotnet_bot.png" />
                                     </StackLayout>
@@ -58,18 +55,22 @@
                     </CollectionView>
                 </StackLayout>
             </ScrollView>
-            
-            <Button Text="+  Novo"
-                    FontAttributes="Bold" 
-                    BackgroundColor="{StaticResource Primary}" 
-                    CornerRadius="35"
-                    TextColor="{StaticResource PrimaryTextColor}"
-                    HorizontalOptions="End" 
-                    WidthRequest="110"
-                    HeightRequest="60"
-                    Margin="0,0,20,22"
-                    VerticalOptions="End"
-                    Command="{Binding NewStudentCommand}" />
+
+            <Button
+                Margin="0,0,20,22"
+                BackgroundColor="{StaticResource Primary}"
+                Command="{Binding NewStudentCommand}"
+                CornerRadius="35"
+                FontAttributes="Bold"
+                HeightRequest="60"
+                HorizontalOptions="End"
+                Text="+  Novo"
+                TextColor="{StaticResource PrimaryTextColor}"
+                VerticalOptions="End"
+                WidthRequest="110" />
+
+
+            <components:TabBarView Grid.Row="1" BackgroundColor="{StaticResource Primary}" />
         </Grid>
     </ContentPage.Content>
 </ContentPage>

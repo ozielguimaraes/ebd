@@ -17,6 +17,12 @@ internal sealed class TurmaService : BaseService, ITurmaService
         this.repository = repository;
     }
 
+    public async Task<BaseResponse<IEnumerable<TurmaResponse>>> ObterPeloUsuarioAsync()
+    {
+        //TODO Implementar login e endpoint...
+        return await ObterTodasAsync();
+    }
+
     public async Task<BaseResponse<IEnumerable<TurmaResponse>>> ObterTodasAsync()
     {
         loggerService.LogInformation("Obtendo todas turmas");

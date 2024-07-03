@@ -1,14 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Ebd.Mobile.Services.Interfaces;
-using Ebd.Mobile.Services.Responses.Turma;
 using Ebd.Mobile.ViewModels.Aluno;
-using Ebd.Mobile.Views.Chamada;
 using Ebd.MobileApp.Services.Interfaces.BottomSheets;
-using Ebd.MobileApp.ViewModels.Perfil;
 using MvvmHelpers;
 using MvvmHelpers.Commands;
-using System.Collections.ObjectModel;
 
 namespace Ebd.MobileApp.ViewModels.Home
 {
@@ -30,29 +26,12 @@ namespace Ebd.MobileApp.ViewModels.Home
 
             SetupScreenName("Inicio");
             Title = "Inicio";
-
-            GoToAlunoPageCommand = new AsyncCommand(
-                execute: ExecuteGoToAlunoPageCommand,
-                onException: CommandOnException);
-
-            GoToEscolherTurmaPageCommand = new AsyncCommand(
-                execute: ExecuteGoToEscolherTurmaPageCommand,
-                onException: CommandOnException);
-
-            ClicouNaAbaPerfilCommand = new AsyncCommand(
-                execute: ExecutarClicouNaAbaPerfilCommand,
-                onException: CommandOnException);
         }
 
         public AsyncCommand GoToAlunoPageCommand { get; private set; }
-        public AsyncCommand ClicouNaAbaPerfilCommand { get; private set; }
-        public AsyncCommand GoToEscolherTurmaPageCommand { get; }
 
         [ObservableProperty]
         HomeTab _currentTab;
-
-        public ObservableCollection<TurmaResponse> Turmas { get; } = new ObservableCollection<TurmaResponse>(new List<TurmaResponse> { new TurmaResponse { TurmaId = 1, Nome = "Turma 1", IdadeMinima = 22, IdadeMaxima = 90 } });
-
 
         [RelayCommand]
         void GoToTab(HomeTab destinationTab)
@@ -67,8 +46,8 @@ namespace Ebd.MobileApp.ViewModels.Home
                 case HomeTab.Home:
                     InitializeHomeTab().SafeFireAndForget();
                     break;
-                case HomeTab.Classroom:
-                    InitializeClassroomTab().SafeFireAndForget();
+                case HomeTab.Students:
+                    InitializeStudentsTab().SafeFireAndForget();
                     break;
                 case HomeTab.Attendance:
                     InitializeAttendanceTab().SafeFireAndForget();
@@ -90,20 +69,6 @@ namespace Ebd.MobileApp.ViewModels.Home
             IsBusy = false;
         }
 
-        private async Task ExecuteGoToEscolherTurmaPageCommand()
-        {
-            await Shell.Current.GoToAsync($"{nameof(EscolherTurmaPage)}");
-        }
-
-        private async Task ExecutarClicouNaAbaPerfilCommand()
-        {
-            if (IsBusy) return;
-
-            IsBusy = true;
-            await Navigate<PerfilPageViewModel>();
-            IsBusy = false;
-        }
-
         public async override Task OnAppearingAsync(object? parameter = null)
         {
             if (IsBusy)
@@ -112,7 +77,6 @@ namespace Ebd.MobileApp.ViewModels.Home
             IsBusy = true;
 
             await base.OnAppearingAsync(parameter);
-            await CertificarQueTurmaFoiSelecionada();
 
             IsBusy = false;
         }

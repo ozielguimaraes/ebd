@@ -34,7 +34,7 @@ namespace Ebd.Mobile.ViewModels
         protected DateTime ObterDataAtual() => DateTimeExtension.ObterDataAtual();
         protected bool CanExecute(object args) => IsNotBusy;
 
-        public virtual Task Appearing(object args)
+        public virtual Task Appearing(object? args)
         {
             IsBusy = false;
 

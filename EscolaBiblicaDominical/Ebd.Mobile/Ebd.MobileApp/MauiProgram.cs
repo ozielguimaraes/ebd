@@ -1,5 +1,6 @@
 using CommunityToolkit.Maui;
 using Controls.UserDialogs.Maui;
+using Ebd.MobileApp.Extensions;
 using Microsoft.Extensions.Logging;
 using The49.Maui.BottomSheet;
 
@@ -12,6 +13,7 @@ public static class MauiProgram
         var builder = MauiApp.CreateBuilder();
         builder
             .UseMauiApp<App>()
+            .ConfigureSentry()
             .UseUserDialogs()
             .UseBottomSheet()
             .ConfigureFonts(fonts =>
@@ -36,6 +38,19 @@ public static class MauiProgram
             .BuildServiceProvider();
 #if DEBUG
         builder.Logging.AddDebug();
+        AppDomain.CurrentDomain.UnhandledException += (sender, e) =>
+        {
+            if (e.ExceptionObject is Exception ex)
+            {
+                SentrySdk.CaptureException(ex);
+            }
+        };
+
+        TaskScheduler.UnobservedTaskException += (sender, e) =>
+        {
+            SentrySdk.CaptureException(e.Exception);
+            e.SetObserved();
+        };
 #endif
         var app = builder.Build();
         DependencyInjection.Initialize(app.Services);

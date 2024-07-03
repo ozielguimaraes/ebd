@@ -27,18 +27,11 @@ namespace Ebd.Mobile.ViewModels.Aluno
             this.configuracoesDoUsuarioService = configuracoesDoUsuarioService;
         }
 
-        private string title;
-        public string Title
-        {
-            get => title;
-            set => SetProperty(ref title, value);
-        }
-
         public ObservableRangeCollection<AlunoResponse> Alunos { get; private set; } = new ObservableRangeCollection<AlunoResponse>();
-        public ObservableRangeCollection<TurmaResponse> Turmas { get; private set; } = new ObservableRangeCollection<TurmaResponse>();
+        //public ObservableRangeCollection<TurmaResponse> Turmas { get; private set; } = new ObservableRangeCollection<TurmaResponse>();
 
-        private string turma;
-        public string Turma
+        private string? turma;
+        public string? Turma
         {
             get => turma;
             set
@@ -95,44 +88,9 @@ namespace Ebd.Mobile.ViewModels.Aluno
             try
             {
                 IsBusy = true;
-                MainThread.BeginInvokeOnMainThread(() =>
-                {
-                    DialogService.ShowLoading("Buscando as turmas...");
-                });
+                DialogService.ShowLoading("Buscando as turmas...");
 
-                var response = await _turmaService.ObterTodasAsync();
-
-                if (response.HasError)
-                {
-                    MainThread.BeginInvokeOnMainThread(() =>
-                    {
-                        DialogService.HideLoading();
-                    });
-
-                    IsBusy = false;
-                    await DialogService.DisplayAlert("Oops", response.Exception.Message);
-                    return;
-                }
-
-                MainThread.BeginInvokeOnMainThread(() =>
-                {
-                    Turmas.Clear();
-                    Turmas.AddRange(response.Data);
-                });
-
-                if (Turmas.Count == 0)
-                {
-                    await Shell.Current.GoToAsync("..");
-                    await DialogService.DisplayAlert("Oops", "Nenhuma turma foi encontrada");
-                }
-                else if (Turmas.Count == 1)
-                {
-                    var turmaSelecionadaEhIgual = configuracoesDoUsuarioService.TurmaSelecionada?.TurmaId == Turmas[0].TurmaId;
-                    if (turmaSelecionadaEhIgual)
-                    {
-                        TurmaSelecionada = configuracoesDoUsuarioService.TurmaSelecionada!;
-                    }
-                }
+                TurmaSelecionada = configuracoesDoUsuarioService.TurmaSelecionada!;
             }
             catch (Exception ex)
             {

@@ -12,7 +12,26 @@ internal sealed partial class HomeViewModel : BasePageViewModel
 
     private async Task InitializeHomeTab(object? parameter = null)
     {
-        await Task.CompletedTask;
+        if (IsBusy)
+            return;
+
+        IsBusy = true;
+
+        await CertificarQueTurmaFoiSelecionada();
+
+        IsBusy = false;
+    }
+
+    public async override Task Appearing(object args)
+    {
+        if (IsBusy)
+            return;
+
+        IsBusy = true;
+
+        await CertificarQueTurmaFoiSelecionada();
+
+        IsBusy = false;
     }
 
     private async Task CertificarQueTurmaFoiSelecionada()
@@ -22,28 +41,10 @@ internal sealed partial class HomeViewModel : BasePageViewModel
             try
             {
                 await escolherTurmaBottomSheetService.AbrirBottomSheetAsync(false);
-                //var turmaResponse = await turmaService.ObterTodasAsync();
-                //if (turmaResponse.IsSuccess)
-                //{
-                //    if (turmaResponse.Data.Any().Not())
-                //    {
-                //        await dialogService.DisplayAlert("Oops", "Nenhuma turma encontrada");
-                //        return;
-                //    }
-
-                //    var escolherTurmaBottomSheet = new EscolherTurmaBottomSheet(turmaResponse.Data)
-                //    {
-                //        HasHandle = true,
-                //        IsCancelable = false
-                //    };
-
-                //    await escolherTurmaBottomSheet.LoadDataAsync();
-                //    await escolherTurmaBottomSheet.ShowAsync();
-                //}
             }
             catch (Exception exception)
             {
-                Logger.LogError($"{nameof(HomeViewModel)}::{nameof(OnAppearingAsync)}", exception);
+                Logger.LogError($"{nameof(HomeViewModel)}::{nameof(CertificarQueTurmaFoiSelecionada)}", exception);
             }
         }
     }

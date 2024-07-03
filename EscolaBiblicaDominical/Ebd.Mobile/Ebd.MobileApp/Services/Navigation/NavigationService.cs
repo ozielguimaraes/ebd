@@ -101,7 +101,7 @@ internal sealed class NavigationService
         }
         Application.Current!.MainPage = new CustomNavigationPage(page);
 
-        //MainThread.InvokeOnMainThreadAsync(async () => await ((BasePageViewModel)Navigation.NavigationStack[0].BindingContext).OnAppearingAsync(parameters));
+        MainThread.InvokeOnMainThreadAsync(async () => await ((BasePageViewModel)Navigation.NavigationStack[0].BindingContext).OnAppearingAsync(parameters));
     }
 
     private Page CreateAndBindPage(Type viewModelType)

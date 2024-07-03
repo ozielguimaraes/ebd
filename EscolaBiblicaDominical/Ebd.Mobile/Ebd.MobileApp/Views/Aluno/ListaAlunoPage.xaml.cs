@@ -1,7 +1,4 @@
 ﻿using Ebd.Mobile.ViewModels.Aluno;
-using Microsoft.Maui.Controls.Xaml;
-using Microsoft.Maui.Controls;
-using Microsoft.Maui;
 
 namespace Ebd.Mobile.Views.Aluno
 {
@@ -14,12 +11,6 @@ namespace Ebd.Mobile.Views.Aluno
         {
             InitializeComponent();
             BindingContext = ViewModel ?? DependencyInjection.GetService<ListaAlunoViewModel>();
-        }
-
-        protected override async void OnAppearing()
-        {
-            base.OnAppearing();
-            await ViewModel.Appearing(null);
         }
     }
 }

@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Grid
+    x:Class="Ebd.MobileApp.Views.Components.TabBarView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:icons="clr-namespace:Ebd.MobileApp"
+    xmlns:styles="clr-namespace:Ebd.MobileApp.Resources.Styles"
+    xmlns:viewmodels="clr-namespace:Ebd.MobileApp.ViewModels.Home"
+    RowDefinitions="*,80">
+    <Border
+        Grid.Row="1"
+        Margin="-0.40,0"
+        BackgroundColor="#FFFFFF"
+        StrokeShape="RoundRectangle 20,20,0,0"
+        StrokeThickness="0">
+
+        <Grid
+            ColumnDefinitions="*,Auto,*,Auto,*,Auto,*,Auto,*"
+            RowDefinitions="Auto,*"
+            VerticalOptions="Center">
+            <Label
+                Grid.Column="1"
+                FontFamily="FontAwesome"
+                FontSize="20"
+                HorizontalOptions="Center"
+                Text="{x:Static icons:FontAwesomeIcon.House}"
+                TextColor="Black"
+                VerticalOptions="Center">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer
+                        Command="{Binding GoToTabCommand}"
+                        CommandParameter="{x:Static viewmodels:HomeTab.Home}"
+                        NumberOfTapsRequired="1" />
+                </Label.GestureRecognizers>
+            </Label>
+            <Label
+                Grid.Row="1"
+                Grid.Column="1"
+                FontFamily="{x:Static styles:FontFamily.Regular}"
+                FontSize="16"
+                HorizontalTextAlignment="Center"
+                Text="Início"
+                TextColor="Black"
+                VerticalOptions="Center">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer
+                        Command="{Binding GoToTabCommand}"
+                        CommandParameter="{x:Static viewmodels:HomeTab.Home}"
+                        NumberOfTapsRequired="1" />
+                </Label.GestureRecognizers>
+            </Label>
+
+            <Label
+                Grid.Column="3"
+                FontFamily="FontAwesome"
+                FontSize="20"
+                HorizontalOptions="Center"
+                Text="{x:Static icons:FontAwesomeIcon.ClipboardList}"
+                TextColor="Black"
+                VerticalOptions="Center">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer
+                        Command="{Binding GoToTabCommand}"
+                        CommandParameter="{x:Static viewmodels:HomeTab.Students}"
+                        NumberOfTapsRequired="1" />
+                </Label.GestureRecognizers>
+            </Label>
+            <Label
+                Grid.Row="1"
+                Grid.Column="3"
+                FontFamily="{x:Static styles:FontFamily.Regular}"
+                FontSize="16"
+                HorizontalTextAlignment="Center"
+                Text="Alunos"
+                TextColor="Black"
+                VerticalOptions="Center">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer
+                        Command="{Binding GoToTabCommand}"
+                        CommandParameter="{x:Static viewmodels:HomeTab.Students}"
+                        NumberOfTapsRequired="1" />
+                </Label.GestureRecognizers>
+            </Label>
+
+            <Label
+                Grid.Column="5"
+                FontFamily="FontAwesome"
+                FontSize="20"
+                HorizontalOptions="Center"
+                Text="{x:Static icons:FontAwesomeIcon.ClipboardUser}"
+                TextColor="Black"
+                VerticalOptions="Center">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer
+                        Command="{Binding GoToTabCommand}"
+                        CommandParameter="{x:Static viewmodels:HomeTab.Students}"
+                        NumberOfTapsRequired="1" />
+                </Label.GestureRecognizers>
+            </Label>
+            <Label
+                Grid.Row="1"
+                Grid.Column="5"
+                FontFamily="{x:Static styles:FontFamily.Regular}"
+                FontSize="16"
+                HorizontalTextAlignment="Center"
+                Text="Chamada"
+                TextColor="Black"
+                VerticalOptions="Center">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer
+                        Command="{Binding GoToTabCommand}"
+                        CommandParameter="{x:Static viewmodels:HomeTab.Students}"
+                        NumberOfTapsRequired="1" />
+                </Label.GestureRecognizers>
+            </Label>
+
+            <Label
+                Grid.Column="7"
+                FontFamily="FontAwesome"
+                FontSize="20"
+                HorizontalOptions="Center"
+                Text="{x:Static icons:FontAwesomeIcon.User}"
+                TextColor="Black"
+                VerticalOptions="Center">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer
+                        Command="{Binding GoToTabCommand}"
+                        CommandParameter="{x:Static viewmodels:HomeTab.Profile}"
+                        NumberOfTapsRequired="1" />
+                </Label.GestureRecognizers>
+            </Label>
+            <Label
+                Grid.Row="1"
+                Grid.Column="7"
+                FontFamily="{x:Static styles:FontFamily.Regular}"
+                FontSize="16"
+                HorizontalTextAlignment="Center"
+                Text="Profile"
+                TextColor="Black"
+                VerticalOptions="Center">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer
+                        Command="{Binding GoToTabCommand}"
+                        CommandParameter="{x:Static viewmodels:HomeTab.Profile}"
+                        NumberOfTapsRequired="1" />
+                </Label.GestureRecognizers>
+            </Label>
+        </Grid>
+    </Border>
+</Grid>
