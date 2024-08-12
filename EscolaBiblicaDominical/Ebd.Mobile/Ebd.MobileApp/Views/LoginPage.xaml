@@ -22,8 +22,7 @@
                     <Label
                         Margin="0,32,0,0"
                         HorizontalTextAlignment="Center"
-                        LineBreakMode="CharacterWrap"
-                        TextColor="{StaticResource Accent}">
+                        LineBreakMode="CharacterWrap">
                         <Label.FormattedText>
                             <FormattedString>
                                 <Span Text="Não andeis ansiosos por coisa alguma..." />
@@ -33,7 +32,7 @@
                         </Label.FormattedText>
                     </Label>
                 </StackLayout>
-                <Border Grid.Row="1" BackgroundColor="{StaticResource Secondary}">
+                <Border Grid.Row="1" BackgroundColor="{StaticResource TertiaryDark}">
                     <Border.StrokeShape>
                         <RoundRectangle CornerRadius="40,40,0,0" />
                     </Border.StrokeShape>
@@ -41,23 +40,23 @@
                         <Label
                             FontSize="Title"
                             HorizontalOptions="Center"
-                            Text="Login"
-                            TextColor="{StaticResource Primary}" />
+                            Style="{StaticResource LabelSecondary}"
+                            Text="Login" />
                         <Label
                             HorizontalOptions="Center"
                             Text="Bem vindo de volta"
-                            TextColor="{StaticResource Tertiary}" />
+                            TextColor="{StaticResource PrimaryDarkTextColor}" />
 
                         <Label
                             Margin="0,40,0,0"
-                            Text="Insira seu login"
-                            TextColor="{StaticResource PrimaryDarkText}" />
+                            Style="{StaticResource LabelSecondary}"
+                            Text="Insira seu login" />
                         <Entry ReturnType="Next" Text="{Binding Login}" />
 
                         <Label
                             Margin="0,24,0,0"
-                            Text="Insira sua senha"
-                            TextColor="{StaticResource PrimaryDarkText}" />
+                            Style="{StaticResource LabelSecondary}"
+                            Text="Insira sua senha" />
                         <Entry IsPassword="True" Text="{Binding Senha}" />
 
                         <Label

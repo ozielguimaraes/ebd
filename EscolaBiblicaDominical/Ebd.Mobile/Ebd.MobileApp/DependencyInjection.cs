@@ -102,7 +102,6 @@ public static class DependencyInjection
         services.AddTransient<ItemDetailPage>();
         services.AddTransient<AboutPage>();
         services.AddTransient<EfetuarChamadaPage>();
-        services.AddTransient<EscolherTurmaPage>();
         services.AddTransient<NovoAlunoPage>();
         services.AddTransient<AdicionarResponsavelPage>();
         services.AddTransient<PerfilPage>();
@@ -121,7 +120,6 @@ public static class DependencyInjection
         services.AddTransient<ItemDetailViewModel>();
         services.AddTransient<AboutViewModel>();
         services.AddTransient<EfetuarChamadaViewModel>();
-        services.AddTransient<EscolherTurmaViewModel>();
         services.AddTransient<NovoAlunoViewModel>();
         services.AddTransient<AdicionarResponsavelViewModel>();
 

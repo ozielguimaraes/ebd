@@ -135,9 +135,6 @@
 	  <Compile Update="Views\Chamada\EscolherLicaoPage.xaml.cs">
 	    <DependentUpon>%(Filename)</DependentUpon>
 	  </Compile>
-	  <Compile Update="Views\Chamada\EscolherTurmaPage.xaml.cs">
-	    <DependentUpon>%(Filename)</DependentUpon>
-	  </Compile>
 	  <Compile Update="Views\Components\MenuCardView.xaml.cs">
 	    <DependentUpon>%(Filename)</DependentUpon>
 	  </Compile>
@@ -192,10 +189,10 @@
 	  <MauiXaml Update="Views\Chamada\EscolherLicaoPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\Chamada\EscolherTurmaPage.xaml">
+	  <MauiXaml Update="Views\Components\MenuCardView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\Components\MenuCardView.xaml">
+	  <MauiXaml Update="Views\Components\MyEntry.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Components\TabBarView.xaml">

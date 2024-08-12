@@ -29,7 +29,7 @@
                 <Setter Property="IsEnabled" Value="False" />
             </Style>
             <Style x:Key="ButtonIsEnabled" TargetType="Button">
-                <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
                 <Setter Property="TextColor" Value="#FFFFFF" />
                 <Setter Property="IsEnabled" Value="True" />
             </Style>

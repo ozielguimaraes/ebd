@@ -1,5 +1,4 @@
-﻿using Ebd.Mobile.Constants;
-using Ebd.Mobile.Services.Interfaces;
+﻿using Ebd.Mobile.Services.Interfaces;
 using Ebd.Mobile.Services.Responses.Aluno;
 using Ebd.Mobile.Services.Responses.Turma;
 using Ebd.MobileApp.ViewModels;
@@ -118,7 +117,10 @@ namespace Ebd.Mobile.ViewModels.Aluno
         {
             if (IsBusy) return;
 
-            await Shell.Current.GoToAsync($"{PageConstant.Aluno.Novo}?Turma={(TurmaSelecionada is null ? null : JsonSerializer.Serialize(TurmaSelecionada))}");
+            IsBusy = true;
+            Navigate<NovoAlunoViewModel>();
+
+            IsBusy = false;
         }
 
         private async Task ExecuteCarregarListaAlunosCommand(bool force)

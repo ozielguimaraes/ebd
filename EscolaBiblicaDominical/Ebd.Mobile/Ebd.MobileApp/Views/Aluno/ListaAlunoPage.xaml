@@ -8,16 +8,15 @@
     xmlns:response="clr-namespace:Ebd.Mobile.Services.Responses.Aluno"
     xmlns:vm="clr-namespace:Ebd.Mobile.ViewModels.Aluno"
     Title="{Binding Title}"
-    x:DataType="vm:ListaAlunoViewModel"
-    BackgroundColor="{StaticResource Primary}">
+    x:DataType="vm:ListaAlunoViewModel">
     <ContentPage.Resources>
         <ResourceDictionary>
             <converters:IsNotNullConverter x:Key="IsNotNull" />
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
-        <Grid RowDefinitions="*,*">
-            <ScrollView Margin="8">
+        <Grid RowDefinitions="*,*" RowSpacing="0">
+            <ScrollView Margin="8" VerticalOptions="StartAndExpand">
                 <StackLayout>
                     <Label Text="Turma" />
                     <Label Text="{Binding TurmaSelecionada.Nome}" TextColor="{StaticResource Primary}" />
@@ -56,21 +55,22 @@
                 </StackLayout>
             </ScrollView>
 
-            <Button
-                Margin="0,0,20,22"
-                BackgroundColor="{StaticResource Primary}"
-                Command="{Binding NewStudentCommand}"
-                CornerRadius="35"
-                FontAttributes="Bold"
-                HeightRequest="60"
-                HorizontalOptions="End"
-                Text="+  Novo"
-                TextColor="{StaticResource PrimaryTextColor}"
-                VerticalOptions="End"
-                WidthRequest="110" />
+            <VerticalStackLayout Grid.Row="1" VerticalOptions="End">
+                <Button
+                    Margin="0,0,20,22"
+                    BackgroundColor="{StaticResource Primary}"
+                    Command="{Binding NewStudentCommand}"
+                    CornerRadius="35"
+                    FontAttributes="Bold"
+                    HeightRequest="60"
+                    HorizontalOptions="End"
+                    Text="+  Novo"
+                    TextColor="{StaticResource PrimaryTextColor}"
+                    VerticalOptions="End"
+                    WidthRequest="110" />
 
-
-            <components:TabBarView Grid.Row="1" BackgroundColor="{StaticResource Primary}" />
+                <components:TabBarView BackgroundColor="{StaticResource Primary}" />
+            </VerticalStackLayout>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

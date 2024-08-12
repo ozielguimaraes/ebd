@@ -11,65 +11,41 @@ using Ebd.Mobile.Services.Responses.Bairro;
 using Ebd.Mobile.Services.Responses.Cep;
 using Ebd.Mobile.Services.Responses.Turma;
 using Ebd.MobileApp.Messages;
+using Ebd.MobileApp.Services.Interfaces.BottomSheets;
+using Ebd.MobileApp.ViewModels;
 using MvvmHelpers;
 using MvvmHelpers.Commands;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Text.Json;
 using System.Windows.Input;
 
 namespace Ebd.Mobile.ViewModels.Aluno
 {
-    [QueryProperty(nameof(Turma), nameof(Turma))]
-    internal class NovoAlunoViewModel : BaseViewModel
+    internal class NovoAlunoViewModel : BasePageViewModel
     {
         private readonly IAlunoService _alunoService;
         private readonly IBairroService _bairroService;
         private readonly ICepService _cepService;
         private readonly ITurmaService _turmaService;
+        private readonly IConfiguracoesDoUsuarioService configuracoesDoUsuarioService;
+        private readonly IEscolherTurmaBottomSheetService escolherTurmaBottomSheetService;
 
         public const string BottomSheetSelecionarBairro = "BottomSheetSelecionarBairro";
 
-        public NovoAlunoViewModel(ITurmaService turmaService, IAlunoService alunoService, IBairroService bairroService, ICepService cepService, IDiagnosticService diagnosticService, IDialogService dialogService, ILoggerService loggerService, IAnalyticsService analyticsService) : base(diagnosticService, dialogService, loggerService, analyticsService)
+        public NovoAlunoViewModel(ITurmaService turmaService, IAlunoService alunoService, IBairroService bairroService, ICepService cepService, IDiagnosticService diagnosticService, IDialogService dialogService, ILoggerService loggerService, IAnalyticsService analyticsService, IConfiguracoesDoUsuarioService configuracoesDoUsuarioService, IEscolherTurmaBottomSheetService escolherTurmaBottomSheetService) : base(diagnosticService, dialogService, loggerService, analyticsService)
         {
             _turmaService = turmaService;
             _alunoService = alunoService;
             _bairroService = bairroService;
             _cepService = cepService;
             Title = "Adicionar aluno";
+            SetupScreenName("Adicionar aluno");
             Responsaveis = new ObservableCollection<PessoaResponsavelRequest>();
+            this.configuracoesDoUsuarioService = configuracoesDoUsuarioService;
+            this.escolherTurmaBottomSheetService = escolherTurmaBottomSheetService;
         }
 
-        private string title;
-        public string Title
-        {
-            get => title;
-            set => SetProperty(ref title, value);
-        }
-
-        private string turma;
-        public string Turma
-        {
-            get => turma;
-            set
-            {
-                var content = Uri.UnescapeDataString(value ?? string.Empty);
-                SetProperty(ref turma, value);
-                SetTurmaSelecionada(content);
-            }
-        }
-
-        private TurmaResponse turmaSelecionada;
-        public TurmaResponse TurmaSelecionada
-        {
-            get => turmaSelecionada;
-            set
-            {
-                var turmaSelecionadaAnteriormente = turmaSelecionada;
-                SetProperty(ref turmaSelecionada, value);
-                TurmaAlterada(turmaSelecionadaAnteriormente);
-            }
-        }
+        public TurmaResponse TurmaSelecionada => configuracoesDoUsuarioService.TurmaSelecionada;
 
         public ObservableRangeCollection<TurmaResponse> Turmas { get; private set; } = new ObservableRangeCollection<TurmaResponse>();
 
@@ -311,30 +287,12 @@ namespace Ebd.Mobile.ViewModels.Aluno
             try
             {
                 IsBusy = true;
-                MainThread.BeginInvokeOnMainThread(() =>
+                if (configuracoesDoUsuarioService.TurmaSelecionada is null)
                 {
-                    DialogService.ShowLoading("Buscando as turmas...");
-                });
-
-                var response = await _turmaService.ObterTodasAsync();
-
-                if (response.HasError)
-                {
-                    MainThread.BeginInvokeOnMainThread(DialogService.HideLoading);
-
                     IsBusy = false;
-                    await DialogService.DisplayAlert("Oops", response.Exception.Message);
+                    await escolherTurmaBottomSheetService.AbrirBottomSheetAsync(usuarioPodeFechar: false);
                     return;
                 }
-
-                MainThread.BeginInvokeOnMainThread(() =>
-                {
-                    Turmas.Clear();
-                    Turmas.AddRange(response.Data);
-                });
-
-                if (Turmas.Count == 1)
-                    TurmaSelecionada = Turmas[0];
             }
             catch (Exception ex)
             {
@@ -451,14 +409,6 @@ namespace Ebd.Mobile.ViewModels.Aluno
                 && (CelularPai is null || CelularPai.Length == 15);
         }
 
-        private void SetTurmaSelecionada(string content)
-        {
-            if (string.IsNullOrWhiteSpace(content).Not())
-            {
-                TurmaSelecionada = JsonSerializer.Deserialize<TurmaResponse>(content);
-            }
-        }
-
         private async Task CepCompletedCommandExecute()
         {
             try
@@ -520,17 +470,6 @@ namespace Ebd.Mobile.ViewModels.Aluno
                     var bairro = respostaPesquisaBairro.Data.First();
                     Bairro = bairro;
                 }
-            }
-        }
-
-        private void TurmaAlterada(TurmaResponse turmaSelecionadaAnteriormente)
-        {
-            if (TurmaSelecionada is not null && TurmaSelecionada.Equals(turmaSelecionadaAnteriormente).Not())
-            {
-                MainThread.BeginInvokeOnMainThread(() =>
-                {
-
-                });
             }
         }
     }

@@ -8,8 +8,7 @@
     xmlns:styles="clr-namespace:Ebd.MobileApp.Resources.Styles"
     xmlns:the49="https://schemas.the49.com/dotnet/2023/maui"
     xmlns:viewmodels="clr-namespace:Ebd.MobileApp.ViewModels.Home"
-    x:DataType="viewmodels:HomeViewModel"
-    BackgroundColor="{StaticResource Primary}">
+    x:DataType="viewmodels:HomeViewModel">
     <NavigationPage.TitleView>
         <Label
             FontSize="18"

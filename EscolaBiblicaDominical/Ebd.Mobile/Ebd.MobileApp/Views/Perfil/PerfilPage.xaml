@@ -3,8 +3,8 @@
     x:Class="Ebd.MobileApp.Views.Perfil.PerfilPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    Title="{Binding Title}"
-    BackgroundColor="{StaticResource Primary}">
+    xmlns:icons="clr-namespace:Ebd.MobileApp"
+    Title="{Binding Title}">
     <NavigationPage.TitleView>
         <Label
             FontSize="18"
@@ -36,10 +36,14 @@
                 Color="{StaticResource Gray200}" />
 
             <VerticalStackLayout Grid.Row="2" Margin="24,24">
-                <Label
-                    FontSize="Medium"
-                    HorizontalOptions="FillAndExpand"
-                    Text="Logout">
+                <Label FontSize="Medium" HorizontalOptions="FillAndExpand">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span FontFamily="FontAwesome" Text="{x:Static icons:FontAwesomeIcon.LockOpen}" />
+                            <Span Text="  " />
+                            <Span Text="Logout" />
+                        </FormattedString>
+                    </Label.FormattedText>
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding LogoutCommand}" NumberOfTapsRequired="1" />
                     </Label.GestureRecognizers>

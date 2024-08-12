@@ -3,13 +3,19 @@
     x:Class="Ebd.Mobile.Views.Aluno.NovoAlunoPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:Ebd.MobileApp.Behaviors"
     xmlns:bottomSheets="clr-namespace:Ebd.Mobile.Views.BottomSheets"
     xmlns:icons="clr-namespace:Ebd.Mobile.Constants.Icons"
-    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:mct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:vm="clr-namespace:Ebd.Mobile.ViewModels.Aluno"
     Title="{Binding Title}"
-    x:DataType="vm:NovoAlunoViewModel"
-    BackgroundColor="{StaticResource Primary}">
+    x:DataType="vm:NovoAlunoViewModel">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <mct:IsNullConverter x:Key="IsNullConverter" />
+            <mct:IsNotNullConverter x:Key="IsNotNullConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <Grid>
         <ScrollView Margin="16,0">
             <StackLayout>
@@ -22,12 +28,7 @@
                         </FormattedString>
                     </Label.FormattedText>
                 </Label>
-                <Picker
-                    Title="Selecione uma turma"
-                    ItemDisplayBinding="{Binding FaixaIdadeNome}"
-                    ItemsSource="{Binding Turmas}"
-                    SelectedItem="{Binding TurmaSelecionada}"
-                    TitleColor="{StaticResource Primary}" />
+                <Label Text="{Binding TurmaSelecionada.FaixaIdadeNome}" />
 
                 <Label Margin="0,10,0,0">
                     <Label.FormattedText>
@@ -45,11 +46,11 @@
                     ReturnType="Next"
                     Text="{Binding Nome}">
                     <Entry.Behaviors>
-                        <toolkit:MultiValidationBehavior InvalidStyle="{StaticResource InvalidEntryStyle}">
-                            <toolkit:RequiredStringValidationBehavior InvalidStyle="{StaticResource InvalidEntryStyle}" RequiredString="{Binding Source={x:Reference nomeCompleto}, Path=Text}" />
-                            <toolkit:TextValidationBehavior MaximumLength="40" MinimumLength="12" />
-                            <toolkit:CharactersValidationBehavior CharacterType="Letter" />
-                        </toolkit:MultiValidationBehavior>
+                        <mct:MultiValidationBehavior InvalidStyle="{StaticResource InvalidEntryStyle}">
+                            <mct:RequiredStringValidationBehavior InvalidStyle="{StaticResource InvalidEntryStyle}" RequiredString="{Binding Source={x:Reference nomeCompleto}, Path=Text}" />
+                            <mct:TextValidationBehavior MaximumLength="40" MinimumLength="12" />
+                            <mct:CharactersValidationBehavior CharacterType="Letter" />
+                        </mct:MultiValidationBehavior>
                     </Entry.Behaviors>
                 </Entry>
 
@@ -66,9 +67,9 @@
                     Keyboard="Numeric"
                     Placeholder="dia/mês/ano"
                     ReturnType="Next"
-                    Text="{Binding DataNascimento}">
+                    Text="{Binding DataNascimento, StringFormat='{0:d}', Mode=TwoWay}">
                     <Entry.Behaviors>
-                        <toolkit:MaskedBehavior Mask="XX/XX/XXXX" />
+                        <mct:MaskedBehavior Mask="XX/XX/XXXX" />
                     </Entry.Behaviors>
                 </Entry>
 
@@ -88,11 +89,11 @@
                     ReturnType="Next"
                     Text="{Binding Celular}">
                     <Entry.Behaviors>
-                        <toolkit:MaskedBehavior Mask="(XX) XXXXX-XXXX" />
-                        <toolkit:MultiValidationBehavior InvalidStyle="{StaticResource InvalidEntryStyle}">
-                            <toolkit:TextValidationBehavior MaximumLength="15" MinimumLength="15" />
-                            <toolkit:CharactersValidationBehavior CharacterType="Digit" />
-                        </toolkit:MultiValidationBehavior>
+                        <mct:MaskedBehavior Mask="(XX) XXXXX-XXXX" />
+                        <mct:MultiValidationBehavior InvalidStyle="{StaticResource InvalidEntryStyle}">
+                            <mct:TextValidationBehavior MaximumLength="15" MinimumLength="15" />
+                            <mct:CharactersValidationBehavior CharacterType="Digit" />
+                        </mct:MultiValidationBehavior>
                     </Entry.Behaviors>
                 </Entry>
 
@@ -111,7 +112,7 @@
                     ReturnType="Next"
                     Text="{Binding Email}">
                     <Entry.Behaviors>
-                        <toolkit:EmailValidationBehavior DecorationFlags="Trim" InvalidStyle="{StaticResource InvalidEntryStyle}" />
+                        <mct:EmailValidationBehavior DecorationFlags="Trim" InvalidStyle="{StaticResource InvalidEntryStyle}" />
                     </Entry.Behaviors>
                 </Entry>
 
@@ -132,13 +133,13 @@
                     ReturnType="Next"
                     Text="{Binding Cep}">
                     <Entry.Behaviors>
-                        <toolkit:EventToCommandBehavior Command="{Binding CepCompletedCommand}" EventName="Completed" />
-                        <toolkit:UserStoppedTypingBehavior Command="{Binding CepCompletedCommand}" MinimumLengthThreshold="9" />
-                        <toolkit:MaskedBehavior Mask="XX XXX-XXX" />
-                        <toolkit:MultiValidationBehavior InvalidStyle="{StaticResource InvalidEntryStyle}">
-                            <toolkit:TextValidationBehavior MaximumLength="10" MinimumLength="10" />
-                            <toolkit:CharactersValidationBehavior CharacterType="Digit" />
-                        </toolkit:MultiValidationBehavior>
+                        <mct:EventToCommandBehavior Command="{Binding CepCompletedCommand}" EventName="Completed" />
+                        <mct:UserStoppedTypingBehavior Command="{Binding CepCompletedCommand}" MinimumLengthThreshold="9" />
+                        <mct:MaskedBehavior Mask="XX XXX-XXX" />
+                        <mct:MultiValidationBehavior InvalidStyle="{StaticResource InvalidEntryStyle}">
+                            <mct:TextValidationBehavior MaximumLength="10" MinimumLength="10" />
+                            <mct:CharactersValidationBehavior CharacterType="Digit" />
+                        </mct:MultiValidationBehavior>
                     </Entry.Behaviors>
                 </Entry>
 
@@ -156,7 +157,7 @@
                     ReturnType="Next"
                     Text="{Binding Logradouro}">
                     <Entry.Behaviors>
-                        <toolkit:TextValidationBehavior
+                        <mct:TextValidationBehavior
                             InvalidStyle="{StaticResource InvalidEntryStyle}"
                             MaximumLength="40"
                             MinimumLength="10" />
@@ -177,7 +178,7 @@
                     ReturnType="Next"
                     Text="{Binding Numero}">
                     <Entry.Behaviors>
-                        <toolkit:TextValidationBehavior
+                        <mct:TextValidationBehavior
                             InvalidStyle="{StaticResource InvalidEntryStyle}"
                             MaximumLength="8"
                             MinimumLength="1" />
@@ -198,11 +199,11 @@
                     </Label>
                     <Label
                         Margin="0,10,0,0"
-                        IsVisible="{Binding Bairro, Converter={StaticResource toolkit:IsNotNullConverter}}"
+                        IsVisible="{Binding Bairro, Converter={StaticResource IsNotNullConverter}}"
                         Text="{Binding Bairro.Nome}" />
                     <Label
                         Margin="0,10,0,0"
-                        IsVisible="{Binding Bairro, Converter={StaticResource toolkit:IsNullConverter}}"
+                        IsVisible="{Binding Bairro, Converter={StaticResource IsNullConverter}}"
                         Text="Selecionar"
                         TextColor="{StaticResource PlaceholderColor}" />
                 </StackLayout>
@@ -218,7 +219,7 @@
                     ReturnType="Done"
                     Text="{Binding Complemento}">
                     <Entry.Behaviors>
-                        <toolkit:TextValidationBehavior
+                        <mct:TextValidationBehavior
                             InvalidStyle="{StaticResource InvalidEntryStyle}"
                             MaximumLength="30"
                             MinimumLength="6" />

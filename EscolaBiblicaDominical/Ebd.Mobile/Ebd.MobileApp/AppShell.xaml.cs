@@ -15,7 +15,6 @@ namespace Ebd.Mobile
             Routing.RegisterRoute(nameof(NewItemPage), typeof(NewItemPage));
             Routing.RegisterRoute(nameof(HomePage), typeof(HomePage));
             Routing.RegisterRoute(nameof(EfetuarChamadaPage), typeof(EfetuarChamadaPage));
-            Routing.RegisterRoute(nameof(EscolherTurmaPage), typeof(EscolherTurmaPage));
 
             Routing.RegisterRoute(PageConstant.Aluno.Novo, typeof(NovoAlunoPage));
             Routing.RegisterRoute(PageConstant.Aluno.Lista, typeof(ListaAlunoPage));

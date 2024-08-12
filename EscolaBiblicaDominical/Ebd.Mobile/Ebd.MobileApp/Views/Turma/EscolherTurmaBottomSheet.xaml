@@ -8,7 +8,7 @@
     xmlns:the49="https://schemas.the49.com/dotnet/2023/maui"
     x:Name="ThisBottomSheet"
     Padding="32,32"
-    BackgroundColor="{StaticResource White}">
+    BackgroundColor="{StaticResource Tertiary}">
     <the49:BottomSheet.Resources>
         <mct:IsListNotNullOrEmptyConverter x:Key="IsListNotNullOrEmpty" />
     </the49:BottomSheet.Resources>
@@ -42,7 +42,7 @@
                         <Label
                             FontSize="Small"
                             LineBreakMode="NoWrap"
-                            TextColor="{StaticResource PrimaryDarkText}">
+                            TextColor="{StaticResource PrimaryDarkTextColor}">
                             <Label.FormattedText>
                                 <FormattedString>
                                     <Span Text="{Binding FaixaIdade}" TextColor="{StaticResource Gray300}" />
