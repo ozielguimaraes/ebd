@@ -16,6 +16,7 @@ using Ebd.MobileApp.Services.Implementations;
 using Ebd.MobileApp.Services.Implementations.Analytics;
 using Ebd.MobileApp.Services.Implementations.BottomSheets;
 using Ebd.MobileApp.Services.Interfaces.BottomSheets;
+using Ebd.MobileApp.Services.Navigation;
 using Ebd.MobileApp.ViewModels.Home;
 using Ebd.MobileApp.ViewModels.Perfil;
 using Ebd.MobileApp.ViewModels.Turma;
@@ -65,6 +66,7 @@ public static class DependencyInjection
         services.AddSingleton<IAnalyticsService, AnalyticsService>();
         services.AddSingleton<IDialogService, DialogService>();
         services.AddSingleton<INetworkService, NetworkService>();
+        services.AddSingleton<INavigationService, NavigationService>();
         services.AddSingleton(Connectivity.Current);
 
         services.AddSingleton<IAlunoService, AlunoService>();

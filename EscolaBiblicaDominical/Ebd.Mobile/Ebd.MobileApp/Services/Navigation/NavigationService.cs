@@ -12,7 +12,7 @@ using Ebd.MobileApp.Views.Welcome;
 
 namespace Ebd.MobileApp.Services.Navigation;
 
-internal sealed class NavigationService
+internal sealed class NavigationService : INavigationService
 {
     static readonly Lazy<NavigationService> _Lazy = new(() => new());
 
@@ -118,5 +118,10 @@ internal sealed class NavigationService
         page.BindingContext = DependencyInjection.GetByType<BasePageViewModel>(viewModelType);
 
         return page;
+    }
+
+    public async Task InitializeAsync()
+    {
+        await Task.CompletedTask;
     }
 }
