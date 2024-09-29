@@ -74,20 +74,20 @@
                             HeightRequest="44"
                             Text="Login"
                             VerticalOptions="Center">
-                            <Button.Triggers>
-                                <DataTrigger
-                                    Binding="{Binding Path=EfetuarLoginCommand.CanExecute}"
-                                    TargetType="Button"
-                                    Value="False">
-                                    <Setter Property="IsEnabled" Value="False" />
-                                </DataTrigger>
-                                <DataTrigger
-                                    Binding="{Binding Path=EfetuarLoginCommand.CanExecute}"
-                                    TargetType="Button"
-                                    Value="True">
-                                    <Setter Property="IsEnabled" Value="True" />
-                                </DataTrigger>
-                            </Button.Triggers>
+                            <!-- <Button.Triggers> -->
+                            <!--     <DataTrigger -->
+                            <!--         Binding="{Binding Path=EfetuarLoginCommand.CanExecute(null)}" -->
+                            <!--         TargetType="Button" -->
+                            <!--         Value="False"> -->
+                            <!--         <Setter Property="IsEnabled" Value="False" /> -->
+                            <!--     </DataTrigger> -->
+                            <!--     <DataTrigger -->
+                            <!--         Binding="{Binding Path=EfetuarLoginCommand.CanExecute}" -->
+                            <!--         TargetType="Button" -->
+                            <!--         Value="True"> -->
+                            <!--         <Setter Property="IsEnabled" Value="True" /> -->
+                            <!--     </DataTrigger> -->
+                            <!-- </Button.Triggers> -->
                         </Button>
                     </StackLayout>
                 </Border>

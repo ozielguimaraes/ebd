@@ -26,6 +26,8 @@ namespace Ebd.Mobile.ViewModels.Aluno
             this.configuracoesDoUsuarioService = configuracoesDoUsuarioService;
         }
 
+        public event EventHandler? OnTurmaSelecionadaChanged;
+
         public ObservableRangeCollection<AlunoResponse> Alunos { get; private set; } = new ObservableRangeCollection<AlunoResponse>();
         //public ObservableRangeCollection<TurmaResponse> Turmas { get; private set; } = new ObservableRangeCollection<TurmaResponse>();
 

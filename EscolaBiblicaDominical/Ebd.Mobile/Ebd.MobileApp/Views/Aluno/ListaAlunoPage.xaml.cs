@@ -11,6 +11,15 @@ namespace Ebd.Mobile.Views.Aluno
         {
             InitializeComponent();
             BindingContext = ViewModel ?? DependencyInjection.GetService<ListaAlunoViewModel>();
+            ViewModel.OnTurmaSelecionadaChanged += ViewModel_OnTurmaSelecionadaChanged;
         }
+
+        private async void ViewModel_OnTurmaSelecionadaChanged(object? sender, EventArgs e)
+        {
+            MainThread.BeginInvokeOnMainThread(
+                async () => await ViewModel.CarregarListaAlunosCommand.ExecuteAsync(true)
+            );
+        }
+
     }
 }
